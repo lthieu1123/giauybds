@@ -1,4 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 id_access_state_product_base_user,access_state_product_base_user,model_crm_states_product,base.group_user,1,1,1,1
 id_access_district_base_user,access_district_base_user,model_crm_district,base.group_user,1,1,1,1
-id_access_crm_product_base_user,access_crm_product_base_user,model_crm_product,base.group_user,1,1,1,1
+id_access_crm_product_base_user,access_crm_product_base_user,model_crm_product,base.group_user,0,0,0,0
+id_access_crm_product_rental_user,access_crm_product_rental_user,model_crm_product,bds.crm_product_rental_user,1,1,1,0
+id_access_crm_product_sale_user,access_crm_product_sale_user,model_crm_product,bds.crm_product_sale_user,1,1,1,0
+id_access_crm_product_change_rule_user,access_crm_product_change_rule_user,model_crm_product,bds.crm_product_change_rule_user,1,1,1,0
+id_access_crm_product_manager,access_crm_product_manager,model_crm_product,bds.crm_product_manager,1,1,1,1

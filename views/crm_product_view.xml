@@ -58,6 +58,7 @@
                                         <label for="street" string="Địa chỉ"/>
                                         <div class="o_address_format">
                                             <field name="house_no" placeholder="Số nhà..." class="o_address_city o_house_no"/>
+                                            <field name="is_show_house_no" invisible="1"/>
                                             <field name="street" placeholder="Đường..." class="o_address_street"/>
                                             <field name="ward_no" placeholder="Phường/Xã..." class="o_address_street"/>
                                             <field name="state_id" placeholder="Thành phố/Tỉnh..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>

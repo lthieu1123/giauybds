@@ -1,38 +1,79 @@
-odoo.define('rubyshop.custom_form_view', function (require) {
-    'use strict';
-
-    const core = require('web.core');
-    var FormController = require('web.FormController');
+odoo.define('bds.FormController', function (require) {
+    "use strict";
+    var config = require('web.config');
+    var core = require('web.core');
+    var dom = require('web.dom');
+    var FormControler = require('web.FormController');
     var WebFormRenderer = require('web.FormRenderer');
+    var FormView = require('web.FormView');
+    var _t = core._t;
+    var qweb = core.qweb;
 
-    FormController.include({
+    // WebFormRenderer.include({
+
+    //     _renderHeaderButtons: function (node) {
+    //         if (!isNaN(WebFormRenderer.approvalButtonId) && WebFormRenderer.isShowButton) {
+    //             var buttonName = WebFormRenderer.approvalButtonId;
+    //             if (node.tag === 'header' && !node.children.find(function (e) { return e && e.tag === 'button' && e.attrs.name === buttonName; })) {
+    //                 node.children.push({ tag: 'button', attrs: { name: buttonName, string: _t('Approve Status'), type: 'action', class: 'class_tracking_show_button' }, children: [] });
+    //             }
+    //         }
+    //         return this._super.apply(this, arguments);
+    //     },
+    // });
+
+    FormControler.include({
+        /**
+         * @override
+         */
+
+        // init: function (parent, model, renderer, params) {
+        //     this._super.apply(this, arguments);
+        //     var d = this.model.get(this.handle);
+        //     if (d) {
+                
+        //     }
+
+        // },
+        /**
+         * @override
+         */
+        // start: function () {
+        //     var _self = this;
+        //     var _super = _self._super.bind(this);
+        //     var _args = arguments;
+        //     return $.when(
+        //         _self._rpc({ model: "ecc.approval.status", method: "get_action_id", args: [{}] }).then(function (_id) {
+        //             WebFormRenderer.approvalButtonId = _id;
+        //         }).fail(function (err) { console.log("ERROR: ", err); })
+        //     ).then(function () {
+        //         return _super.apply(_self, _args)
+        //     })
+        // },
+
         _updateEnv: function () {
             this._super.apply(this, arguments);
-            var btn = $('.o_form_buttons_edit');
-            var breadcrumb = $('li.breadcrumb-item.active');
-            if (this.model && this.model.get && this.handle && btn && btn.removeClass && btn.addClass) {
-                var count = 0;
-                var delayCount = 0;
-                var d = this.model.get(this.handle);
-                if (d.model == 'set.order.to.delivered' || d.model == 'set.order.to.returned' || d.model == 'set.order.to.delivered.shopee' || d.model == 'set.order.to.returned.shopee') {
-                    var iid = setInterval(function () {
-                        if (btn && btn.length) {
-                            btn.addClass('o_invisible_modifier');
-                            breadcrumb = $('li.breadcrumb-item.active')[0]
-                            if (d.model == 'set.order.to.delivered' || d.model == 'set.order.to.delivered.shopee') {
-                                breadcrumb.innerText = "Giao Hàng";
-                            } else if (d.model == 'set.order.to.returned' || d.model == 'set.order.to.returned.shopee') {
-                                breadcrumb.innerText = "Hàng Trả";
-                            }
-                            clearInterval(iid);
-                        }
-                        if (delayCount++ < 3) return;
-                        btn = $('.o_form_buttons_edit');
-                        if (count++ >= 30) clearInterval(iid);
-                    }, 300);
-                }
+            var house_no = this.$('span.o_house_no');
+            var btn_save = this.$('button.o_form_button_edit')
+            var d = this.model && this.handle && house_no && house_no.removeClass && house_no.addClass && this.model.get(this.handle);
+            console.log('d.data.is_show_house_no: ',d.data.is_show_house_no);
+            console.log('btn_save: ',btn_save);
+            if (d && d.model === 'crm.product' && !d.data.is_show_house_no){
+                house_no.remove();
             }
-
-        }
+        },
     });
+
+    FormView.include({
+        load_record: function(record) {
+            this._super.apply(this, arguments);
+            if (this.model=='crm.product' && !this.model.data.is_show_house_no){
+                console.log('This is basssste');
+                this.$buttons.find('button.o_form_button_edit').css({"display":"none"});
+            }
+            
+        }
+        
+    });
+
 });

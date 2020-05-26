@@ -61,6 +61,7 @@ class CrmProduct(models.Model):
     host_number_2 = fields.Char('Số ĐT 2')
     host_number_3 = fields.Char('Số ĐT 3')
     is_show_map = fields.Boolean('Hiển thị trên bản đồ', default=False)
+    is_show_house_no = fields.Boolean('Hiển thị số nhà',compute='_is_show_house_no')
 
 
     @api.onchange('district_id')
@@ -76,4 +77,9 @@ class CrmProduct(models.Model):
             vals['sequence'] = int(vals['name'].split('-')[1])
         res = super().create(vals)
         return res
+    
+    @api.depends('name')
+    def _is_show_house_no(self):
+        for rec in self:
+            rec.is_show_house_no = True if rec.brokerage_specialist == self.env.user else False
 

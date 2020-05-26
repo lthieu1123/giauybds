@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <t t-extend="FormView.buttons">
+        
+        <t t-jquery=".o_form_button_save" t-operation="replace">
+            <t t-if="widget != undefined">
+                
+                <button t-if="widget.modelName == 'crm.product'" type="button"
+                        class="btn btn-primary o_form_button_save o_invisible_modifier" accesskey="s">Save</button>
+
+                <button t-if="widget.modelName != 'crm.product'" type="button"
+                        class="btn btn-primary o_form_button_save" accesskey="s">Save</button>
+            </t>
+            <t t-elif="widget == undefined">
+                <button type="button"
+                        class="btn btn-primary o_form_button_save" accesskey="s">Save</button>
+            </t>
+        </t>
+    </t>
+</odoo>

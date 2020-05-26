@@ -56,10 +56,10 @@
         <record id="show_crm_product_change_rule" model="ir.rule">
             <field name="name">CRM Product: Change rule</field>
             <field name="model_id" ref="bds.model_crm_product"/>
-            <field name='perm_create' eval='False'/>
-            <field name='perm_read' eval='True'/>
-            <field name='perm_unlink' eval='False'/>
-            <field name='perm_write' eval='False'/>
+            <field name='perm_create' eval='0'/>
+            <field name='perm_read' eval='1'/>
+            <field name='perm_unlink' eval='0'/>
+            <field name='perm_write' eval='0'/>
             <field name="groups" eval="[(4, ref('crm_product_change_rule_user'))]"/>
             <field name="domain_force">[('requirement','in',['sale','rental'])]</field>
         </record>
@@ -68,12 +68,11 @@
             <field name="name">CRM Product: Edit own record only</field>
             <field name="model_id" ref="bds.model_crm_product"/>
             <field name="domain_force">[('brokerage_specialist','=',user.id)]</field>
-            <field name='perm_create' eval='False'/>
-            <field name='perm_read' eval='True'/>
-            <field name='perm_unlink' eval='False'/>
-            <field name='perm_write' eval='True'/>
             <field name="groups" eval="[(4, ref('crm_product_rental_user')),(4, ref('crm_product_sale_user')),(4, ref('crm_product_change_rule_user'))]"/>
-            
+            <field name='perm_create' eval='0'/>
+            <field name='perm_read' eval='1'/>
+            <field name='perm_unlink' eval='0'/>
+            <field name='perm_write' eval='1'/>
         </record>
 
     </data>

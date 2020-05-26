@@ -5,9 +5,7 @@
         <template id="assets_backend" name="custom_render_fromview assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <!-- Js path -->
-                <script type="text/javascript" src="/ruby/static/src/js/custom_render_formview.js"/>
-                <script type="text/javascript" src="/ruby/static/src/js/custom_audio.js"/>
-                <script type="text/javascript" src="/ruby/static/src/js/render_button_process_csv.js"/>
+                <script type="text/javascript" src="/bds/static/src/js/custom_render_formview.js"/>
             </xpath>
         </template>
     </data>
