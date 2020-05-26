@@ -7,19 +7,26 @@
         Quản lý các BĐS và nhân viên
     """,
     'author': "Hiếu Lâm",
-    'website': "",
+    'website': "https://www.facebook.com/lthieu37",
     "contributors": [
         "Hieu Lam <lt.hieu37@gmail.com>",
     ],
     'category': 'bds',
-    'version': '0.1',
+    'version': '1.0.0',
     'depends': ['base','web','mail','decimal_precision'],
     'data': [
-        'views/crm_product_view.xml'
+        'data/res.country.state.csv',
+        'data/vn_district_default.xml',
+        'data/crm_sequence.xml',
+        'security/ir_group_rule.xml',
+        'security/ir.model.access.csv',
+        'views/crm_product_view.xml',
+        'views/menu_views.xml'
     ],
     'demo': [],
     'qweb': [
     ],
-    # 'installable': True,
-    # 'auto_install': True,
+    'installable': True,
+    'auto_install': False,
+    'application': True,
 }

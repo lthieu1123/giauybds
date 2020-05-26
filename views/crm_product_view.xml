@@ -4,7 +4,7 @@
         <!-- Add you code here -->
         <!-- model.name action window -->
         <record id="crm_product_action" model="ir.actions.act_window">
-            <field name="name">crm.product.action</field>
+            <field name="name">CRM Product</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">crm.product</field>
             <field name="view_mode">tree,form</field>
@@ -23,54 +23,95 @@
             <field name="name">crm.product.view.form</field>
             <field name="model">crm.product</field>
             <field name="arch" type="xml">
-                <form string="">
+                <form>
                     <sheet>
-                        <group string="Thông tin chung">
+                        <div class="oe_title">
+                            <span class="o_form_label">CRM Product</span>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <field name="sequence" attrs="{'invisible': [('sequence','=',0)]}"/>
+                        </div>
+                                
+                                
+                        <group>
+                            <group string="Thông tin chung">
                             <!-- Add your fields here -->
-                            <field name="sequence" string="STT"/>
-                            <field name="name" string="Số đăng ký"/>
-                            <field name="requirement" stirng="Nhu cầu"/>
-                            <field name="type_of_real_estate" string="Loại BĐS"/>
-                        </group>
-                        <group string="Thông tin hồ sơ">
-                            <field name="brokerage_specialist" string="Chuyên viên chăm sóc"/>
-                            <field name="supporter" string="Chuyên viên tư vấn"/>
-                            <field name="create_date" string="Ngày Đăng Ký"/>
-                            <field name="write_date" string="Ngày tương tác"/>
+                                
+                                <field name="requirement"/>
+                                <field name="type_of_real_estate"/>
+                            </group>
+                            <group string="Thông tin hồ sơ">
+                                <field name="brokerage_specialist" required="1"/>
+                                <field name="supporter"/>
+                                <field name="create_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày đăng ký"/>
+                                <field name="write_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày tương tác"/>
+                            </group>
                         </group>
                         <div>
-                            <label for="description"/>
-                            <field name="description" string="diễn giải"/>
+                            <field name="description" placeholder="Diễn giải..."/>
                         </div>
                         <notebook>
                             <page string="Thông tin BĐS">
-                                <group string="Địa chỉ">
-                                    <field name="house_no" string="Số nhà"/>
-                                    <field name="ward_no" string="Phường/Xã"/>
-                                    <field name="street" string="Đường"/>
-                                    <field name="state" string="Quận/Huyện"/>
-                                    <field name="city" string="Thành phố/Tỉnh"/>
-                                    <field name="country" invisible="1"/>
-                                </group>
                                 <group>
-                                    <field name="type_of_road" string="Kiểu đường"/>
-                                    <field name="horizontal" string="Ngang"/> <span>m</span>
-                                    <field name="long" string="Dài"/><span>m</span>
-                                    <field name="back_expand" string="Nở hậu"/><span>m</span>
-                                    <field name="number_of_floors" string="Số tầng"/>
-                                    <field name="direction" string="Hướng"/>
-                                    <field name="usd_price" string="Giá USD"/>
-                                    <field name="usd_price" string="Giá VND"/>
+                                    <group>
+                                        <label for="street" string="Địa chỉ"/>
+                                        <div class="o_address_format">
+                                            <field name="house_no" placeholder="Số nhà..." class="o_address_city o_house_no"/>
+                                            <field name="street" placeholder="Đường..." class="o_address_street"/>
+                                            <field name="ward_no" placeholder="Phường/Xã..." class="o_address_street"/>
+                                            <field name="state_id" placeholder="Thành phố/Tỉnh..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="district_id" placeholder="Quận/Huyện..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="country_id" invisible="1" class="o_address_country" options="{&quot;no_open&quot;: True}"/>
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <label for="type_of_road"/>
+                                        <div>
+                                            <field name="type_of_road" class="oe_inline"/>
+                                        </div>
+                                        <label for="horizontal"/>
+                                        <div>
+                                            <field name="horizontal" class="oe_inline"/><![CDATA[&nbsp;]]><span>m</span>
+                                        </div>
+                                        <label for="length"/>
+                                        <div>
+                                            <field name="length" class="oe_inline"/><![CDATA[&nbsp;]]><span>m</span>
+                                        </div>
+                                        <label for="back_expand"/>
+                                        <div>
+                                            <field name="back_expand" class="oe_inline"/><![CDATA[&nbsp;]]><span>m</span>
+                                        </div>
+                                        <field name="number_of_floors" class="oe_inline"/>
+                                        <field name="direction" class="oe_inline"/>
+                                        <label for="usd_price" string="Giá"/>
+                                        <div>
+                                            <field name="usd_price" class="oe_inline"/><![CDATA[&nbsp;]]><span>USD</span>
+                                            <![CDATA[&nbsp;]]>
+                                            <field name="vnd_price" class="oe_inline"/><![CDATA[&nbsp;]]><span>VND</span>
+                                        </div>
+                                    </group>
                                 </group>
                             </page>
                             <page string="Thông tin chủ nhà">
-                                <field name="host_name" string="Tên chủ nhà"/>
-                                <field name="host_number_1" string="SĐT 1"/>
-                                <field name="host_number_2" string="SĐT 2"/>
-                                <field name="host_number_3" string="SĐT 3"/>
+                                <group>
+                                    <group>
+                                        <field name="host_name"/>
+                                        <field name="host_number_1"/>
+                                        <field name="host_number_2"/>
+                                        <field name="host_number_3"/>
+                                    </group>
+                                </group>
                             </page>
                             <page string="Nhật ký phân quyền">
                                 
+                            </page>
+                            <page string="Bản đồ">
+                                <group>
+                                    <group>
+                                        <field name="is_show_map"/>
+                                    </group>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>
@@ -85,36 +126,35 @@
             <field name="arch" type="xml">
                 <tree>
                     <!-- Add your fields here -->
-                    <field name="sequence" string="STT"/>
-                    <field name="name" string="Số đăng ký"/>
-                    <field name="requirement" stirng="Nhu cầu"/>
-                    <field name="type_of_real_estate" string="Loại BĐS"/>
-                    <field name="brokerage_specialist" string="Chuyên viên chăm sóc"/>
-                    <field name="supporter" string="Chuyên viên tư vấn"/>
-                    <field name="create_date" string="Ngày Đăng Ký"/>
-                    <field name="write_date" string="Ngày tương tác"/>
-                    <field name="description" string="diễn giải"/>
-                    <field name="house_no" string="Số nhà"/>
-                    <field name="ward_no" string="Phường/Xã"/>
-                    <field name="street" string="Đường"/>
-                    <field name="state" string="Quận/Huyện"/>
-                    <field name="city" string="Thành phố/Tỉnh"/>
-                    <field name="country" invisible="1"/>
-                    <field name="type_of_road" string="Kiểu đường"/>
-                    <field name="horizontal" string="Ngang"/> <span>m</span>
-                    <field name="long" string="Dài"/><span>m</span>
-                    <field name="back_expand" string="Nở hậu"/><span>m</span>
-                    <field name="number_of_floors" string="Số tầng"/>
-                    <field name="direction" string="Hướng"/>
-                    <field name="usd_price" string="Giá USD"/>
-                    <field name="usd_price" string="Giá VND"/>
-                    <field name="host_name" string="Tên chủ nhà"/>
-                    <field name="host_number_1" string="SĐT 1"/>
-                    <field name="host_number_2" string="SĐT 2"/>
-                    <field name="host_number_3" string="SĐT 3"/>
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="requirement"/>
+                    <field name="type_of_real_estate"/>
+                    <field name="brokerage_specialist"/>
+                    <field name="supporter"/>
+                    <field name="create_date"/>
+                    <field name="write_date"/>
+                    <field name="description"/>
+                    <field name="house_no"/>
+                    <field name="ward_no"/>
+                    <field name="street"/>
+                    <field name="state_id"/>
+                    <field name="district_id"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="type_of_road"/>
+                    <field name="horizontal"/>
+                    <field name="length"/>
+                    <field name="back_expand"/>
+                    <field name="number_of_floors"/>
+                    <field name="direction"/>
+                    <field name="usd_price"/>
+                    <field name="usd_price"/>
+                    <field name="host_name"/>
+                    <field name="host_number_1"/>
+                    <field name="host_number_2"/>
+                    <field name="host_number_3"/>
                 </tree>
             </field>
         </record>
-        
     </data>
 </odoo>

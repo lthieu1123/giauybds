@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <!-- This Menu Item will appear in the Upper bar, that's why It needs NO parent or action -->
+        <menuitem id="crm_product_menu_root" name="CRM Product" sequence="2"/>
+        <!-- This Menu Item must have a parent and an action -->
+            <menuitem id="crm_product_menu_act" name="CRM Product" parent="crm_product_menu_root" action="crm_product_action" sequence="1"/>
+        
+    </data>
+</odoo>

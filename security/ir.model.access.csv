@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+id_access_state_product_base_user,access_state_product_base_user,model_crm_states_product,base.group_user,1,1,1,1
+id_access_district_base_user,access_district_base_user,model_crm_district,base.group_user,1,1,1,1
+id_access_crm_product_base_user,access_crm_product_base_user,model_crm_product,base.group_user,1,1,1,1

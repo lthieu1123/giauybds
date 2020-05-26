@@ -27,38 +27,53 @@ class CrmProduct(models.Model):
     def _read_group_stage_ids(self, stages, domain, order):
         return self.env['crm.states.product'].search([])
 
-    states = fields.Many2one('crm.states.product', string='State', default=_default_stage,
+    states = fields.Many2one('crm.states.product', string='Trạng thái', default=_default_stage,
                             track_visibility='always', group_expand='_read_group_stage_ids', store=True)
 
-    sequence = fields.Integer(string='Sequence')
-    name = fields.Char(string='Register No')
-    requirement = fields.Selection(string='Requirement', selection=[('rental','Rental'),('sale','Sale')])
-    type_of_real_estate = fields.Selection(string='Types of Real Estate', selection=TYPE_OF_REAL_ESTATE, required=True)
+    sequence = fields.Integer(string='Số TT', readonly=True, force_save=True)
+    name = fields.Char(string='Số đăng ký', default='New', readonly=True, force_save=True)
+    requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cho thuê'),('sale','Cần bán')])
+    type_of_real_estate = fields.Selection(string='Loại BĐS', selection=TYPE_OF_REAL_ESTATE, required=True)
     
     #Address
-    house_no = fields.Char('House No')
-    ward_no = fields.Char('Ward')
-    street = fields.Char('Street')
-    state = fields.Many2one('res.country.state','State')
-    city = fields.Many2one('crm.city', 'City',)
-    country = fields.Many2one('res.country', 'Country', default= lambda self: self.env.ref('base.vn'))
-    type_of_road = fields.Selection(string='Type of road', selection=TYPE_OF_ROAD,required=True)
-    horizontal = fields.Float('Horizontal', digits=dp.get_precision('Product Unit of Measure'))
-    horizontal_uom = fields.Many2one('uom.uom','Unit of measure', default=lambda self: self.env.ref('uom.product_uom_meter'))
-    long = fields.Float('Long', digits=dp.get_precision('Product Unit of Measure'))
-    long_uom = fields.Many2one('uom.uom','Unit of measure', default=lambda self: self.env.ref('uom.product_uom_meter'))
-    back_expand = fields.Float('Back Expand',digits=dp.get_precision('Product Unit of Measure'))
-    back_expand_uom = fields.Many2one('uom.uom','Unit of measure', default=lambda self: self.env.ref('uom.product_uom_meter'))
-    number_of_floors = fields.Float('Number of Floors',digits=dp.get_precision('Product Unit of Measure'))
-    usd_price = fields.Float('USD Price', digits=dp.get_precision('Product Price'))
-    vnd_price = fields.Float('VND Price', digits=dp.get_precision('Product Price'))
-    brokerage_specialist = fields.Many2one('res.users','Brokerage specialist', default=lambda self: self.env.user)
-    supporter = fields.Many2one('res.users','Supporter')
-    direction = fields.Selection(string='Direction',selection=[('w_www','Tây-TTT'),('wn_www','Tây Nam - TTT')])
-    description = fields.Text('Description')
-    host_name = fields.Char('Host name')
-    host_number_1 = fields.Char('Phone number 1')
-    host_number_2 = fields.Char('Phone number 2')
-    host_number_3 = fields.Char('Phone number 3')
-    register_date = fields.Date('Register Date', default=fields.Datetime.now)
-    is_show_map = fields.Boolean('Is show map', defualt=False)
+    house_no = fields.Char('Số nhà')
+    ward_no = fields.Char('Phường/Xã')
+    street = fields.Char('Đường')
+    country_id = fields.Many2one('res.country', 'Quốc gia', default= lambda self: self.env.ref('base.vn'))
+    state_id = fields.Many2one('res.country.state','Tỉnh/TP', domain = "[('country_id','=',country_id)]")
+    district_id = fields.Many2one('crm.district', 'Quận/Huyện', domain = "[('state_id','=?',state_id),('country_id','=',country_id)]")
+    type_of_road = fields.Selection(string='Loại đường', selection=TYPE_OF_ROAD,required=True)
+    horizontal = fields.Float('Ngang', digits=dp.get_precision('Product Unit of Measure'))
+    # horizontal_uom = fields.Many2one('uom.uom','Unit of measure', default=lambda self: self.env.ref('uom.product_uom_meter'))
+    length = fields.Float('Dài', digits=dp.get_precision('Product Unit of Measure'))
+    # length_uom = fields.Many2one('uom.uom','Unit of measure', default=lambda self: self.env.ref('uom.product_uom_meter'))
+    back_expand = fields.Float('Nở hậu',digits=dp.get_precision('Product Unit of Measure'))
+    # back_expand_uom = fields.Many2one('uom.uom','Unit of measure', default=lambda self: self.env.ref('uom.product_uom_meter'))
+    number_of_floors = fields.Float('Số tầng',digits=dp.get_precision('Product Unit of Measure'))
+    usd_price = fields.Float('Giá USD', digits=dp.get_precision('Product Price'))
+    vnd_price = fields.Float('Giá VND', digits=dp.get_precision('Product Price'))
+    brokerage_specialist = fields.Many2one('res.users','CV môi giới', default=lambda self: self.env.user)
+    supporter = fields.Many2one('res.users','CV chăm sóc')
+    direction = fields.Selection(string='Hướng',selection=CARDINAL_DIRECTION,)
+    description = fields.Text('Diễn giải')
+    host_name = fields.Char('Tên chủ')
+    host_number_1 = fields.Char('Số ĐT 1')
+    host_number_2 = fields.Char('Số ĐT 2')
+    host_number_3 = fields.Char('Số ĐT 3')
+    is_show_map = fields.Boolean('Hiển thị trên bản đồ', default=False)
+
+
+    @api.onchange('district_id')
+    def _onchange_district(self):
+        self.ensure_one()
+        if self.district_id.id:
+            self.state_id = self.district_id.state_id
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code('crm.product') or '/'
+            vals['sequence'] = int(vals['name'].split('-')[1])
+        res = super().create(vals)
+        return res
+

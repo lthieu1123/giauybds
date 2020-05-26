@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="crm_product_group" model="ir.module.category">
+            <field name="name">CRM Product</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <record id="crm_product_rental_user" model="res.groups">
+            <field name="name">User: Rental</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <record id="crm_product_sale_user" model="res.groups">
+            <field name="name">User: Sale</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <record id="crm_product_change_rule_user" model="res.groups">
+            <field name="name">User: Change rule</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <record id="crm_product_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="crm_product_group"/>
+            <field name="implied_ids" eval="[(4, ref('crm_product_rental_user')),(4, ref('crm_product_sale_user')),(4, ref('crm_product_change_rule_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>       
+
+        <record id="show_crm_product_rental" model="ir.rule">
+            <field name="name">CRM Product: Show rental</field>
+            <field name="model_id" ref="bds.model_crm_product"/>
+            <field name='perm_create' eval='0'/>
+            <field name='perm_read' eval='1'/>
+            <field name='perm_unlink' eval='0'/>
+            <field name='perm_write' eval='0'/>
+            <field name="groups" eval="[(4, ref('crm_product_rental_user'))]"/>
+            <field name="domain_force">[('requirement','=','rental')]</field>
+        </record>
+
+        <record id="show_crm_product_sale" model="ir.rule">
+            <field name="name">CRM Product: Show sale</field>
+            <field name="model_id" ref="bds.model_crm_product"/>
+            <field name='perm_create' eval='0'/>
+            <field name='perm_read' eval='1'/>
+            <field name='perm_unlink' eval='0'/>
+            <field name='perm_write' eval='0'/>
+            <field name="groups" eval="[(4, ref('crm_product_sale_user'))]"/>
+            <field name="domain_force">[('requirement','=','sale')]</field>
+        </record>
+
+        <record id="show_crm_product_change_rule" model="ir.rule">
+            <field name="name">CRM Product: Change rule</field>
+            <field name="model_id" ref="bds.model_crm_product"/>
+            <field name='perm_create' eval='False'/>
+            <field name='perm_read' eval='True'/>
+            <field name='perm_unlink' eval='False'/>
+            <field name='perm_write' eval='False'/>
+            <field name="groups" eval="[(4, ref('crm_product_change_rule_user'))]"/>
+            <field name="domain_force">[('requirement','in',['sale','rental'])]</field>
+        </record>
+
+        <record id="show_crm_product_edit_own_record_only" model="ir.rule">
+            <field name="name">CRM Product: Edit own record only</field>
+            <field name="model_id" ref="bds.model_crm_product"/>
+            <field name="domain_force">[('brokerage_specialist','=',user.id)]</field>
+            <field name='perm_create' eval='False'/>
+            <field name='perm_read' eval='True'/>
+            <field name='perm_unlink' eval='False'/>
+            <field name='perm_write' eval='True'/>
+            <field name="groups" eval="[(4, ref('crm_product_rental_user')),(4, ref('crm_product_sale_user')),(4, ref('crm_product_change_rule_user'))]"/>
+            
+        </record>
+
+    </data>
+</odoo>

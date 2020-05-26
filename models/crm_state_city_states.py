@@ -24,8 +24,10 @@ class CrmStatesRequest(models.Model):
 
 
 class CrmCity(models.Model):
-    _name = 'crm.city'
+    _name = 'crm.district'
     _description = 'CRM State BDS'
 
-    name = fields.Char('City')
-    country = fields.Many2one('res.country','Country')
+    name = fields.Char('Tên')
+    code = fields.Char('Code')
+    state_id = fields.Many2one('res.country.state','Tỉnh/TP')
+    country_id = fields.Many2one('res.country','Quốc gia')
