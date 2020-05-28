@@ -13,13 +13,13 @@
     ],
     'category': 'bds',
     'version': '1.0.0',
-    'depends': ['base','web','mail','decimal_precision'],
+    'depends': ['base','web','mail','decimal_precision','document','hr'],
     'data': [
         'data/res.country.state.csv',
         'data/vn_district_default.xml',
         'data/crm_sequence.xml',
+        'data/crm_state.xml',
         'static/src/xml/custom_render_formview_template.xml',
-        
         'security/ir_group_rule.xml',
         'security/ir.model.access.csv',
         'views/crm_product_view.xml',
@@ -27,7 +27,7 @@
     ],
     'demo': [],
     'qweb': [
-        'static/src/xml/inherit_button_action.xml',
+        # 'static/src/xml/inherit_button_action.xml',
     ],
     'installable': True,
     'auto_install': False,

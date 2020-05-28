@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- model.name action window -->
+        <record id="crm_product_request_rule_sheet_action" model="ir.actions.act_window">
+            <field name="name">Yêu cầu phân quyền</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.product.request.rule.sheet</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" eval="crm_product_request_rule_sheet_view_form"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Duyệt các phân quyền từ nhân viên
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                </p>
+            </field>
+        </record>
+
+        <!-- model.name form view -->
+        <record id="crm_product_request_rule_sheet_view_form" model="ir.ui.view">
+            <field name="name">Yêu cầu phân quyền</field>
+            <field name="model">model.name</field>
+            <field name="model">crm.product.request.rule.sheet</field>
+            <field name="arch" type="xml">
+                <form create="false">
+                    <header>
+                        <button name="btn_approve" string="Duyệt" type="object" class="btn btn-primary"/>
+                        <button name="btn_reject" string="Từ chối" type="object" class="btn btn-secondary"/>
+                        <field name="state" widget="statusbar" readonly="1" force_save="1"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Bảng yêu cầu phân quyền"/>
+                            <h1>
+                                <field name="name" placeholder="e.g. Phân quyền..." readonly="1" force_save="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="create_date" string="Ngày đăng ký" attrs="{'invisible': [('write_date','=',False)]}"/>
+                            <field name="write_date" invisble="1"/>
+                        </group>
+                        <notebook>
+                            <field name="crm_product_ids">
+                                <tree create="false">
+                                    <field name="employee_id" invisble="1"/>
+                                    <field name="crm_product_id"/>
+                                    <field name="is_show_attachment"/>
+                                    <field name="is_show_house_no"/>
+                                    <field name="is_show_description"/>
+                                    <field name="is_show_phone_no"/>
+                                    <field name="is_show_map"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="employee_id" invisble="1"/>
+                                        <field name="crm_product_id"/>
+                                        <field name="is_show_attachment"/>
+                                        <field name="is_show_house_no"/>
+                                        <field name="is_show_description"/>
+                                        <field name="is_show_phone_no"/>
+                                        <field name="is_show_map"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- model.name form view -->
+        <record id="crm_product_request_rule_sheet_view_form_wizard" model="ir.ui.view">
+            <field name="name">Xin Phân Quyền</field>
+            <field name="model">crm.product.request.rule.sheet</field>
+            <field name="arch" type="xml">
+                <form create="false">
+                    <header>
+                        <field name="state" widget="statusbar" readonly="1" force_save="1"/>
+                    </header>
+                    <main>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Bảng yêu cầu phân quyền"  readonly="1" force_save="1"/>
+                            <h1>
+                                <field name="name" placeholder="e.g. Phân quyền..."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="employee_id"/>
+                        </group>
+                        <notebook>
+                            <field name="crm_product_ids">
+                                <tree create="false">
+                                    <field name="employee_id" invisble="1"/>
+                                    <field name="crm_product_id"/>
+                                    <field name="is_show_attachment"/>
+                                    <field name="is_show_house_no"/>
+                                    <field name="is_show_description"/>
+                                    <field name="is_show_phone_no"/>
+                                    <field name="is_show_map"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="employee_id" invisble="1"/>
+                                        <field name="crm_product_id"/>
+                                        <field name="is_show_attachment"/>
+                                        <field name="is_show_house_no"/>
+                                        <field name="is_show_description"/>
+                                        <field name="is_show_phone_no"/>
+                                        <field name="is_show_map"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </notebook>
+                    </main>
+                    <footer>
+                        <button name="btn_save" type="object" string="Save" class="btn btn-primary"/>
+                        <button type="object" string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- model.name tree view -->
+        <record id="crm_product_request_rule_sheet_view_tree" model="ir.ui.view">
+            <field name="name">Xin Phân Quyền</field>
+            <field name="model">crm.product.request.rule.sheet</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" placeholder="e.g. Phân quyền..."/>
+                    <field name="employee_id"/>
+                    <field name="create_date" string="Ngày đăng ký"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

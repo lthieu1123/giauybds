@@ -24,6 +24,16 @@
             <field name="model">crm.product</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <button name="btn_request_rule" string="Xin phân quyền" type="action" class="btn btn-primary"/>
+                        <field name="state" widget="statusbar" clickable="False" options="{'fold_field': 'fold'}"/>
+                        <field name="is_brokerage_specialist" invisible="1"/>
+                        <field name="is_show_attachment" invisible="1"/>
+                        <field name="is_show_house_no" invisible="1"/>
+                        <field name="is_show_description" invisible="1"/>
+                        <field name="is_show_phone_no" invisible="1"/>
+                        <field name="is_show_map" invisible="1"/>
+                    </header>
                     <sheet>
                         <div class="oe_title">
                             <span class="o_form_label">CRM Product</span>
@@ -34,7 +44,7 @@
                         </div>
                                 
                                 
-                        <group>
+                        <group col="3">
                             <group string="Thông tin chung">
                             <!-- Add your fields here -->
                                 
@@ -43,13 +53,28 @@
                             </group>
                             <group string="Thông tin hồ sơ">
                                 <field name="brokerage_specialist" required="1"/>
-                                <field name="supporter"/>
                                 <field name="create_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày đăng ký"/>
                                 <field name="write_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày tương tác"/>
                             </group>
+                            <group string="Thông tin chủ nhà">
+                                <field name="host_name" widget="phone"/>
+                                <label for="host_number_1" string="Số điện thoại"/>
+                                <div class="bds_show_phone_no">
+                                    <div>
+                                        <field name="host_number_1" widget="phone" class="o_address_city" placeholder="Số ĐT chính..."/>    
+                                    </div>
+                                    <div>
+                                        <field name="host_number_2" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..."/>    
+                                    </div>
+                                    <div>
+                                        <field name="host_number_3" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..."/>    
+                                    </div>
+                                </div>
+                                
+                            </group>
                         </group>
                         <div>
-                            <field name="description" placeholder="Diễn giải..."/>
+                            <field name="description" placeholder="Diễn giải..." class="bds_show_description"/>
                         </div>
                         <notebook>
                             <page string="Thông tin BĐS">
@@ -57,8 +82,7 @@
                                     <group>
                                         <label for="street" string="Địa chỉ"/>
                                         <div class="o_address_format">
-                                            <field name="house_no" placeholder="Số nhà..." class="o_address_city o_house_no"/>
-                                            <field name="is_show_house_no" invisible="1"/>
+                                            <field name="house_no" placeholder="Số nhà..." class="o_address_city bds_show_house_no"/>
                                             <field name="street" placeholder="Đường..." class="o_address_street"/>
                                             <field name="ward_no" placeholder="Phường/Xã..." class="o_address_street"/>
                                             <field name="state_id" placeholder="Thành phố/Tỉnh..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
@@ -94,20 +118,68 @@
                                     </group>
                                 </group>
                             </page>
-                            <page string="Thông tin chủ nhà">
-                                <group>
-                                    <group>
-                                        <field name="host_name"/>
-                                        <field name="host_number_1"/>
-                                        <field name="host_number_2"/>
-                                        <field name="host_number_3"/>
-                                    </group>
-                                </group>
+                            <page string="Danh sách CV chăm sóc">
+                                <field name="supporter_ids">
+                                    <tree create="false" edit="false">
+                                        <field name="crm_product_id" invisible="1"/>
+                                        <field name="employee_id"/>
+                                        <field name="is_show_attachment"/>
+                                        <field name="is_show_house_no"/>
+                                        <field name="is_show_description"/>
+                                        <field name="is_show_phone_no"/>
+                                        <field name="is_show_map"/>
+                                        <field name="approver"/>
+                                        <field name="approved_date" string="Ngày phân quyền"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="crm_product_id" invisible="1"/>
+                                            <field name="employee_id"/>
+                                            <field name="is_show_attachment"/>
+                                            <field name="is_show_house_no"/>
+                                            <field name="is_show_description"/>
+                                            <field name="is_show_phone_no"/>
+                                            <field name="is_show_map"/>
+                                            <field name="approver"/>
+                                            <field name="approved_date" string="Ngày phân quyền"/>
+                                        </group>
+                                    </form>
+                                </field>
                             </page>
-                            <page string="Nhật ký phân quyền">
-                                
+                            <page string="Nhật ký phân quyền" groups="bds.crm_product_change_rule_user,bds.crm_product_manager">
+                                <field name="supporter_full_ids">
+                                    <tree create="false" delete="false" editable="bottom" default_order="create_date desc" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel'">
+                                        <field name="crm_product_id" invisible="1"/>
+                                        <field name="employee_id" readonly="1"/>
+                                        <field name="is_show_attachment"/>
+                                        <field name="is_show_house_no"/>
+                                        <field name="is_show_description"/>
+                                        <field name="is_show_phone_no"/>
+                                        <field name="is_show_map"/>
+                                        <field name="create_date" string="Ngày đăng ký"/>
+                                        <field name="approved_date"/>
+                                        <field name="approver"/>
+                                        <field name="state" readonly="1"/>
+                                        <button name="btn_delete_rule" string="Bỏ" type="object" class="btn btn-primary"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="crm_product_id" invisible="1"/>
+                                            <field name="employee_id" readonly="1"/>
+                                            <field name="is_show_attachment"/>
+                                            <field name="is_show_house_no"/>
+                                            <field name="is_show_description"/>
+                                            <field name="is_show_phone_no"/>
+                                            <field name="is_show_map"/>
+                                            <field name="create_date" string="Ngày đăng ký"/>
+                                            <field name="approved_date"/>
+                                            <field name="approver"/>
+                                            <field name="state" readonly="1"/>
+                                        </group>
+                                    </form>
+                                </field>
                             </page>
-                            <page string="Bản đồ">
+                            <page string="Bản đồ" class="bds_show_map">
                                 <group>
                                     <group>
                                         <field name="is_show_map"/>
@@ -116,6 +188,11 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
@@ -132,11 +209,11 @@
                     <field name="requirement"/>
                     <field name="type_of_real_estate"/>
                     <field name="brokerage_specialist"/>
-                    <field name="supporter"/>
+                    <field name="supporter_ids" widget="many2many_tags"/>
                     <field name="create_date"/>
                     <field name="write_date"/>
-                    <field name="description"/>
-                    <field name="house_no"/>
+                    <!-- <field name="description" class="bds_show_description"/>
+                    <field name="house_no" class="bds_show_house_no"/> -->
                     <field name="ward_no"/>
                     <field name="street"/>
                     <field name="state_id"/>
@@ -151,9 +228,9 @@
                     <field name="usd_price"/>
                     <field name="usd_price"/>
                     <field name="host_name"/>
-                    <field name="host_number_1"/>
-                    <field name="host_number_2"/>
-                    <field name="host_number_3"/>
+                    <!-- <field name="host_number_1" class="bds_show_phone_no"/>
+                    <field name="host_number_2" class="bds_show_phone_no"/>
+                    <field name="host_number_3" class="bds_show_phone_no"/> -->
                 </tree>
             </field>
         </record>
