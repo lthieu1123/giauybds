@@ -9,6 +9,22 @@
             <field name="padding">5</field>
             <field name="company_id" eval="False"/>
         </record>
+
+        <record id="crm_product_request_rule_sequence" model="ir.sequence">
+            <field name="name">CRM Product Request Rule</field>
+            <field name="code">crm.product.request.rule</field>
+            <field name="prefix">CRMPR-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="crm_product_request_rule_sheet_sequence" model="ir.sequence">
+            <field name="name">CRM Product Request Rule Sheet</field>
+            <field name="code">crm.product.request.rule.sheet</field>
+            <field name="prefix">CRMPRS-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
         
     </data>
 </odoo>

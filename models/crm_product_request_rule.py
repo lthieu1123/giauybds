@@ -16,6 +16,7 @@ class CrmProductReuqestRule(models.Model):
     _description = 'CRM Product Request Rule'
     
 
+    name = fields.Char(string='Tên', default='New', readonly=True, force_save=True, track_visibility='always')
     crm_product_id = fields.Many2one('crm.product','CRM Product',ondelete='cascade')
     employee_id = fields.Many2one('hr.employee','CV chăm sóc',ondelete='cascade')
     crm_request_sheet_id = fields.Many2one('crm.product.request.rule.sheet','Sheet')
@@ -25,14 +26,22 @@ class CrmProductReuqestRule(models.Model):
     is_show_phone_no = fields.Boolean('Xem số ĐT', default=False)
     is_show_map = fields.Boolean('Xem bản đồ', default=False)
     approver = fields.Many2one('hr.employee', 'Người duyệt')
-    state = fields.Selection(string='Trạng thái', selection=[('draft','Chưa duyệt'),('approved','Đã duyệt'),('cancel','Từ chối')], default="draft")
+    state = fields.Selection(string='Trạng thái', selection=[('draft','Chưa duyệt'),('approved','Đã duyệt'),('cancel','Từ chối'), ('closed','Đóng')], default="draft")
     approved_date = fields.Datetime(string='Ngày duyệt')
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code('crm.product.request.rule') or '/'
+            vals['sequence'] = int(vals['name'].split('-')[1])
+        res = super().create(vals)
+        return res
 
 class CrmProductReuqestRuleSheet(models.Model):
     _name = 'crm.product.request.rule.sheet'
     _description = 'CRM Product Request Rule Sheet'
 
-    name = fields.Char('name')
+    name = fields.Char(string='Tên', default='New', readonly=True, force_save=True, track_visibility='always')
     employee_id = fields.Many2one('hr.employee','CV chăm sóc',ondelete='cascade', default= lambda self: self._get_default_employee_id())
     crm_request_line_ids = fields.One2many(comodel_name='crm.product.request.rule',inverse_name="crm_request_sheet_id",string='CV chăm sóc')
     state = fields.Selection(string='Trạng thái', selection=[('draft','Chưa duyệt'),('approved','Đã duyệt'),('cancel','Từ chối')], default="draft")
@@ -68,15 +77,19 @@ class CrmProductReuqestRuleSheet(models.Model):
             'name': 'Xin phân quyền',
             'view_type': 'form',
             'view_mode': 'form',
-            'res_model': 'ecc.announce',
+            'res_model': 'announce',
             'type': 'ir.actions.act_window',
-            'target': 'current',
+            'target': 'new',
+            'context': context,
             'res_id': False,
         }
 
     @api.multi
     def btn_approve(self):
         self.ensure_one()
+        self.update({
+            'state': 'approved'
+        })
         request_rule = self.env['crm.product.request.rule']
         for line in self.crm_request_line_ids:
             existed_line_id = request_rule.search([
@@ -85,22 +98,28 @@ class CrmProductReuqestRuleSheet(models.Model):
                 ('state','=','approved')
             ])
             if existed_line_id.id:
-                existed_line_id.is_show_attachment = line.is_show_attachment
-                existed_line_id.is_show_house_no = line.is_show_house_no
-                existed_line_id.is_show_description = line.is_show_description
-                existed_line_id.is_show_phone_no = line.is_show_phone_no
-                existed_line_id.is_show_attachment = line.is_show_phone_no
-                existed_line_id.approved_date = datetime.now()
-            else:
                 existed_line_id.write({
-                    'state':'approved',
-                    'approved_date': datetime.now()
+                    'state':'closed',
                 })
+            line.write({
+                'state':'approved',
+                'approved_date': datetime.now(),
+                'approver': self.env.user.employee_ids.ids[0]
+            })
+               
 
     @api.multi
     def btn_reject(self):
-        self.ensure_one()
         self.crm_request_line_ids.write({
-            'state':'approved',
-            'approved_date': datetime.now()
+            'state':'cancel',
+            'approved_date': datetime.now(),
+            'approver': self.env.user.employee_ids.ids[0]
         })
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code('crm.product.request.rule.sheet') or '/'
+            vals['sequence'] = int(vals['name'].split('-')[1])
+        res = super().create(vals)
+        return res

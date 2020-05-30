@@ -6,7 +6,7 @@
             <field name="name">Thông báo</field>
             <field name="model">announce</field>
             <field name="arch" type="xml">
-                <form string="Success">
+                <form string="Thành công">
                     <main>
                         <field name="name" readonly="1"/>
                     </main>

@@ -52,8 +52,9 @@ class CrmProduct(models.Model):
     number_of_floors = fields.Float('Số tầng',digits=dp.get_precision('Product Unit of Measure'), track_visibility='always')
     usd_price = fields.Float('Giá USD', digits=dp.get_precision('Product Price'), track_visibility='always')
     vnd_price = fields.Float('Giá VND', digits=dp.get_precision('Product Price'), track_visibility='always')
-    brokerage_specialist = fields.Many2one('hr.employee','CV môi giới', default=lambda self: self.env.user, track_visibility='always')
-    supporter_ids = fields.One2many(comodel_name='crm.product.request.rule',inverse_name="crm_product_id",string='CV chăm sóc', track_visibility='always', 
+    brokerage_specialist = fields.Many2one('hr.employee','CV môi giới', default= lambda self: self._get_default_employee_id(), track_visibility='always')
+    supporter_ids = fields.Many2many('hr.employee','CV môi giới',compute="_get_suppoter_ids")
+    supporter_with_rule_ids = fields.One2many(comodel_name='crm.product.request.rule',inverse_name="crm_product_id",string='CV chăm sóc và phân quyền', track_visibility='always', 
                                     domain=[('state','=','approved')], ondelete='cascade', 
                                     readonly=True, force_save=True)
     supporter_full_ids = fields.One2many(comodel_name='crm.product.request.rule',inverse_name="crm_product_id", string='Phân quyền', 
@@ -64,12 +65,19 @@ class CrmProduct(models.Model):
     host_number_1 = fields.Char('Số ĐT 1')
     host_number_2 = fields.Char('Số ĐT 2')
     host_number_3 = fields.Char('Số ĐT 3')
+    is_show_map_to_user = fields.Boolean('Hiển Thị bản đồ cho KH', default=False)
     is_show_attachment = fields.Boolean('Xem hình ảnh', compute="_compute_show_data")
     is_show_house_no = fields.Boolean('Xem số nhà', compute="_compute_show_data")
     is_show_description = fields.Boolean('Xem diễn giải', compute="_compute_show_data")
     is_show_phone_no = fields.Boolean('Xem số ĐT', compute="_compute_show_data")
     is_show_map = fields.Boolean('Xem bản đồ', compute="_compute_show_data")
     is_brokerage_specialist = fields.Boolean('Là chủ hồ sơ', compute="_compute_show_data")
+
+
+    def _get_default_employee_id(self):
+        return self.env['hr.employee'].search([
+            ('user_id','=',self.env.user.id)
+        ]).id
 
     def _check_constrains_phone_number(self):
         """Kiểm tra 3 số điện thoại của chủ nhà có bị trùng hay không
@@ -94,18 +102,22 @@ class CrmProduct(models.Model):
         if not res:
             raise exceptions.ValidationError('Số điện thoại bị trùng. Vui lòng nhập lại')
 
-    @api.depends('supporter_ids')
+    @api.depends('supporter_with_rule_ids')
     def _compute_show_data(self):
         for rec in self:
             # approved_supporter = rec.supporter_ids.filtered(lambda r: )
             rec.is_brokerage_specialist = rec.brokerage_specialist.user_id == self.env.user
-            employee_id = rec.supporter_ids.filtered(lambda r: r.employee_id.user_id == self.env.user and r.state == 'approved')
+            employee_id = rec.supporter_with_rule_ids.filtered(lambda r: r.employee_id.user_id == self.env.user and r.state == 'approved')
             rec.is_show_attachment = employee_id.is_show_attachment
             rec.is_show_house_no = employee_id.is_show_house_no
             rec.is_show_description = employee_id.is_show_description
             rec.is_show_phone_no = employee_id.is_show_phone_no
-            rec.is_show_phone_no = employee_id.is_show_map
+            rec.is_show_map = employee_id.is_show_map
 
+    @api.depends('supporter_with_rule_ids')
+    def _get_suppoter_ids(self):
+        for rec in self:
+            rec.supporter_ids = rec.supporter_with_rule_ids.mapped('employee_id')           
 
 
     #Override
@@ -138,6 +150,13 @@ class CrmProduct(models.Model):
         for rec in self:
             rec.is_show_house_no = True if rec.brokerage_specialist == self.env.user else False
 
+    @api.multi
+    def write(self,vals):
+        employee_id = self.env.user.employee_ids.id
+        for rec in self:
+            if rec.brokerage_specialist.id != employee_id:
+                raise exceptions.ValidationError('Không được phép lưu dữ liệu vì hạn chế quyền nhân viên')
+        return super().write(vals)
 
     @api.multi
     def btn_request_rule(self):
@@ -147,9 +166,9 @@ class CrmProduct(models.Model):
             'name': 'Xin phân quyền',
             'view_type': 'form',
             'view_mode': 'form',
-            'view_id': [view_id],
+            'view_id': view_id,
             'res_model': 'crm.product.request.rule.sheet',
             'type': 'ir.actions.act_window',
-            'target': 'current',
+            'target': 'new',
             'res_id': False,
         }
