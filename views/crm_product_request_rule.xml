@@ -39,13 +39,12 @@
                             <field name="create_date" string="Ngày đăng ký"/>
                             <field name="approved_date" attrs="{'invisible': [('state','!=','approved')]}"/>
                             <field name="approver" attrs="{'invisible': [('state','!=','approved')]}"/>
+                            <field name="requirement"/>
                         </group>
                         <group string="Thông tin phân quyền sản phẩm">
                             <field name="crm_product_id"/>
                             <field name="is_show_attachment"/>
                             <field name="is_show_house_no"/>
-                            <field name="is_show_description"/>
-                            <field name="is_show_phone_no"/>
                             <field name="is_show_map"/>
                         </group>
                     </sheet>
@@ -61,13 +60,12 @@
                 <tree default_order="create_date desc" create="false" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel,closed'">
                     <field name="employee_id"/>
                     <field name="create_date" string="Ngày đăng ký"/>
+                    <field name="requirement"/>
                     <field name="approved_date"/>
                     <field name="approver"/>
                     <field name="crm_product_id"/>
                     <field name="is_show_attachment"/>
                     <field name="is_show_house_no"/>
-                    <field name="is_show_description"/>
-                    <field name="is_show_phone_no"/>
                     <field name="is_show_map"/>
                     <field name="state"/>
                 </tree>

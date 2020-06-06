@@ -3,7 +3,7 @@
 import json
 import logging
 
-from odoo import _, api, fields, models, registry
+from odoo import _, api, fields, models, registry, exceptions
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
 from odoo.addons import decimal_precision as dp
@@ -18,12 +18,11 @@ class CrmProductReuqestRule(models.Model):
 
     name = fields.Char(string='Tên', default='New', readonly=True, force_save=True, track_visibility='always')
     crm_product_id = fields.Many2one('crm.product','CRM Product',ondelete='cascade')
+    requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cho thuê'),('sale','Cần bán')], track_visibility='always')
     employee_id = fields.Many2one('hr.employee','CV chăm sóc',ondelete='cascade')
     crm_request_sheet_id = fields.Many2one('crm.product.request.rule.sheet','Sheet')
     is_show_attachment = fields.Boolean('Xem hình ảnh', default=False)
     is_show_house_no = fields.Boolean('Xem số nhà', default=False)
-    is_show_description = fields.Boolean('Xem diễn giải', default=False)
-    is_show_phone_no = fields.Boolean('Xem số ĐT', default=False)
     is_show_map = fields.Boolean('Xem bản đồ', default=False)
     approver = fields.Many2one('hr.employee', 'Người duyệt')
     state = fields.Selection(string='Trạng thái', selection=[('draft','Chưa duyệt'),('approved','Đã duyệt'),('cancel','Từ chối'), ('closed','Đóng')], default="draft")
@@ -45,6 +44,20 @@ class CrmProductReuqestRuleSheet(models.Model):
     employee_id = fields.Many2one('hr.employee','CV chăm sóc',ondelete='cascade', default= lambda self: self._get_default_employee_id())
     crm_request_line_ids = fields.One2many(comodel_name='crm.product.request.rule',inverse_name="crm_request_sheet_id",string='CV chăm sóc')
     state = fields.Selection(string='Trạng thái', selection=[('draft','Chưa duyệt'),('approved','Đã duyệt'),('cancel','Từ chối')], default="draft")
+    requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cho thuê'),('sale','Cần bán')], compute='_set_requirement')
+
+    @api.depends('crm_request_line_ids')
+    def _set_requirement(self):
+        for rec in self:
+            sale_count = len(rec.crm_request_line_ids.filtered(lambda r: r.requirement == 'sale').ids)
+            rental_count = len(rec.crm_request_line_ids.filtered(lambda r: r.requirement == 'rental').ids)
+            if sale_count and rental_count:
+                raise exceptions.VallidationError('Không thể chọn 2 yêu cầu cho thuê và bán trong cùng 1 bảng xin phân quyền.')
+            elif sale_count and rental_count==0:
+                rec.requirement = 'sale'
+            else:
+                rec.requirement = 'rental'
+    
 
     def _get_default_employee_id(self):
         return self.env['hr.employee'].search([
@@ -58,15 +71,16 @@ class CrmProductReuqestRuleSheet(models.Model):
             product_lines = []
             ids = context.get('active_ids')
             for _id in ids:
-                crm_request_line_value = self._prepare_crm_request_line(_id)
+                crm_request_line_value = self._prepare_crm_request_line(self.env['crm.product'].browse(_id))
                 product_lines.append((0, 0, crm_request_line_value))
             self.crm_request_line_ids = product_lines
 
 
-    def _prepare_crm_request_line(self,_id):
+    def _prepare_crm_request_line(self,crm_product_id):
         return {
             'employee_id': self.employee_id.id,
-            'crm_product_id': _id
+            'crm_product_id': crm_product_id.id,
+            'requirement': crm_product_id.requirement,
         }
     
     @api.multi

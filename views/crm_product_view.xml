@@ -30,8 +30,6 @@
                         <field name="is_brokerage_specialist" invisible="1"/>
                         <field name="is_show_attachment" invisible="1"/>
                         <field name="is_show_house_no" invisible="1"/>
-                        <field name="is_show_description" invisible="1"/>
-                        <field name="is_show_phone_no" invisible="1"/>
                         <field name="is_show_map" invisible="1"/>
                     </header>
                     <sheet>
@@ -126,8 +124,6 @@
                                         <field name="employee_id"/>
                                         <field name="is_show_attachment"/>
                                         <field name="is_show_house_no"/>
-                                        <field name="is_show_description"/>
-                                        <field name="is_show_phone_no"/>
                                         <field name="is_show_map"/>
                                         <field name="approver"/>
                                         <field name="approved_date" string="Ngày phân quyền"/>
@@ -138,8 +134,6 @@
                                             <field name="employee_id"/>
                                             <field name="is_show_attachment"/>
                                             <field name="is_show_house_no"/>
-                                            <field name="is_show_description"/>
-                                            <field name="is_show_phone_no"/>
                                             <field name="is_show_map"/>
                                             <field name="approver"/>
                                             <field name="approved_date" string="Ngày phân quyền"/>
@@ -154,8 +148,6 @@
                                         <field name="employee_id" readonly="1"/>
                                         <field name="is_show_attachment"/>
                                         <field name="is_show_house_no"/>
-                                        <field name="is_show_description"/>
-                                        <field name="is_show_phone_no"/>
                                         <field name="is_show_map"/>
                                         <field name="create_date" string="Ngày đăng ký"/>
                                         <field name="approved_date"/>
@@ -169,8 +161,6 @@
                                             <field name="employee_id" readonly="1"/>
                                             <field name="is_show_attachment"/>
                                             <field name="is_show_house_no"/>
-                                            <field name="is_show_description"/>
-                                            <field name="is_show_phone_no"/>
                                             <field name="is_show_map"/>
                                             <field name="create_date" string="Ngày đăng ký"/>
                                             <field name="approved_date"/>

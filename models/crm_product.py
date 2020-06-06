@@ -68,8 +68,6 @@ class CrmProduct(models.Model):
     is_show_map_to_user = fields.Boolean('Hiển Thị bản đồ cho KH', default=False)
     is_show_attachment = fields.Boolean('Xem hình ảnh', compute="_compute_show_data")
     is_show_house_no = fields.Boolean('Xem số nhà', compute="_compute_show_data")
-    is_show_description = fields.Boolean('Xem diễn giải', compute="_compute_show_data")
-    is_show_phone_no = fields.Boolean('Xem số ĐT', compute="_compute_show_data")
     is_show_map = fields.Boolean('Xem bản đồ', compute="_compute_show_data")
     is_brokerage_specialist = fields.Boolean('Là chủ hồ sơ', compute="_compute_show_data")
 
@@ -105,13 +103,12 @@ class CrmProduct(models.Model):
     @api.depends('supporter_with_rule_ids')
     def _compute_show_data(self):
         for rec in self:
-            # approved_supporter = rec.supporter_ids.filtered(lambda r: )
-            rec.is_brokerage_specialist = rec.brokerage_specialist.user_id == self.env.user
+            rec.is_brokerage_specialist = False
+            if rec.brokerage_specialist.user_id == self.env.user or self.env.user.has_groups('bds.crm_product_manager'):
+                rec.is_brokerage_specialist = True
             employee_id = rec.supporter_with_rule_ids.filtered(lambda r: r.employee_id.user_id == self.env.user and r.state == 'approved')
             rec.is_show_attachment = employee_id.is_show_attachment
             rec.is_show_house_no = employee_id.is_show_house_no
-            rec.is_show_description = employee_id.is_show_description
-            rec.is_show_phone_no = employee_id.is_show_phone_no
             rec.is_show_map = employee_id.is_show_map
 
     @api.depends('supporter_with_rule_ids')
@@ -144,19 +141,14 @@ class CrmProduct(models.Model):
             vals['sequence'] = int(vals['name'].split('-')[1])
         res = super().create(vals)
         return res
-    
-    @api.depends('name')
-    def _is_show_house_no(self):
-        for rec in self:
-            rec.is_show_house_no = True if rec.brokerage_specialist == self.env.user else False
 
-    @api.multi
-    def write(self,vals):
-        employee_id = self.env.user.employee_ids.id
-        for rec in self:
-            if rec.brokerage_specialist.id != employee_id:
-                raise exceptions.ValidationError('Không được phép lưu dữ liệu vì hạn chế quyền nhân viên')
-        return super().write(vals)
+    # @api.multi
+    # def write(self,vals):
+    #     employee_id = self.env.user.employee_ids.id
+    #     for rec in self:
+    #         if rec.brokerage_specialist.id != employee_id:
+    #             raise exceptions.ValidationError('Không được phép lưu dữ liệu vì hạn chế quyền nhân viên')
+    #     return super().write(vals)
 
     @api.multi
     def btn_request_rule(self):
