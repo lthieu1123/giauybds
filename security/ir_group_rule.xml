@@ -26,7 +26,7 @@
 
         <record id="crm_product_sale_manager" model="res.groups">
             <field name="name">Manager: Sale</field>
-            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,red('crm_product_sale_user'))]"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_product_sale_user'))]"/>
             <field name="category_id" ref="crm_product_group"/>
         </record>
 
