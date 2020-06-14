@@ -6,7 +6,7 @@
         <record id="crm_request_action" model="ir.actions.act_window">
             <field name="name">CRM Product</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">crm.product</field>
+            <field name="res_model">crm.request</field>
             <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
             <field name="help" type="html">
@@ -20,8 +20,8 @@
 
         <!-- model.name form view -->
         <record id="crm_request_view_form" model="ir.ui.view">
-            <field name="name">crm.product.view.form</field>
-            <field name="model">crm.product</field>
+            <field name="name">crm.request.view.form</field>
+            <field name="model">crm.request</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
@@ -83,7 +83,7 @@
                             <page string="Quyền CV chăm sóc">
                                 <field name="supporter_with_rule_ids">
                                     <tree create="false" edit="false">
-                                        <field name="crm_request_id" invisible="1"/>
+                                        <field name="crm_product_id" invisible="1"/>
                                         <field name="employee_id"/>
                                         <field name="is_show_attachment"/>
                                         <field name="is_show_house_no"/>
@@ -93,7 +93,7 @@
                                     </tree>
                                     <form>
                                         <group>
-                                            <field name="crm_request_id" invisible="1"/>
+                                            <field name="crm_product_id" invisible="1"/>
                                             <field name="employee_id"/>
                                             <field name="is_show_attachment"/>
                                             <field name="is_show_house_no"/>
@@ -107,7 +107,7 @@
                             <page string="Nhật ký phân quyền" groups="bds.crm_request_change_rule_user,bds.crm_request_manager">
                                 <field name="supporter_full_ids">
                                     <tree create="false" delete="false" editable="bottom" default_order="create_date desc" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel,closed'">
-                                        <field name="crm_request_id" invisible="1"/>
+                                        <field name="crm_product_id" invisible="1"/>
                                         <field name="employee_id" readonly="1"/>
                                         <field name="is_show_attachment"/>
                                         <field name="is_show_house_no"/>
@@ -120,7 +120,7 @@
                                     </tree>
                                     <form>
                                         <group>
-                                            <field name="crm_request_id" invisible="1"/>
+                                            <field name="crm_product_id" invisible="1"/>
                                             <field name="employee_id" readonly="1"/>
                                             <field name="is_show_attachment"/>
                                             <field name="is_show_house_no"/>
@@ -146,8 +146,8 @@
 
         <!-- model.name tree view -->
         <record id="crm_request_view_tree" model="ir.ui.view">
-            <field name="name">crm.product.view.tree</field>
-            <field name="model">crm.product</field>
+            <field name="name">crm.request.view.tree</field>
+            <field name="model">crm.request</field>
             <field name="arch" type="xml">
                 <tree default_order="create_date desc">
                     <!-- Add your fields here -->

@@ -28,6 +28,9 @@
         'views/crm_product_view.xml',
         'views/crm_product_request_rule.xml',
         'views/crm_product_request_rule_sheet.xml',
+        'views/crm_request_view.xml',
+        'views/crm_request_request_rule.xml',
+        'views/crm_request_request_rule_sheet.xml',
         'views/crm_state_city_view.xml',
         'views/menu_views.xml'
     ],

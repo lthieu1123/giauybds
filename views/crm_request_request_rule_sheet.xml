@@ -8,7 +8,7 @@
         <!-- model.name form view -->
         <record id="crm_request_request_rule_sheet_view_form" model="ir.ui.view">
             <field name="name">Yêu cầu phân quyền</field>
-            <field name="model">crm.product.request.rule.sheet</field>
+            <field name="model">crm.request.request.rule.sheet</field>
             <field name="arch" type="xml">
                 <form create="false">
                     <header>
@@ -61,7 +61,7 @@
         <!-- model.name form view -->
         <record id="crm_request_request_rule_sheet_view_form_wizard" model="ir.ui.view">
             <field name="name">Xin Phân Quyền</field>
-            <field name="model">crm.product.request.rule.sheet</field>
+            <field name="model">crm.request.request.rule.sheet</field>
             <field name="arch" type="xml">
                 <form create="false">
                     <header>
@@ -114,7 +114,7 @@
         <!-- model.name tree view -->
         <record id="crm_request_request_rule_sheet_view_tree" model="ir.ui.view">
             <field name="name">Xin Phân Quyền</field>
-            <field name="model">crm.product.request.rule.sheet</field>
+            <field name="model">crm.request.request.rule.sheet</field>
             <field name="arch" type="xml">
                 <tree default_order="create_date desc" create="false" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel'">
                     <field name="name" placeholder="e.g. Phân quyền..."/>
@@ -129,7 +129,7 @@
         <record id="crm_request_request_rule_sheet_action" model="ir.actions.act_window">
             <field name="name">Yêu cầu phân quyền</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">crm.product.request.rule.sheet</field>
+            <field name="res_model">crm.request.request.rule.sheet</field>
             <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
             <field name="view_ids" eval="[(5,0,0),

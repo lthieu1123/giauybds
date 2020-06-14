@@ -18,15 +18,21 @@ class CrmRequest(models.Model):
     _name = 'crm.request'
     _description = 'CRM Request'
     _inherit = 'crm.abstract.model'
-    _rec_name = 'customer_uid'
 
 
+    name = fields.Char(string='Số đăng ký', default='New',
+                       readonly=True, force_save=True, track_visibility='always')
     customer_uid = fields.Char(string='Mã KH', required=True,track_visibility='always')
     email = fields.Char('Email')
     financial_capability = fields.Char('Khả năng tài chính',track_visibility='always')
     zone = fields.Char('Khu vực hoạt động', track_visibility='always')
     
     is_show_email = fields.Boolean('Show Email', compute='_compute_show_data')
+    supporter_with_rule_ids = fields.One2many(comodel_name='crm.request.request.rule', inverse_name="crm_product_id", string='CV chăm sóc và phân quyền', track_visibility='always',
+                                              domain=[('state', '=', 'approved')], ondelete='cascade',
+                                              readonly=True, force_save=True)
+    supporter_full_ids = fields.One2many(comodel_name='crm.request.request.rule', inverse_name="crm_product_id", string='Phân quyền',
+                                         groups='bds.crm_request_change_rule_user,bds.crm_request_manager', ondelete='cascade')
 
 
     @api.depends('supporter_with_rule_ids')
