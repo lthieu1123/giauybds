@@ -14,20 +14,14 @@ from datetime import datetime
 class CrmProductReuqestRule(models.Model):
     _name = 'crm.product.request.rule'
     _description = 'CRM Product Request Rule'
+    _inherit = 'crm.request.rule.abstract.model'
     
-
-    name = fields.Char(string='Tên', default='New', readonly=True, force_save=True, track_visibility='always')
     crm_product_id = fields.Many2one('crm.product','CRM Product',ondelete='cascade')
-    requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cho thuê'),('sale','Cần bán')], track_visibility='always')
-    employee_id = fields.Many2one('hr.employee','CV chăm sóc',ondelete='cascade')
     crm_request_sheet_id = fields.Many2one('crm.product.request.rule.sheet','Sheet')
     is_show_attachment = fields.Boolean('Xem hình ảnh', default=False)
     is_show_house_no = fields.Boolean('Xem số nhà', default=False)
     is_show_map = fields.Boolean('Xem bản đồ', default=False)
-    approver = fields.Many2one('hr.employee', 'Người duyệt')
-    state = fields.Selection(string='Trạng thái', selection=[('draft','Chưa duyệt'),('approved','Đã duyệt'),('cancel','Từ chối'), ('closed','Đóng')], default="draft")
-    approved_date = fields.Datetime(string='Ngày duyệt')
-
+    
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
@@ -39,6 +33,7 @@ class CrmProductReuqestRule(models.Model):
 class CrmProductReuqestRuleSheet(models.Model):
     _name = 'crm.product.request.rule.sheet'
     _description = 'CRM Product Request Rule Sheet'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Tên', default='New', readonly=True, force_save=True, track_visibility='always')
     employee_id = fields.Many2one('hr.employee','CV chăm sóc',ondelete='cascade', default= lambda self: self._get_default_employee_id())

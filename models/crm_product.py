@@ -16,32 +16,15 @@ _logger = logging.getLogger(__name__)
 class CrmProduct(models.Model):
     _name = 'crm.product'
     _description = 'CRM Product'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = 'crm.abstract.model'
 
-    @api.model
-    def _default_stage(self):
-        return self.env['crm.states.product'].search([], limit=1, order='sequence').id
-
-    @api.model
-    def _read_group_stage_ids(self, stages, domain, order):
-        return self.env['crm.states.product'].search([])
-
-    state = fields.Many2one('crm.states.product', string='Trạng thái', default=_default_stage,
-                            track_visibility='always', group_expand='_read_group_stage_ids', store=True)
-
-    sequence = fields.Integer(string='Số TT', readonly=True,
-                              force_save=True, track_visibility='always', index=True)
     name = fields.Char(string='Số đăng ký', default='New',
                        readonly=True, force_save=True, track_visibility='always')
-    requirement = fields.Selection(string='Nhu cầu', selection=[(
-        'rental', 'Cho thuê'), ('sale', 'Cần bán')], track_visibility='always')
-    type_of_real_estate = fields.Selection(
-        string='Loại BĐS', selection=TYPE_OF_REAL_ESTATE, required=True, track_visibility='always')
 
     # Address
     house_no = fields.Char('Số nhà')
-    ward_no = fields.Char('Phường/Xã', track_visibility='always')
-    street = fields.Char('Đường', track_visibility='always')
+    ward_no = fields.Many2one('crm.ward','Phường/Xã', track_visibility='always',domain="[('district_id','=?',district_id)]")
+    street = fields.Many2one('crm.street','Đường', track_visibility='always',domain="[('district_id','=?',district_id)]")
     country_id = fields.Many2one('res.country', 'Quốc gia', default=lambda self: self.env.ref(
         'base.vn'), track_visibility='always')
     state_id = fields.Many2one('res.country.state', 'Tỉnh/TP',
@@ -65,36 +48,15 @@ class CrmProduct(models.Model):
         'Product Price'), track_visibility='always')
     vnd_price = fields.Float('Giá VND', digits=dp.get_precision(
         'Product Price'), track_visibility='always')
-    brokerage_specialist = fields.Many2one(
-        'hr.employee', 'CV môi giới', default=lambda self: self._get_default_employee_id(), track_visibility='always')
-    supporter_ids = fields.Many2many(
-        'hr.employee', 'CV môi giới', compute="_get_suppoter_ids")
     supporter_with_rule_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='CV chăm sóc và phân quyền', track_visibility='always',
                                               domain=[('state', '=', 'approved')], ondelete='cascade',
                                               readonly=True, force_save=True)
     supporter_full_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='Phân quyền',
                                          groups='bds.crm_product_change_rule_user,bds.crm_product_manager', ondelete='cascade')
-    direction = fields.Selection(
-        string='Hướng', selection=CARDINAL_DIRECTION, track_visibility='always')
-    description = fields.Text('Diễn giải')
-    host_name = fields.Char('Tên chủ', track_visibility='always')
-    host_number_1 = fields.Char('Số ĐT 1')
-    host_number_2 = fields.Char('Số ĐT 2')
-    host_number_3 = fields.Char('Số ĐT 3')
-    is_show_map_to_user = fields.Boolean(
-        'Hiển Thị bản đồ cho KH', default=False)
-    is_show_attachment = fields.Boolean(
-        'Xem hình ảnh', compute="_compute_show_data")
-    is_show_house_no = fields.Boolean(
-        'Xem số nhà', compute="_compute_show_data")
+    
+    is_show_map_to_user = fields.Boolean('Hiển Thị bản đồ cho KH', default=False)
     is_show_map = fields.Boolean('Xem bản đồ', compute="_compute_show_data")
-    is_brokerage_specialist = fields.Boolean(
-        'Là chủ hồ sơ', compute="_compute_show_data")
-
-    def _get_default_employee_id(self):
-        return self.env['hr.employee'].search([
-            ('user_id', '=', self.env.user.id)
-        ]).id
+        
 
     def _check_constrains_phone_number(self):
         """Kiểm tra 3 số điện thoại của chủ nhà có bị trùng hay không
@@ -123,14 +85,15 @@ class CrmProduct(models.Model):
 
     @api.depends('supporter_with_rule_ids')
     def _compute_show_data(self):
+        current_user = self.env.user
         for rec in self:
             rec.is_brokerage_specialist = False
-            if rec.brokerage_specialist.user_id == self.env.user \
-                or self.env.user.has_group('bds.crm_product_manager') \
-                    or self.env.user.has_group('bds.crm_product_rental_manager') or self.env.user.has_group('bds.crm_product_sale_manager'):
+            if rec.brokerage_specialist.user_id == current_user \
+                or current_user.has_group('bds.crm_product_manager') \
+                    or current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_sale_manager'):
                 rec.is_brokerage_specialist = True
             employee_id = rec.supporter_with_rule_ids.filtered(
-                lambda r: r.employee_id.user_id == self.env.user and r.state == 'approved')
+                lambda r: r.employee_id.user_id == current_user and r.state == 'approved')
             rec.is_show_attachment = employee_id.is_show_attachment
             rec.is_show_house_no = employee_id.is_show_house_no
             rec.is_show_map = employee_id.is_show_map
@@ -140,18 +103,6 @@ class CrmProduct(models.Model):
         for rec in self:
             rec.supporter_ids = rec.supporter_with_rule_ids.mapped(
                 'employee_id')
-
-    # Override
-
-    @api.multi
-    def unlink(self):
-        """[summary]
-        Dùng để xóa các supporter ngay tại giao diện crm product
-        Returns:
-            [type] -- [description]
-        """
-        process_unlink = super().unlink()
-        return process_unlink
 
     @api.onchange('district_id')
     def _onchange_district(self):

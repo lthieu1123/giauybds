@@ -16,6 +16,7 @@ odoo.define('bds.FormController', function (require) {
             var house_no = this.$('span.bds_show_house_no');
             var phone_no = this.$('div.bds_show_phone_no');
             var map = this.$('li.bds_show_map');
+            var email = this.$('span.bds_show_email')
             var attachment = this.$('button.o_chatter_button_attachment');
             var active_attach = this.$('dev.o_mail_chatter_attachments');
             var class_active_attach = 'o_active_attach';
@@ -37,6 +38,24 @@ odoo.define('bds.FormController', function (require) {
                         phone_no.remove();
                     }
                     if (!d.data.is_show_map) map.remove();
+                }
+            }
+            if (d && d.model === 'crm.request'){
+                if (!d.data.is_brokerage_specialist){
+                    if (!d.data.is_show_attachment){
+                        if (attachment.hasClass(class_active_attach)){
+                            var active_attach = this.$('dev.o_mail_chatter_attachments');
+                            active_attach.addClass('o_invisible_modifier');
+                        }
+                        attachment.addClass('o_invisible_modifier');
+                    }else{
+                        attachment.removeClass('o_invisible_modifier');
+                    }
+                    if (!d.data.is_show_house_no) {
+                        house_no.remove();
+                        phone_no.remove();
+                    }
+                    if (!d.data.is_show_email) email.remove();
                 }
             }
         },

@@ -32,15 +32,22 @@ class CrmCity(models.Model):
     state_id = fields.Many2one('res.country.state','Tỉnh/TP')
     country_id = fields.Many2one('res.country','Quốc gia')
 
-class CrWard(models.Model):
+class CrmWard(models.Model):
     _name = 'crm.ward'
     _description = 'CRM ward BDS'
 
-    name = fields.Char('Tên')
+    name = fields.Char('Tên', required=True)
     code = fields.Char('Code')
     country_id = fields.Many2one('res.country','Quốc gia')
     state_id = fields.Many2one('res.country.state','Tỉnh/TP')
     district_id = fields.Many2one('crm.district','Quận/Huyện')
 
-
+class CrmStreet(models.Model):
+    _name = 'crm.street'
+    _description = 'CRM Street'
     
+    name = fields.Char('Tên', required=True)
+    code = fields.Char('Code')
+    district_id = fields.Many2one('crm.district','Quận/Huyện')
+    state_id = fields.Many2one('res.country.state','Tỉnh/TP')
+    country_id = fields.Many2one('res.country','Quốc gia')    

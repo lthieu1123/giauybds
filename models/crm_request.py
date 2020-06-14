@@ -17,33 +17,53 @@ _logger = logging.getLogger(__name__)
 class CrmRequest(models.Model):
     _name = 'crm.request'
     _description = 'CRM Request'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _inherit = 'crm.abstract.model'
     _rec_name = 'customer_uid'
 
 
-    @api.model
-    def _default_stage(self):
-        return self.env['crm.states.request'].search([], limit=1, order='sequence').id
-
-    @api.model
-    def _read_group_stage_ids(self, stages, domain, order):
-        return self.env['crm.states.request'].search([])
-
-    state = fields.Many2one('crm.states.request', string='State', default=_default_stage,
-                            track_visibility='always', group_expand='_read_group_stage_ids', store=True)
-
-    sequence = fields.Integer(string='Sequence')
-    customer_uid = fields.Char(string='Customer id', required=True)
-    customer_name = fields.Char(string='Customer name')
-    request = fields.Selection(string='Request', selection=[('rent','Need to rent'),('buy','Need to buy')])
-    customer_number_1 = fields.Char('Phone number 1')
-    customer_number_2 = fields.Char('Phone number 2')
-    customer_number_3 = fields.Char('Phone number 3')
+    customer_uid = fields.Char(string='Mã KH', required=True,track_visibility='always')
     email = fields.Char('Email')
-    financial_capability = fields.Char('Financial capability')
-    zone = fields.Char('Zone')
-    brokerage_specialist = fields.Many2one('res.users','Brokerage specialist', default=lambda self: self.env.user)
-    supporter = fields.Many2one('res.users','Supporter')
-    type_of_real_estate = fields.Selection(string='Types of Real Estate', selection=TYPE_OF_REAL_ESTATE, required=True)
-    direction = fields.Selection(string='Direction',selection=[('w_www','Tây-TTT'),('wn_www','Tây Nam - TTT')])
-    description = fields.Text('Description')
+    financial_capability = fields.Char('Khả năng tài chính',track_visibility='always')
+    zone = fields.Char('Khu vực hoạt động', track_visibility='always')
+    
+    is_show_email = fields.Boolean('Show Email', compute='_compute_show_data')
+
+
+    @api.depends('supporter_with_rule_ids')
+    def _compute_show_data(self):
+        current_user = self.env.user
+        for rec in self:
+            rec.is_brokerage_specialist = False
+            if rec.brokerage_specialist.user_id == current_user \
+                or current_user.has_group('bds.crm_request_manager') \
+                    or current_user.has_group('bds.crm_request_rental_manager') or current_user.has_group('bds.crm_request_sale_manager'):
+                rec.is_brokerage_specialist = True
+            employee_id = rec.supporter_with_rule_ids.filtered(
+                lambda r: r.employee_id.user_id == current_user and r.state == 'approved')
+            rec.is_show_attachment = employee_id.is_show_attachment
+            rec.is_show_email = employee_id.is_show_email
+    
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'crm.request') or '/'
+            vals['sequence'] = int(vals['name'].split('-')[1])
+        res = super().create(vals)
+        return res
+
+    @api.multi
+    def btn_request_rule(self):
+        self.ensure_one()
+        view_id = self.env.ref(
+            'bds.crm_request_request_rule_sheet_view_form_wizard').id
+        return {
+            'name': 'Xin phân quyền',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': view_id,
+            'res_model': 'crm.request.request.rule.sheet',
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'res_id': False,
+        }

@@ -296,7 +296,7 @@
         </record>
 
         <record model="crm.district" id="district_vn_sg_19">
-            <field name="name">Quận Tân Bình</field>
+            <field name="name">Quận Bình Tân</field>
             <field name="country_id" ref="base.vn"/>
             <field name="code">SG-19</field>
             <field name="state_id" ref="bds.state_vn_VN-SG"/>
