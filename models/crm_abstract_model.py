@@ -64,6 +64,30 @@ class CrmAbstractModel(models.AbstractModel):
             ('user_id', '=', self.env.user.id)
         ]).id
 
+    def _check_constrains_phone_number(self):
+        """Kiểm tra 3 số điện thoại của chủ nhà có bị trùng hay không
+
+        Returns:
+            [type] -- [description]
+        """
+        _li_phone_no = [i for i in [self.host_number_1,
+                                    self.host_number_2, self.host_number_3] if i]
+        return len(_li_phone_no) == len(set(_li_phone_no))
+
+    @api.constrains('host_number_1', 'host_number_2', 'host_number_3')
+    def _constrains_phone_number(self):
+        for rec in self:
+            res = rec._check_constrains_phone_number()
+            if not res:
+                raise exceptions.ValidationError(
+                    'Số điện thoại bị trùng. Vui lòng nhập lại')
+
+    @api.onchange('host_number_1', 'host_number_2', 'host_number_3')
+    def _onchange_phone_number(self):
+        res = self._check_constrains_phone_number()
+        if not res:
+            raise exceptions.ValidationError(
+                'Số điện thoại bị trùng. Vui lòng nhập lại')
 
 class CrmRequestRuleAbstractModel(models.AbstractModel):
     _name = 'crm.request.rule.abstract.model'

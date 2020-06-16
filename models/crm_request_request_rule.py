@@ -39,7 +39,7 @@ class CrmRequestRequestRuleSheet(models.Model):
     @api.onchange('employee_id')
     def _onchange_employee_id(self):
         context = self.env.context.copy()
-        if context.get('active_ids',False) and context.get('active_model','') == 'crm.product':
+        if context.get('active_ids',False) and context.get('active_model','') == 'crm.request':
             product_lines = []
             ids = context.get('active_ids')
             for _id in ids:

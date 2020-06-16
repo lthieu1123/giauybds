@@ -56,32 +56,6 @@ class CrmProduct(models.Model):
     
     is_show_map_to_user = fields.Boolean('Hiển Thị bản đồ cho KH', default=False)
     is_show_map = fields.Boolean('Xem bản đồ', compute="_compute_show_data")
-        
-
-    def _check_constrains_phone_number(self):
-        """Kiểm tra 3 số điện thoại của chủ nhà có bị trùng hay không
-
-        Returns:
-            [type] -- [description]
-        """
-        _li_phone_no = [i for i in [self.host_number_1,
-                                    self.host_number_2, self.host_number_3] if i]
-        return len(_li_phone_no) == len(set(_li_phone_no))
-
-    @api.constrains('host_number_1', 'host_number_2', 'host_number_3')
-    def _constrains_phone_number(self):
-        for rec in self:
-            res = rec._check_constrains_phone_number()
-            if not res:
-                raise exceptions.ValidationError(
-                    'Số điện thoại bị trùng. Vui lòng nhập lại')
-
-    @api.onchange('host_number_1', 'host_number_2', 'host_number_3')
-    def _onchange_phone_number(self):
-        res = self._check_constrains_phone_number()
-        if not res:
-            raise exceptions.ValidationError(
-                'Số điện thoại bị trùng. Vui lòng nhập lại')
 
     @api.depends('supporter_with_rule_ids')
     def _compute_show_data(self):

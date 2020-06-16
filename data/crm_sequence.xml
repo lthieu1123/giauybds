@@ -29,8 +29,8 @@
         <!-- CRM REQUEST -->
 
         <record id="seq_crm_request_sequence" model="ir.sequence">
-            <field name="name">CRM Product</field>
-            <field name="code">crm.product</field>
+            <field name="name">CRM Request</field>
+            <field name="code">crm.request</field>
             <field name="prefix">YC-</field>
             <field name="padding">5</field>
             <field name="company_id" eval="False"/>

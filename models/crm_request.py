@@ -54,7 +54,6 @@ class CrmRequest(models.Model):
         if vals.get('name', 'New') == 'New':
             vals['name'] = self.env['ir.sequence'].next_by_code(
                 'crm.request') or '/'
-            vals['sequence'] = int(vals['name'].split('-')[1])
         res = super().create(vals)
         return res
 
