@@ -94,7 +94,7 @@ class CrmProductReuqestRuleSheet(models.Model):
         ])
         for user in user_ids:
             mess = BODY_MSG.format(user.partner_id.id,user.partner_id.id,user.partner_id.name,"Vui lòng duyệt yêu cầu")
-            self.message_post(body=mess,message_type="comment")
+            self.message_post(body=mess,message_type="comment",partner_ids=[user.partner_id.id])
 
     def send_notification_approve(self):
         user = self.employee_id.user_id
