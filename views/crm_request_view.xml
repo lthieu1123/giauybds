@@ -45,8 +45,8 @@
                         <group col="3">
                             <group string="Thông tin chung">
                             <!-- Add your fields here -->
-                                
-                                <field name="requirement"/>
+                                <field name="readonly_requirement" invisible="1"/>
+                                <field name="requirement" attrs="{'readonly': [('readonly_requirement','=',True)]}" force_save="1"/>
                                 <field name="type_of_real_estate"/>
                             </group>
                             <group string="Thông tin hồ sơ">

@@ -85,3 +85,8 @@ CARDINAL_DIRECTION = [
     (CN_DTT, 'Chính Nam - DTT'),
     (DN_DTT, 'Đông Nam - DTT')
 ]
+
+###############################
+#MESSAGES
+###############################
+BODY_MSG = """<span><a href="http://localhost/web#model=res.partner&amp;id={0}" class="o_mail_redirect" data-oe-id="{1}" data-oe-model="res.partner" target="_blank">@{2}</a>{3}</span>"""

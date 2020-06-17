@@ -78,8 +78,32 @@ class CrmProductReuqestRuleSheet(models.Model):
             'requirement': crm_product_id.requirement,
         }
     
+    def send_notification_request(self):
+        requirement = self.requirement
+        groups_id = []
+        if requirement == 'sale':
+            groups_id.append(self.env.ref('bds.crm_product_change_rule_user').id)
+            groups_id.append(self.env.ref('bds.crm_product_sale_manager').id)
+            groups_id.append(self.env.ref('bds.crm_product_manager').id)
+        else:
+            groups_id.append(self.env.ref('bds.crm_product_change_rule_user').id)
+            groups_id.append(self.env.ref('bds.crm_product_rental_manager').id)
+            groups_id.append(self.env.ref('bds.crm_product_manager').id)
+        user_ids = self.env['res.users'].search([
+            ('groups_id','in',groups_id)
+        ])
+        for user in user_ids:
+            mess = BODY_MSG.format(user.partner_id.id,user.partner_id.id,user.partner_id.name,"Vui lòng duyệt yêu cầu")
+            self.message_post(body=mess,message_type="comment")
+
+    def send_notification_approve(self):
+        user = self.employee_id.user_id
+        mess = BODY_MSG.format(user.partner_id.id,user.partner_id.id,user.partner_id.name,"Đã duyệt")
+        self.message_post(body=mess)
+
     @api.multi
     def btn_save(self):
+        self.send_notification_request()
         context = self.env.context.copy()
         context['default_message'] = 'Yêu cầu phân quyền đã được gửi. Vui lòng chờ phản hồi từ cấp cao hơn'
         return {
@@ -115,6 +139,7 @@ class CrmProductReuqestRuleSheet(models.Model):
                 'approved_date': datetime.now(),
                 'approver': self.env.user.employee_ids.ids[0]
             })
+        self.send_notification_approve()
                
 
     @api.multi

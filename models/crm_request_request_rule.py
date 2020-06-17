@@ -47,6 +47,24 @@ class CrmRequestRequestRuleSheet(models.Model):
                 product_lines.append((0, 0, crm_request_line_value))
             self.crm_request_line_ids = product_lines
 
+    def send_notification_request(self):
+        requirement = self.requirement
+        groups_id = []
+        if requirement == 'sale':
+            groups_id.append(self.env.ref('bds.crm_request_change_rule_user').id)
+            groups_id.append(self.env.ref('bds.crm_request_sale_manager').id)
+            groups_id.append(self.env.ref('bds.crm_request_manager').id)
+        else:
+            groups_id.append(self.env.ref('bds.crm_request_change_rule_user').id)
+            groups_id.append(self.env.ref('bds.crm_request_rental_manager').id)
+            groups_id.append(self.env.ref('bds.crm_request_manager').id)
+        user_ids = self.env['res.users'].search([
+            ('groups_id','in',groups_id)
+        ])
+        for user in user_ids:
+            mess = BODY_MSG.format(user.partner_id.id,user.partner_id.id,user.partner_id.name,"Vui lòng duyệt yêu cầu")
+            self.message_post(body=mess,message_type="comment")
+
     @api.multi
     def btn_approve(self):
         self.ensure_one()
@@ -69,6 +87,7 @@ class CrmRequestRequestRuleSheet(models.Model):
                 'approved_date': datetime.now(),
                 'approver': self.env.user.employee_ids.ids[0]
             })
+        self.send_notification_approve()
                
 
     @api.model
