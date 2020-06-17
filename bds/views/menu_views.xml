@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <!-- This Menu Item will appear in the Upper bar, that's why It needs NO parent or action -->
+        <menuitem id="crm_product_menu_root" name="CRM Product" sequence="2"/>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="crm_product_menu_act" name="CRM Product" parent="crm_product_menu_root" action="crm_product_action" sequence="1"/>
+        <menuitem id="crm_product_request_rule_menu_act" name="Yêu cầu phân quyền" parent="crm_product_menu_root" action="crm_product_request_rule_action" sequence="2"/>
+        <menuitem id="crm_product_request_rule_sheet_menu_act" name="Tổng hợp yêu cầu phân quyền" parent="crm_product_menu_root" action="crm_product_request_rule_sheet_action" sequence="3"/>
+        <menuitem id="crm_product_setting_menu" name="Thiết lập" parent="crm_product_menu_root" sequence="4"/>
+            <menuitem id="crm_setting_district" name="Thiết lập Quận/Huyện" parent="crm_product_setting_menu" action="crm_district_action" sequence="1"/>
+            <menuitem id="crm_setting_ward" name="Thiết lập Phường/Xã" parent="crm_product_setting_menu" action="crm_ward_action" sequence="2"/>
+            <menuitem id="crm_setting_street" name="Thiết lập Đường" parent="crm_product_setting_menu" action="crm_street_action" sequence="3"/>
+
+        <!--CRM REQUEST  -->
+        <menuitem id="crm_request_menu_root" name="CRM Request" sequence="3"/>
+        <menuitem id="crm_request_menu_act" name="CRM Request" parent="crm_request_menu_root" action="crm_request_action" sequence="1"/>
+        <menuitem id="crm_request_request_rule_menu_act" name="Yêu cầu phân quyền" parent="crm_request_menu_root" action="crm_request_request_rule_action" sequence="2"/>
+        <menuitem id="crm_request_request_rule_sheet_menu_act" name="Tổng hợp yêu cầu phân quyền" parent="crm_request_menu_root" action="crm_request_request_rule_sheet_action" sequence="3"/>
+        <menuitem id="crm_request_setting_menu" name="Thiết lập" parent="crm_request_menu_root" sequence="4"/>
+            <menuitem id="crm_setting_district" name="Thiết lập Quận/Huyện" parent="crm_request_setting_menu" action="crm_district_action" sequence="1"/>
+            <menuitem id="crm_setting_ward" name="Thiết lập Phường/Xã" parent="crm_request_setting_menu" action="crm_ward_action" sequence="2"/>
+            <menuitem id="crm_setting_street" name="Thiết lập Đường" parent="crm_request_setting_menu" action="crm_street_action" sequence="3"/>
+    </data>
+</odoo>

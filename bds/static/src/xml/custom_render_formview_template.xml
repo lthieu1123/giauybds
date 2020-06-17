@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- declare css && js files -->
+        <template id="assets_backend" name="custom_render_fromview assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <!-- Js path -->
+                <script type="text/javascript" src="/bds/static/src/js/custom_render_formview.js"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

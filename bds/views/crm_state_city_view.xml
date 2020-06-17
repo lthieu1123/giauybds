@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <!-- Add you code here -->
+        <!-- model.name action window -->
+        <record id="crm_district_action" model="ir.actions.act_window">
+            <field name="name">Quận/huyện</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.district</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Tạo thêm các quận/huyện tại đây
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                </p>
+            </field>
+        </record>
+
+        <!-- model.name form view -->
+        <record id="crm_district_view_form" model="ir.ui.view">
+            <field name="name">Quận/Huyện</field>
+            <field name="model">crm.district</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="state_id"/>
+                            <field name="country_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- model.name tree view -->
+        <record id="crm_district_view_tree" model="ir.ui.view">
+            <field name="name">Quận/Huyện</field>
+            <field name="model">crm.district</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="state_id"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Ward -->
+
+        <!-- model.name action window -->
+        <record id="crm_ward_action" model="ir.actions.act_window">
+            <field name="name">Phường/Xã</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.ward</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Tạo mới phường/xã tại đây
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                </p>
+            </field>
+        </record>
+
+        <!-- model.name form view -->
+        <record id="crm_ward_view_form" model="ir.ui.view">
+            <field name="name">Phường/Xã</field>
+            <field name="model">crm.ward</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="country_id"/>
+                            <field name="state_id"/>
+                            <field name="district_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- model.name tree view -->
+        <record id="crm_ward_view_tree" model="ir.ui.view">
+            <field name="name">Phường/Xã</field>
+            <field name="model">crm.ward</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <!-- Add your fields here -->
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                    <field name="district_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- model.name action window -->
+        <record id="crm_street_action" model="ir.actions.act_window">
+            <field name="name">Đường</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.street</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Tạo thêm đường mới tại đây
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                </p>
+            </field>
+        </record>
+        
+
+        <!-- model.name form view -->
+        <record id="crm_street_view_form" model="ir.ui.view">
+            <field name="name">Đường</field>
+            <field name="model">crm.street</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="country_id"/>
+                            <field name="state_id"/>
+                            <field name="district_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- model.name tree view -->
+        <record id="crm_street_view_tree" model="ir.ui.view">
+            <field name="name">Đường</field>
+            <field name="model">crm.street</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <!-- Add your fields here -->
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="country_id"/>
+                    <field name="state_id"/>
+                    <field name="district_id"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

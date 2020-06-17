@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <!-- Add you code here -->
+        <!-- model.name action window -->
+        <record id="crm_product_action" model="ir.actions.act_window">
+            <field name="name">CRM Product</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.product</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    <!-- Add Text Here -->
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                </p>
+            </field>
+        </record>
+
+        <!-- model.name form view -->
+        <record id="crm_product_view_form" model="ir.ui.view">
+            <field name="name">crm.product.view.form</field>
+            <field name="model">crm.product</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="btn_request_rule" type="object" string="Xin phân quyền" class="btn btn-primary"/>
+                        <button name="btn_test_send_message" type="object" string="TEST" class="btn btn-primary"/>
+                        <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" readonly="1" force_save="1"/>
+                        <field name="is_brokerage_specialist" invisible="1"/>
+                        <field name="is_show_attachment" invisible="1"/>
+                        <field name="is_show_house_no" invisible="1"/>
+                        <field name="is_show_map" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <span class="o_form_label">CRM Product</span>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <field name="sequence" attrs="{'invisible': [('sequence','=',0)]}"/>
+                        </div>
+                                
+                                
+                        <group col="3">
+                            <group string="Thông tin chung">
+                            <!-- Add your fields here -->
+                                <field name="readonly_requirement" invisible="1"/>
+                                <field name="requirement" attrs="{'readonly': [('readonly_requirement','=',True)]}" force_save="1"/>
+                                <field name="type_of_real_estate"/>
+                            </group>
+                            <group string="Thông tin hồ sơ">
+                                <field name="brokerage_specialist" required="1"/>
+                                <field name="supporter_ids" widget="many2many_tags"/>
+                                <field name="create_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày đăng ký"/>
+                                <field name="write_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày tương tác"/>
+                            </group>
+                            <group string="Thông tin chủ nhà">
+                                <field name="host_name"/>
+                                <label for="host_number_1" string="Số điện thoại"/>
+                                <div class="bds_show_phone_no">
+                                    <div>
+                                        <field name="host_number_1" widget="phone" class="o_address_city" placeholder="Số ĐT chính..."/>    
+                                    </div>
+                                    <div>
+                                        <field name="host_number_2" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..."/>    
+                                    </div>
+                                    <div>
+                                        <field name="host_number_3" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..."/>    
+                                    </div>
+                                </div>
+                                
+                            </group>
+                        </group>
+                        <div>
+                            <field name="description" placeholder="Diễn giải..." class="bds_show_description"/>
+                        </div>
+                        <notebook>
+                            <page string="Thông tin BĐS">
+                                <group>
+                                    <group>
+                                        <label for="street" string="Địa chỉ"/>
+                                        <div class="o_address_format">
+                                            <field name="house_no" placeholder="Số nhà..." class="o_address_street bds_show_house_no"/>
+                                            <field name="state_id" placeholder="Thành phố/Tỉnh..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="district_id" placeholder="Quận/Huyện..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="ward_no" placeholder="Phường/Xã..." class="o_address_city"/>
+                                            <field name="street" placeholder="Đường..." class="o_address_city"/>
+                                            <field name="country_id" invisible="1" class="o_address_country" options="{&quot;no_open&quot;: True}"/>
+                                        </div>
+                                    </group>
+                                    <group>
+                                        <label for="type_of_road"/>
+                                        <div>
+                                            <field name="type_of_road" class="oe_inline"/>
+                                        </div>
+                                        <label for="horizontal"/>
+                                        <div>
+                                            <field name="horizontal" class="oe_inline"/><![CDATA[&nbsp;]]><span>m</span>
+                                        </div>
+                                        <label for="length"/>
+                                        <div>
+                                            <field name="length" class="oe_inline"/><![CDATA[&nbsp;]]><span>m</span>
+                                        </div>
+                                        <label for="back_expand"/>
+                                        <div>
+                                            <field name="back_expand" class="oe_inline"/><![CDATA[&nbsp;]]><span>m</span>
+                                        </div>
+                                        <field name="number_of_floors" class="oe_inline"/>
+                                        <field name="direction" class="oe_inline"/>
+                                        <label for="usd_price" string="Giá"/>
+                                        <div>
+                                            <field name="usd_price" class="oe_inline"/><![CDATA[&nbsp;]]><span>USD</span>
+                                            <![CDATA[&nbsp;]]>
+                                            <field name="vnd_price" class="oe_inline"/><![CDATA[&nbsp;]]><span>VND</span>
+                                        </div>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Quyền CV chăm sóc">
+                                <field name="supporter_with_rule_ids">
+                                    <tree create="false" edit="false">
+                                        <field name="crm_product_id" invisible="1"/>
+                                        <field name="employee_id"/>
+                                        <field name="is_show_attachment"/>
+                                        <field name="is_show_house_no"/>
+                                        <field name="is_show_map"/>
+                                        <field name="approver"/>
+                                        <field name="approved_date" string="Ngày phân quyền"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="crm_product_id" invisible="1"/>
+                                            <field name="employee_id"/>
+                                            <field name="is_show_attachment"/>
+                                            <field name="is_show_house_no"/>
+                                            <field name="is_show_map"/>
+                                            <field name="approver"/>
+                                            <field name="approved_date" string="Ngày phân quyền"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Nhật ký phân quyền" groups="bds.crm_product_change_rule_user,bds.crm_product_manager">
+                                <field name="supporter_full_ids">
+                                    <tree create="false" delete="false" editable="bottom" default_order="create_date desc" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel,closed'">
+                                        <field name="crm_product_id" invisible="1"/>
+                                        <field name="employee_id" readonly="1"/>
+                                        <field name="is_show_attachment"/>
+                                        <field name="is_show_house_no"/>
+                                        <field name="is_show_map"/>
+                                        <field name="create_date" string="Ngày đăng ký"/>
+                                        <field name="approved_date"/>
+                                        <field name="approver"/>
+                                        <field name="state" readonly="1"/>
+                                        <button name="btn_delete_rule" string="Hủy" type="object" class="btn btn-primary"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="crm_product_id" invisible="1"/>
+                                            <field name="employee_id" readonly="1"/>
+                                            <field name="is_show_attachment"/>
+                                            <field name="is_show_house_no"/>
+                                            <field name="is_show_map"/>
+                                            <field name="create_date" string="Ngày đăng ký"/>
+                                            <field name="approved_date"/>
+                                            <field name="approver"/>
+                                            <field name="state" readonly="1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Bản đồ" class="bds_show_map">
+                                <group>
+                                    <group>
+                                        <field name="is_show_map_to_user"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- model.name tree view -->
+        <record id="crm_product_view_tree" model="ir.ui.view">
+            <field name="name">crm.product.view.tree</field>
+            <field name="model">crm.product</field>
+            <field name="arch" type="xml">
+                <tree default_order="create_date desc">
+                    <!-- Add your fields here -->
+                    <field name="sequence"/>
+                    <field name="name"/>
+                    <field name="requirement"/>
+                    <field name="type_of_real_estate"/>
+                    <field name="brokerage_specialist"/>
+                    <field name="supporter_ids" widget="many2many_tags"/>
+                    <field name="create_date"/>
+                    <field name="write_date"/>
+                    <!-- <field name="description" class="bds_show_description"/>
+                    <field name="house_no" class="bds_show_house_no"/> -->
+                    <field name="ward_no"/>
+                    <field name="street"/>
+                    <field name="state_id"/>
+                    <field name="district_id"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="type_of_road"/>
+                    <field name="horizontal"/>
+                    <field name="length"/>
+                    <field name="back_expand"/>
+                    <field name="number_of_floors"/>
+                    <field name="direction"/>
+                    <field name="usd_price"/>
+                    <field name="usd_price"/>
+                    <field name="host_name"/>
+                    <!-- <field name="host_number_1" class="bds_show_phone_no"/>
+                    <field name="host_number_2" class="bds_show_phone_no"/>
+                    <field name="host_number_3" class="bds_show_phone_no"/> -->
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
