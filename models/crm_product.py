@@ -23,8 +23,10 @@ class CrmProduct(models.Model):
 
     # Address
     house_no = fields.Char('Số nhà')
-    ward_no = fields.Many2one('crm.ward','Phường/Xã', track_visibility='always',domain="[('district_id','=?',district_id)]")
-    street = fields.Many2one('crm.street','Đường', track_visibility='always',domain="[('district_id','=?',district_id)]")
+    ward_no = fields.Many2one('crm.ward', 'Phường/Xã', track_visibility='always',
+                              domain="[('district_id','=?',district_id)]")
+    street = fields.Many2one('crm.street', 'Đường', track_visibility='always',
+                             domain="[('district_id','=?',district_id)]")
     country_id = fields.Many2one('res.country', 'Quốc gia', default=lambda self: self.env.ref(
         'base.vn'), track_visibility='always')
     state_id = fields.Many2one('res.country.state', 'Tỉnh/TP',
@@ -53,9 +55,28 @@ class CrmProduct(models.Model):
                                               readonly=True, force_save=True)
     supporter_full_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='Phân quyền',
                                          groups='bds.crm_product_change_rule_user,bds.crm_product_manager', ondelete='cascade')
-    
-    is_show_map_to_user = fields.Boolean('Hiển Thị bản đồ cho KH', default=False)
+
+    is_show_map_to_user = fields.Boolean(
+        'Hiển Thị bản đồ cho KH', default=False)
     is_show_map = fields.Boolean('Xem bản đồ', compute="_compute_show_data")
+
+    # @api.depends()
+    # def _set_description(self):
+    #     for rec in self:
+    #         description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - Quận {quan}. DT: {ngang} x {dai}. Hướng nhà:{huongnha}. Lối đi: {} '
+
+
+    @api.constrains('house_no', 'street')
+    def _validate_house_no_street(self):
+        for rec in self:
+            count = self.search_count([
+                ('house_no', '=', rec.house_no),
+                ('street', '=', rec.street.id),
+                ('id', '!=', rec.id)
+            ])
+            if count != 0:
+                raise exceptions.ValidationError('Số nhà: {}, đường {}, quận {} đã tồn tại'.format(
+                    rec.house_no, rec.street.name, rec.street.district_id.name))
 
     @api.depends('supporter_with_rule_ids')
     def _compute_show_data(self):
@@ -89,7 +110,7 @@ class CrmProduct(models.Model):
         if vals.get('name', 'New') == 'New':
             vals['name'] = self.env['ir.sequence'].next_by_code(
                 'crm.product') or '/'
-            vals['sequence'] = int(vals['name'].split('-')[1])
+            vals['sequence'] = int(vals['name'][2:])
         res = super().create(vals)
         return res
 

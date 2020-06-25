@@ -7,7 +7,7 @@
 
         <!-- model.name form view -->
         <record id="crm_product_request_rule_sheet_view_form" model="ir.ui.view">
-            <field name="name">Yêu cầu phân quyền</field>
+            <field name="name">Xin cầu phân quyền</field>
             <field name="model">crm.product.request.rule.sheet</field>
             <field name="arch" type="xml">
                 <form create="false">

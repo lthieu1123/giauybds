@@ -19,5 +19,23 @@
                 </form>
             </field>
         </record>
+
+
+        <record id="announcement_change_state" model="ir.ui.view">
+            <field name="name">Thông báo</field>
+            <field name="model">announce</field>
+            <field name="arch" type="xml">
+                <form string="Thành công">
+                    <main>
+                        <field name="name" readonly="1"/>
+                    </main>
+                    <footer>
+                        <field name="active_model" invisible="1"/>
+                        <field name="active_id" invisible="1"/>
+                        <button string="OK" class="btn btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
     </data>
 </odoo>

@@ -3,7 +3,7 @@
 from odoo import api, fields, models
 
 class CrmStatesProduct(models.Model):
-    _name = 'crm.states.product'
+    _name = 'crm.states'
     _description = 'CRM States BDS'
 
     name = fields.Char('State')
@@ -11,17 +11,6 @@ class CrmStatesProduct(models.Model):
     fold = fields.Boolean(string='Folded in Kanban', default=False,
                           help='This stage is folded in the kanban view when there are no records in that stage '
                                'to display.')
-
-class CrmStatesRequest(models.Model):
-    _name = 'crm.states.request'
-    _description = 'CRM States BDS'
-
-    name = fields.Char('State')
-    sequence = fields.Integer(default=1)
-    fold = fields.Boolean(string='Folded in Kanban', default=False,
-                          help='This stage is folded in the kanban view when there are no records in that stage '
-                               'to display.')
-
 
 class CrmCity(models.Model):
     _name = 'crm.district'

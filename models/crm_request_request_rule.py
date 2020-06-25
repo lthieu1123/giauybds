@@ -17,9 +17,9 @@ class CrmReuqestReuqestRule(models.Model):
 
     crm_product_id = fields.Many2one('crm.request','CRM Product',ondelete='cascade')
     crm_request_sheet_id = fields.Many2one('crm.request.request.rule.sheet','Sheet')
-    is_show_attachment = fields.Boolean('Xem hình ảnh', default=False)
-    is_show_house_no = fields.Boolean('Xem số nhà', default=False)
-    is_show_email = fields.Boolean('Xem Email', default=False)
+    is_show_attachment = fields.Boolean('Xem hình ảnh', default=True)
+    is_show_house_no = fields.Boolean('Xem số nhà', default=True)
+    is_show_email = fields.Boolean('Xem Email', default=True)
 
     @api.model
     def create(self, vals):

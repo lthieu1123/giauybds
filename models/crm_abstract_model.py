@@ -17,11 +17,11 @@ class CrmAbstractModel(models.AbstractModel):
 
     @api.model
     def _default_stage(self):
-        return self.env['crm.states.product'].search([], limit=1, order='sequence').id
+        return self.env['crm.states'].search([], limit=1, order='sequence').id
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
-        return self.env['crm.states.product'].search([])
+        return self.env['crm.states'].search([])
 
     def _get_default_requirement(self):
         user = self.env.user
@@ -39,7 +39,7 @@ class CrmAbstractModel(models.AbstractModel):
             return False
     
     readonly_requirement = fields.Boolean('readonly_requirement',compute='_is_readonly_requirement')
-    state = fields.Many2one('crm.states.product', string='Trạng thái', default=_default_stage,
+    state = fields.Many2one('crm.states', string='Trạng thái', default=_default_stage,
                             track_visibility='always', group_expand='_read_group_stage_ids', store=True)
 
     sequence = fields.Integer(string='Số TT', readonly=True,
@@ -114,6 +114,64 @@ class CrmAbstractModel(models.AbstractModel):
             raise exceptions.ValidationError(
                 'Số điện thoại bị trùng. Vui lòng nhập lại')
 
+    def _get_url(self):
+        return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+    
+    def _update_state(self,state_id):
+        self.write({
+            'state': state_id.id
+        })
+        context = self.env.context.copy()
+        context['default_message'] = 'Đã chuyển trạng thái sang: "{}"'.format(state_id.name)
+        view_id = self.env.ref('bds.announcement_change_state').id
+        return {
+            'name': 'Đã chuyển trạng thái',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': view_id,
+            'res_model': 'ecc.approval.role',
+            'context': context,
+            'target': 'new',
+            'type': 'ir.actions.act_window',
+        }
+
+    @api.multi
+    def btn_draft(self):
+        self.ensure_one()
+        state_id = self.env.ref('bds.crm_state_draft')
+        return self._update_state(state_id)
+        
+
+    @api.multi
+    def btn_for_sale(self):
+        self.ensure_one()
+        state_id = self.env.ref('bds.crm_state_open')
+        return self._update_state(state_id)
+
+    @api.multi
+    def btn_stop_sale(self):
+        self.ensure_one()
+        state_id = self.env.ref('bds.crm_state_stop')
+        return self._update_state(state_id)
+
+    @api.multi
+    def btn_pending(self):
+        self.ensure_one()
+        state_id = self.env.ref('bds.crm_state_pending')
+        return self._update_state(state_id)
+
+    @api.multi
+    def btn_trade_completed(self):
+        self.ensure_one()
+        state_id = self.env.ref('bds.crm_state_done')
+        return self._update_state(state_id)
+
+    @api.multi
+    def btn_ontrade(self):
+        self.ensure_one()
+        state_id = self.env.ref('bds.crm_state_ongoing')
+        return self._update_state(state_id)
+
 
 class CrmRequestRuleAbstractModel(models.AbstractModel):
     _name = 'crm.request.rule.abstract.model'
@@ -130,3 +188,7 @@ class CrmRequestRuleAbstractModel(models.AbstractModel):
     state = fields.Selection(string='Trạng thái', selection=[('draft', 'Chưa duyệt'), (
         'approved', 'Đã duyệt'), ('cancel', 'Từ chối'), ('closed', 'Đóng')], default="draft")
     approved_date = fields.Datetime(string='Ngày duyệt')
+
+    
+    
+    

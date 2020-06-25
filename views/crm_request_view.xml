@@ -56,7 +56,7 @@
                                 <field name="write_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày tương tác"/>
                             </group>
                             <group string="Thông tin chủ nhà">
-                                <field name="customer_uid"/>
+                                <field name="customer_uid" attrs="{'invisible': [('write_date','=',False)]}"/>
                                 <field name="host_name" string="Tên khách hàng"/>
                                 <field name="financial_capability"/>
                                 <field name="zone"/>

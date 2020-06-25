@@ -18,9 +18,9 @@ class CrmProductReuqestRule(models.Model):
     
     crm_product_id = fields.Many2one('crm.product','CRM Product',ondelete='cascade')
     crm_request_sheet_id = fields.Many2one('crm.product.request.rule.sheet','Sheet')
-    is_show_attachment = fields.Boolean('Xem hình ảnh', default=False)
-    is_show_house_no = fields.Boolean('Xem số nhà', default=False)
-    is_show_map = fields.Boolean('Xem bản đồ', default=False)
+    is_show_attachment = fields.Boolean('Xem hình ảnh', default=True)
+    is_show_house_no = fields.Boolean('Xem số nhà', default=True)
+    is_show_map = fields.Boolean('Xem bản đồ', default=True)
     
     @api.model
     def create(self, vals):
@@ -40,6 +40,9 @@ class CrmProductReuqestRuleSheet(models.Model):
     crm_request_line_ids = fields.One2many(comodel_name='crm.product.request.rule',inverse_name="crm_request_sheet_id",string='CV chăm sóc')
     state = fields.Selection(string='Trạng thái', selection=[('draft','Chưa duyệt'),('approved','Đã duyệt'),('cancel','Từ chối')], default="draft")
     requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cho thuê'),('sale','Cần bán')], compute='_set_requirement')
+
+    def _get_url(self):
+        return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
 
     @api.depends('crm_request_line_ids')
     def _set_requirement(self):
@@ -93,12 +96,12 @@ class CrmProductReuqestRuleSheet(models.Model):
             ('groups_id','in',groups_id)
         ])
         for user in user_ids:
-            mess = BODY_MSG.format(user.partner_id.id,user.partner_id.id,user.partner_id.name,"Vui lòng duyệt yêu cầu")
+            mess = BODY_MSG.format(self._get_url(),user.partner_id.id,user.partner_id.id,user.partner_id.name,"Vui lòng duyệt yêu cầu")
             self.message_post(body=mess,message_type="comment",partner_ids=[user.partner_id.id])
 
     def send_notification_approve(self):
         user = self.employee_id.user_id
-        mess = BODY_MSG.format(user.partner_id.id,user.partner_id.id,user.partner_id.name,"Đã duyệt")
+        mess = BODY_MSG.format(self._get_url(),user.partner_id.id,user.partner_id.id,user.partner_id.name,"Đã duyệt")
         self.message_post(body=mess)
 
     @api.multi

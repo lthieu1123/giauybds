@@ -5,24 +5,24 @@
         <record id="seq_crm_product_sequence" model="ir.sequence">
             <field name="name">CRM Product</field>
             <field name="code">crm.product</field>
-            <field name="prefix">SP-</field>
-            <field name="padding">5</field>
+            <field name="prefix">SP</field>
+            <field name="padding">6</field>
             <field name="company_id" eval="False"/>
         </record>
 
         <record id="crm_product_request_rule_sequence" model="ir.sequence">
             <field name="name">CRM Product Request Rule</field>
             <field name="code">crm.product.request.rule</field>
-            <field name="prefix">CRMPR-</field>
-            <field name="padding">5</field>
+            <field name="prefix">PQSP-</field>
+            <field name="padding">6</field>
             <field name="company_id" eval="False"/>
         </record>
 
         <record id="crm_product_request_rule_sheet_sequence" model="ir.sequence">
             <field name="name">CRM Product Request Rule Sheet</field>
             <field name="code">crm.product.request.rule.sheet</field>
-            <field name="prefix">CRMPRS-</field>
-            <field name="padding">5</field>
+            <field name="prefix">Xin Phân Quyền SP-</field>
+            <field name="padding">6</field>
             <field name="company_id" eval="False"/>
         </record>
 
@@ -31,24 +31,24 @@
         <record id="seq_crm_request_sequence" model="ir.sequence">
             <field name="name">CRM Request</field>
             <field name="code">crm.request</field>
-            <field name="prefix">YC-</field>
-            <field name="padding">5</field>
+            <field name="prefix">KH</field>
+            <field name="padding">6</field>
             <field name="company_id" eval="False"/>
         </record>
 
         <record id="crm_request_request_rule_sequence" model="ir.sequence">
             <field name="name">CRM Request Request Rule</field>
             <field name="code">crm.request.request.rule</field>
-            <field name="prefix">CRMRR-</field>
-            <field name="padding">5</field>
+            <field name="prefix">PQKH-</field>
+            <field name="padding">6</field>
             <field name="company_id" eval="False"/>
         </record>
 
         <record id="crm_request_request_rule_sheet_sequence" model="ir.sequence">
             <field name="name">CRM Request Request Rule Sheet</field>
             <field name="code">crm.request.request.rule.sheet</field>
-            <field name="prefix">CRMRRS-</field>
-            <field name="padding">5</field>
+            <field name="prefix">Xin Phân Quyền KH-</field>
+            <field name="padding">6</field>
             <field name="company_id" eval="False"/>
         </record>
         

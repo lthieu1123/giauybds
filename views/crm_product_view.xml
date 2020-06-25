@@ -26,7 +26,6 @@
                 <form>
                     <header>
                         <button name="btn_request_rule" type="object" string="Xin phân quyền" class="btn btn-primary"/>
-                        <button name="btn_test_send_message" type="object" string="TEST" class="btn btn-primary"/>
                         <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" readonly="1" force_save="1"/>
                         <field name="is_brokerage_specialist" invisible="1"/>
                         <field name="is_show_attachment" invisible="1"/>

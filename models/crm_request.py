@@ -22,7 +22,7 @@ class CrmRequest(models.Model):
 
     name = fields.Char(string='Số đăng ký', default='New',
                        readonly=True, force_save=True, track_visibility='always')
-    customer_uid = fields.Char(string='Mã KH', required=True,track_visibility='always')
+    customer_uid = fields.Char(string='Mã KH', required=True,track_visibility='always',compute='_set_customer_uid',store=True)
     email = fields.Char('Email')
     financial_capability = fields.Char('Khả năng tài chính',track_visibility='always')
     zone = fields.Char('Khu vực hoạt động', track_visibility='always')
@@ -33,6 +33,12 @@ class CrmRequest(models.Model):
                                               readonly=True, force_save=True)
     supporter_full_ids = fields.One2many(comodel_name='crm.request.request.rule', inverse_name="crm_product_id", string='Phân quyền',
                                          groups='bds.crm_request_change_rule_user,bds.crm_request_manager', ondelete='cascade')
+    
+
+    @api.depends('name')
+    def _set_customer_uid(self):
+        for rec in self:
+            rec.customer_uid = rec.name
 
 
     @api.depends('supporter_with_rule_ids')

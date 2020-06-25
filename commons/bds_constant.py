@@ -89,4 +89,9 @@ CARDINAL_DIRECTION = [
 ###############################
 #MESSAGES
 ###############################
-BODY_MSG = """<span><a href="http://localhost/web#model=res.partner&amp;id={0}" class="o_mail_redirect" data-oe-id="{1}" data-oe-model="res.partner" target="_blank">@{2}</a>{3}</span>"""
+#0: url
+#1: partner_id
+#2: partner_id
+#3: partner_name
+#4: message
+BODY_MSG = """<span><a href="{0}/web#model=res.partner&amp;id={1}" class="o_mail_redirect" data-oe-id="{2}" data-oe-model="res.partner" target="_blank">@{3}</a>{4}</span>"""
