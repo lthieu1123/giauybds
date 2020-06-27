@@ -46,14 +46,17 @@ class CrmRequest(models.Model):
         current_user = self.env.user
         for rec in self:
             rec.is_brokerage_specialist = False
-            if rec.brokerage_specialist.user_id == current_user \
-                or current_user.has_group('bds.crm_request_manager') \
+            if current_user.has_group('bds.crm_request_manager') \
                     or current_user.has_group('bds.crm_request_rental_manager') or current_user.has_group('bds.crm_request_sale_manager'):
                 rec.is_brokerage_specialist = True
-            employee_id = rec.supporter_with_rule_ids.filtered(
-                lambda r: r.employee_id.user_id == current_user and r.state == 'approved')
-            rec.is_show_attachment = employee_id.is_show_attachment
-            rec.is_show_email = employee_id.is_show_email
+            elif current_user.has_group('bds.crm_request_sale_user_view_all') or current_user.has_group('bds.crm_request_rental_user_view_all'):
+                rec.is_show_attachment = True
+                rec.is_show_email = True
+            else:
+                employee_id = rec.supporter_with_rule_ids.filtered(
+                    lambda r: r.employee_id.user_id == current_user and r.state == 'approved')
+                rec.is_show_attachment = employee_id.is_show_attachment
+                rec.is_show_email = employee_id.is_show_email
     
     @api.model
     def create(self, vals):

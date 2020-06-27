@@ -83,8 +83,7 @@ class CrmProduct(models.Model):
         current_user = self.env.user
         for rec in self:
             rec.is_brokerage_specialist = False
-            if rec.brokerage_specialist.user_id == current_user \
-                or current_user.has_group('bds.crm_product_manager') \
+            if current_user.has_group('bds.crm_product_manager') \
                     or current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_sale_manager'):
                 rec.is_brokerage_specialist = True
             employee_id = rec.supporter_with_rule_ids.filtered(
