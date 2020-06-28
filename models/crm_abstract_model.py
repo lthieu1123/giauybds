@@ -51,7 +51,7 @@ class CrmAbstractModel(models.AbstractModel):
         string='Loại BĐS', selection=TYPE_OF_REAL_ESTATE, required=True, track_visibility='always')
     direction = fields.Selection(
         string='Hướng', selection=CARDINAL_DIRECTION, track_visibility='always')
-    description = fields.Text('Diễn giải')
+    description = fields.Text('Diễn giải',compute='_set_description',store=True)
 
     host_name = fields.Char('Tên chủ', track_visibility='always')
     host_number_1 = fields.Char('Số ĐT 1')
@@ -91,6 +91,9 @@ class CrmAbstractModel(models.AbstractModel):
                 rec.readonly_requirement = False
 
     def _is_manager(self):
+        pass
+
+    def _set_description(self):
         pass
 
     def _compute_show_data(self):

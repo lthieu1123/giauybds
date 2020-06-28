@@ -49,9 +49,8 @@ class CrmRequest(models.Model):
     source = fields.Char('Nguồn')
     potential_evaluation = fields.Char('Đánh giá tiềm năng')
 
-    
-    
 
+    @api.depends('partner_kd','potential_evaluation','note','source','type_of_real_estate','type_of_road','zone','business_demand','way','rental_price','dientich','min_horizontal','parking_lot')
     def _set_description(self):
         description = 'Khách hàng cần thuê {loaibds}  - {loaiduong} - {khuvuc}, nhu cầu kinh doanh: {nckd}. Tập trung tuyến đường {way}. \
             Giá thuê dao động: {gia}.Cần diện tích dao động: {dientich} - Ngang tối thiểu: {min}, Cần chỗ để xe khoảng: {dexe}. \

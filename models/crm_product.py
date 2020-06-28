@@ -74,6 +74,7 @@ class CrmProduct(models.Model):
     potential_evaluation = fields.Char('Đánh giá tiềm năng')
 
     
+    @api.depends('rental_price','note','tip','potential_evaluation','source','adv','location','current_status','convenient','business_restrictions','requirement','type_of_real_estate','type_of_road','street','ward_no','district_id','horizontal','length','direction','way')
     def _set_description(self):
         description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - Quận {quan}. \
                     DT: {ngang} x {dai}. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. \
