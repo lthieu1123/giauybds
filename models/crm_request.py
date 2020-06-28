@@ -22,10 +22,13 @@ class CrmRequest(models.Model):
 
     name = fields.Char(string='Số đăng ký', default='New',
                        readonly=True, force_save=True, track_visibility='always')
-    customer_uid = fields.Char(string='Mã KH', required=True,track_visibility='always',compute='_set_customer_uid',store=True)
+    customer_uid = fields.Char(string='Mã KH',track_visibility='always',compute='_set_customer_uid',store=True)
     email = fields.Char('Email')
-    financial_capability = fields.Char('Khả năng tài chính',track_visibility='always')
+    financial_capability = fields.Float('Khả năng tài chính', digits=dp.get_precision(
+        'Product Price'), track_visibility='always')
+    currency = fields.Selection(string='Tiền tệ',selection=[('usd','$'),('mil','Triệu'),('bil','Tỷ')])
     zone = fields.Char('Khu vực hoạt động', track_visibility='always')
+    business_demand = fields.Selection(string='Nhu cầu KD',selection=NCKD)
     
     is_show_email = fields.Boolean('Show Email', compute='_compute_show_data')
     supporter_with_rule_ids = fields.One2many(comodel_name='crm.request.request.rule', inverse_name="crm_product_id", string='CV chăm sóc và phân quyền', track_visibility='always',
@@ -34,6 +37,39 @@ class CrmRequest(models.Model):
     supporter_full_ids = fields.One2many(comodel_name='crm.request.request.rule', inverse_name="crm_product_id", string='Phân quyền',
                                          groups='bds.crm_request_change_rule_user,bds.crm_request_manager', ondelete='cascade')
     
+
+    #Field for description
+    way = fields.Char('Tập trung tuyến đường')
+    rental_price = fields.Char('Giá cho thuê',)
+    dientich = fields.Char('Diện tích dao động')
+    min_horizontal = fields.Char('Ngang tối thiểu')
+    parking_lot = fields.Char('Chỗ để xe')
+    partner_kd = fields.Char('Chủ KD hiện tại')
+    note = fields.Text('Ghi chú')
+    source = fields.Char('Nguồn')
+    potential_evaluation = fields.Char('Đánh giá tiềm năng')
+
+    
+    
+
+    def _set_description(self):
+        description = 'Khách hàng cần thuê {loaibds}  - {loaiduong} - {khuvuc}, nhu cầu kinh doanh: {nckd}. Tập trung tuyến đường {way}. \
+            Giá thuê dao động: {gia}.Cần diện tích dao động: {dientich} - Ngang tối thiểu: {min}, Cần chỗ để xe khoảng: {dexe}. \
+            Hiện đang là chủ kinh doanh: {ckd}. Đánh giá mức độ tiềm năng: {danhgia}. Ghi chú: {note}. Nguồn: {nguon}'
+        description = description.format(loaibds=self.type_of_real_estate, loaiduong=self.type_of_road, khuvuc=self.zone,nckd=self.business_demand,\
+            way=self.way,gia=self.rental_price,dientich=self.dientich, min=self.min_horizontal, dexe=self.parking_lot,\
+                ckd=self.partner_kd,danhgia=self.potential_evaluation,note=self.note,nguon=self.source)
+        return description
+
+    @api.depends('name')
+    def _is_manager(self):
+        current_user = self.env.user
+        for rec in self:
+            is_manager = False
+            if current_user.has_group('bds.crm_request_manager') \
+            or current_user.has_group('bds.crm_request_rental_manager') or current_user.has_group('bds.crm_request_sale_manager'):
+                is_manager = True
+            rec.is_manager = is_manager
 
     @api.depends('name')
     def _set_customer_uid(self):
@@ -49,7 +85,9 @@ class CrmRequest(models.Model):
             if current_user.has_group('bds.crm_request_manager') \
                     or current_user.has_group('bds.crm_request_rental_manager') or current_user.has_group('bds.crm_request_sale_manager'):
                 rec.is_brokerage_specialist = True
-            elif current_user.has_group('bds.crm_request_sale_user_view_all') or current_user.has_group('bds.crm_request_rental_user_view_all'):
+            elif rec.brokerage_specialist.user_id == current_user \
+                or current_user.has_group('bds.crm_request_sale_user_view_all')\
+                     or current_user.has_group('bds.crm_request_rental_user_view_all'):
                 rec.is_show_attachment = True
                 rec.is_show_email = True
             else:
@@ -60,10 +98,12 @@ class CrmRequest(models.Model):
     
     @api.model
     def create(self, vals):
-        if vals.get('name', 'New') == 'New':
+        if vals.get('name', 'New') != '':
             vals['name'] = self.env['ir.sequence'].next_by_code(
                 'crm.request') or '/'
         res = super().create(vals)
+        description = res._set_description()
+        res['description'] = description
         return res
 
     @api.multi

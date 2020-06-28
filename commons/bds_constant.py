@@ -86,12 +86,64 @@ CARDINAL_DIRECTION = [
     (DN_DTT, 'Đông Nam - DTT')
 ]
 
-###############################
-#MESSAGES
-###############################
-#0: url
-#1: partner_id
-#2: partner_id
-#3: partner_name
-#4: message
-BODY_MSG = """<span><a href="{0}/web#model=res.partner&amp;id={1}" class="o_mail_redirect" data-oe-id="{2}" data-oe-model="res.partner" target="_blank">@{3}</a>{4}</span>"""
+######################################
+# NHU CAU KINH DOANH
+######################################
+SHOP = 'shop'
+CUA_HANG = 'cua_hang'
+PHONG_GYM = 'phong_gym'
+PHONG_KHAM = 'phong_kham'
+PHONG_GAME = 'phong_game'
+TRUONG_HOC = 'truong_hoc'
+RAP_CHIEU_PHIM = 'rap_chieu_phim'
+KHO = 'kho'
+CAN_HO = 'can_ho'
+PHONG_TRO = 'phong_tro'
+KS = 'ks'
+HT = 'ht'
+NHA_HANG = 'nha_hang'
+QUAN_AN = 'quan_an'
+CAFE = 'cafe'
+NGAN_HANG = 'ngan_hang'
+SPA = 'spa'
+SHOWROOM = 'showroom'
+PHONG_XAM = 'phong_xam'
+NHA_SACH = 'nha_sach'
+SALON = 'salon'
+BIDA = 'bida'
+SIEU_THI = 'sieu_thi'
+VAN_PHONG = 'van_phong'
+BAR = 'bar'
+THUOC_TAY = 'thuoc_tay'
+
+NCKD = [
+    (SHOP, 'SHOP'),
+    (CUA_HANG, 'CỬA HÀNG'),
+    (PHONG_GYM, 'PHÒNG GYM'),
+    (PHONG_KHAM, 'PHÒNG KHÁM'),
+    (PHONG_GAME, 'PHÒNG GAME'),
+    (TRUONG_HOC, 'TRƯỜNG HỌC'),
+    (RAP_CHIEU_PHIM, 'RẠP CHIẾU PHIM'),
+    (KHO, 'KHO'),
+    (CAN_HO, 'CĂN HỘ'),
+    (PHONG_TRO, 'PHÒNG TRỌ'),
+    (KS, 'KS'),
+    (HT, 'HT'),
+    (NHA_HANG, 'NHÀ HÀNG'),
+    (QUAN_AN, 'QUÁN ĂN'),
+    (CAFE, 'CAFÉ'),
+    (NGAN_HANG, 'NGÂN HÀNG'),
+    (SPA, 'SPA'),
+    (SHOWROOM, 'SHOWROOM'),
+    (PHONG_XAM, 'PHÒNG XĂM'),
+    (NHA_SACH, 'NHÀ SÁCH'),
+    (SALON, 'SALON'),
+    (BIDA, 'BIDA'),
+    (SIEU_THI, 'SIÊU THỊ'),
+    (VAN_PHONG, 'VĂN PHÒNG'),
+    (BAR, 'BAR'),
+    (THUOC_TAY, 'THUỐC TÂY')
+]
+
+
+BODY_MSG = """<span><a href="{0}/web#model=res.partner&amp;id={1}" class="o_mail_redirect" data-oe-id="{2}" data-oe-model="res.partner" target="_blank">@{3}</a>{4}</span>""" 

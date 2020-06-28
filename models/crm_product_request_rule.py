@@ -82,10 +82,12 @@ class CrmProductReuqestRuleSheet(models.Model):
             'employee_id': self.employee_id.id,
             'crm_product_id': crm_product_id.id,
             'requirement': crm_product_id.requirement,
+            'is_show_attachment': True,
+            'is_show_house_no': True,
+            'is_show_map': True
         }
     
     def send_notification_request(self):
-        print('send_notification_request')
         requirement = self.requirement
         groups_id = []
         if requirement == 'sale':
@@ -108,7 +110,7 @@ class CrmProductReuqestRuleSheet(models.Model):
         })
             
 
-    def send_notification_approve(self):
+    def make_action_done(self):
         for mail in self.mail_ids:
             mail.action_done()
 
@@ -131,10 +133,11 @@ class CrmProductReuqestRuleSheet(models.Model):
     @api.multi
     def btn_approve(self):
         self.ensure_one()
+        approver = self.env.user.employee_ids[0]
         self.update({
             'state': 'approved',
             'approved_date': datetime.now(),
-            'approver': self.env.user.employee_ids.ids[0]
+            'approver': approver.id
         })
         request_rule = self.env['crm.product.request.rule']
         for line in self.crm_request_line_ids:
@@ -150,9 +153,10 @@ class CrmProductReuqestRuleSheet(models.Model):
             line.write({
                 'state':'approved',
                 'approved_date': datetime.now(),
-                'approver': self.env.user.employee_ids.ids[0]
+                'approver': approver.id
             })
-        self.send_notification_approve()
+        self.make_action_done()
+        self.send_notification('Đã duyệt bởi: {}'.format(approver.name))
                
     def _remove_mail_activity(self):
         for mail in self.mail_ids:
@@ -160,17 +164,19 @@ class CrmProductReuqestRuleSheet(models.Model):
 
     @api.multi
     def btn_reject(self):
+        approver = self.env.user.employee_ids[0]
         self.write({
             'state':'cancel',
             'approved_date': datetime.now(),
-            'approver': self.env.user.employee_ids.ids[0]
+            'approver': approver.id
         })
         self.crm_request_line_ids.write({
             'state':'cancel',
             'approved_date': datetime.now(),
-            'approver': self.env.user.employee_ids.ids[0]
+            'approver': approver.id
         })
         self._remove_mail_activity()
+        self.send_notification('Từ chối bởi: {}'.format(approver.name))
 
     @api.model
     def create(self, vals):
@@ -179,10 +185,8 @@ class CrmProductReuqestRuleSheet(models.Model):
             vals['sequence'] = int(vals['name'].split('-')[1])
         res = super().create(vals)
         return res
-    
 
     def _create_email_activity(self,user_id):
-        print('_create_email_activity')
         model_id = self.env['ir.model'].search(
             [('model', '=', self._name)]).id
         activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
@@ -201,3 +205,12 @@ class CrmProductReuqestRuleSheet(models.Model):
         }
         res = self.env['mail.activity'].create(vals)
         return res
+    
+    def _get_url(self):
+        return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+
+    def send_notification(self,msg):
+        user = self.employee_id.user_id
+        message = BODY_MSG.format(self._get_url(),user.partner_id.id,user.partner_id.id,user.partner_id.name,msg)
+        self.message_post(body=message,message_type="comment",partner_ids=[user.partner_id.id])
+

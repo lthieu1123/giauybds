@@ -46,6 +46,16 @@ class CrmRequestRequestRuleSheet(models.Model):
                 crm_request_line_value = self._prepare_crm_request_line(self.env['crm.request'].browse(_id))
                 product_lines.append((0, 0, crm_request_line_value))
             self.crm_request_line_ids = product_lines
+    
+    def _prepare_crm_request_line(self,crm_product_id):
+        return {
+            'employee_id': self.employee_id.id,
+            'crm_product_id': crm_product_id.id,
+            'requirement': crm_product_id.requirement,
+            'is_show_attachment': True,
+            'is_show_house_no': True,
+            'is_show_email': True
+        }
 
     def send_notification_request(self):
         requirement = self.requirement
@@ -61,15 +71,22 @@ class CrmRequestRequestRuleSheet(models.Model):
         user_ids = self.env['res.users'].search([
             ('groups_id','in',groups_id)
         ])
+        mail_ids = []
         for user in user_ids:
-            mess = BODY_MSG.format(user.partner_id.id,user.partner_id.id,user.partner_id.name,"Vui lòng duyệt yêu cầu")
-            self.message_post(body=mess,message_type="comment")
+            res = self._create_email_activity(user)
+            mail_ids.append(res.id)
+        self.update({
+            'mail_ids': [(6,0,mail_ids)]
+        })
 
     @api.multi
     def btn_approve(self):
         self.ensure_one()
+        approver = self.env.user.employee_ids[0]
         self.update({
-            'state': 'approved'
+            'state': 'approved',
+            'approved_date': datetime.now(),
+            'approver': approver.id
         })
         request_rule = self.env['crm.request.request.rule']
         for line in self.crm_request_line_ids:
@@ -85,9 +102,10 @@ class CrmRequestRequestRuleSheet(models.Model):
             line.write({
                 'state':'approved',
                 'approved_date': datetime.now(),
-                'approver': self.env.user.employee_ids.ids[0]
+                'approver': approver.id
             })
-        self.send_notification_approve()
+        self.make_action_done()
+        self.send_notification('Đã duyệt bởi: {}'.format(approver.name))
                
 
     @api.model

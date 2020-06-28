@@ -13,7 +13,6 @@
                     <field name="requirement"/>
                     <field name="brokerage_specialist"/>
                     <field name="supporter_ids"/>
-                    <field name="financial_capability"/>
                     <field name="zone"/>
                     <separator/>
                     <filter name="state_draft" string="Chưa duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
@@ -34,14 +33,16 @@
 
         <!-- model.name action window -->
         <record id="crm_request_action" model="ir.actions.act_window">
-            <field name="name">CRM Product</field>
+            <field name="name">CRM Request</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">crm.request</field>
             <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
+            <field name="search_view_id" ref="crm_request_view_search"/>
+            <field name="context">{'search_default_state_open': 1}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    <!-- Add Text Here -->
+                    Hồ sơ nhu cầu tạo tại đây
                 </p><p>
                     <!-- More details about what a user can do with this object will be OK --> 
                 </p>
@@ -50,13 +51,14 @@
 
         <!-- model.name form view -->
         <record id="crm_request_view_form" model="ir.ui.view">
-            <field name="name">crm.request.view.form</field>
+            <field name="name">CRM Request</field>
             <field name="model">crm.request</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
                         <button name="btn_request_rule" type="object" string="Xin phân quyền" class="btn btn-primary"/>
-                        <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" readonly="1" force_save="1"/>
+                        <field name="is_manager" invisible="1"/>
+                        <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" attrs="{'invisible': [('is_manager','=',False)]}"/>
                         <field name="is_brokerage_specialist" invisible="1"/>
                         <field name="is_show_attachment" invisible="1"/>
                         <field name="is_show_house_no" invisible="1"/>
@@ -88,28 +90,54 @@
                             <group string="Thông tin chủ nhà">
                                 <field name="customer_uid" attrs="{'invisible': [('write_date','=',False)]}"/>
                                 <field name="host_name" string="Tên khách hàng"/>
-                                <field name="financial_capability"/>
+                                <label for="financial_capability" string="Giá"/>
+                                <div>
+                                    <field name="financial_capability" class="oe_inline o_address_city" placeholder='Nhập số tiền....'/>
+                                    <![CDATA[&nbsp;]]>
+                                    <field name="currency" class="oe_inline o_address_city" placeholder="$/Triệu/Tỷ..."/>
+                                </div>
+                                <field name="business_demand"/>
                                 <field name="zone"/>
                                 <field name="email" class="bds_show_email"/>
+                                <field name="is_duplicate_phone_1" invisible="1"/>
+                                <field name="is_duplicate_phone_2" invisible="1"/>
+                                <field name="is_duplicate_phone_3" invisible="1"/>
                                 <label for="host_number_1" string="Số điện thoại"/>
                                 <div class="bds_show_phone_no">
                                     <div>
-                                        <field name="host_number_1" widget="phone" class="o_address_city" placeholder="Số ĐT chính..."/>    
+                                        <field name="host_number_1" widget="phone" class="o_address_city" placeholder="Số ĐT chính..." decoration-danger="is_duplicate_phone_1"/>    
                                     </div>
                                     <div>
-                                        <field name="host_number_2" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..."/>    
+                                        <field name="host_number_2" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..." decoration-danger="is_duplicate_phone_2"/>    
                                     </div>
                                     <div>
-                                        <field name="host_number_3" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..."/>    
+                                        <field name="host_number_3" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..." decoration-danger="is_duplicate_phone_3"/>    
                                     </div>
                                 </div>
                                 
                             </group>
                         </group>
                         <div>
-                            <field name="description" placeholder="Diễn giải..." class="bds_show_description"/>
+                            <field name="description" placeholder="Diễn giải..." readonly="1" force_save="1"/>
                         </div>
                         <notebook>
+                            <page string='Diễn Giải'>
+                                <group>
+                                    <group>
+                                        <field name="way"/>
+                                        <field name="rental_price"/>
+                                        <field name="dientich"/>
+                                        <field name="min_horizontal"/>
+                                        <field name="parking_lot"/>
+                                    </group>
+                                    <group>
+                                        <field name="partner_kd"/>
+                                        <field name="note"/>
+                                        <field name="source"/>
+                                        <field name="potential_evaluation"/>
+                                    </group>
+                                </group>
+                            </page>
                             <page string="Quyền CV chăm sóc">
                                 <field name="supporter_with_rule_ids">
                                     <tree create="false" edit="false">
@@ -181,13 +209,17 @@
             <field name="arch" type="xml">
                 <tree default_order="create_date desc">
                     <!-- Add your fields here -->
-                    <field name="sequence"/>
-                    <field name="name"/>
-                    <field name="requirement"/>
+                    <field name="description" invisible="1"/>
+                    <field name="sequence" string="STT"/>
+                    <field name="name" string="SDDK"/>
+                    <field name="requirement" string="NC BĐS"/>
+                    <field name="business_demand" string="NC KD"/>
                     <field name="type_of_real_estate"/>
+                    <field name="host_name" string="Tên KH"/>
+                    <field name="financial_capability" string="Tài chính"/>
+                    <field name="currency" string="Tiền tệ"/>
                     <field name="brokerage_specialist"/>
                     <field name="supporter_ids" widget="many2many_tags"/>
-                    <field name="host_name" string="Tên Khách hàng"/>
                     <field name="create_date"/>
                     <field name="write_date"/>
                 </tree>

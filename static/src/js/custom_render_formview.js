@@ -59,11 +59,10 @@ odoo.define('bds.FormController', function (require) {
                     } else {
                         attachment.removeClass('o_invisible_modifier');
                     }
-                    if (!d.data.is_show_house_no) {
-                        house_no.remove();
+                    if (!d.data.is_show_email) {
+                        email.remove();
                         phone_no.remove();
-                    }
-                    if (!d.data.is_show_email) email.remove();
+                    } 
                 } else {
                     btn_save.removeClass('o_invisible_modifier');
                     attachment.removeClass('o_invisible_modifier');

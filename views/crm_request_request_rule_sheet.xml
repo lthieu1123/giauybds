@@ -6,9 +6,9 @@
             <field name="name">Yêu cầu phân quyền</field>
             <field name="model">crm.request.request.rule.sheet</field>
             <field name="arch" type="xml">
-                <form create="false">
+                <form create="false" edit="false">
                     <header>
-                        <button name="btn_approve" string="Duyệt" type="object" class="btn btn-primary" states="draft"/>
+                        <button name="btn_approve" string="Duyệt" type="object" class="btn btn-primary" states="draft" groups="bds.crm_request_sale_manager,bds.crm_request_rental_manager,bds.crm_request_manager"/>
                         <button name="btn_reject" string="Từ chối" type="object" class="btn btn-secondary" states="draft"/>
                         <field name="state" widget="statusbar" readonly="1" force_save="1"/>
                     </header>
@@ -50,11 +50,11 @@
                             </page>
                         </notebook>
                     </sheet>
-                    <!-- <div class="oe_chatter">
+                    <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
                         <field name="activity_ids" widget="mail_activity"/>
                         <field name="message_ids" widget="mail_thread"/>
-                    </div> -->
+                    </div>
                 </form>
             </field>
         </record>
@@ -64,7 +64,7 @@
             <field name="name">Yêu cầu phân quyền</field>
             <field name="model">crm.request.request.rule.sheet</field>
             <field name="arch" type="xml">
-                <form create="false">
+                <form create="false" edit="false">
                     <header>
                         <field name="state" widget="statusbar" readonly="1" force_save="1" invisible="1" />
                     </header>
@@ -145,6 +145,16 @@
                     <!-- More details about what a user can do with this object will be OK --> 
                 </p>
             </field>
+        </record>
+
+        <record id="action_request_for_reuqest" model="ir.actions.act_window">
+            <field name="name">Yêu cầu phân quyền</field>
+            <field name="res_model">crm.request.request.rule.sheet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="crm_request_request_rule_sheet_view_form_wizard"/>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="bds.model_crm_request"/>
         </record>
         
     </data>
