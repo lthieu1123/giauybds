@@ -2,6 +2,36 @@
 <odoo>
     <data noupdate="0">
         <!-- Add you code here -->
+
+        <record id="crm_request_view_search" model="ir.ui.view">
+            <field name="name">Tìm kiếm nc</field>
+            <field name="model">crm.request</field>
+            <field name="arch" type="xml">
+                <search string="Search Description">
+                    <field name="name"/>
+                    <field name="customer_uid"/>
+                    <field name="requirement"/>
+                    <field name="brokerage_specialist"/>
+                    <field name="supporter_ids"/>
+                    <field name="financial_capability"/>
+                    <field name="zone"/>
+                    <separator/>
+                    <filter name="state_draft" string="Chưa duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
+                    <separator/>
+                    <filter name="state_open" string="Mở bán" domain="[('state','=',%(bds.crm_state_open)d)]"/>
+                    <separator/>
+                    <filter name="state_stop" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_stop)d)]"/>
+                    <separator/>
+                    <filter name="state_pending" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
+                    <separator/>
+                    <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
+                    <separator/>
+                    <filter name="state_ontrade" string="Đang giao dịch" domain="[('state','=',%(bds.crm_state_ongoing)d)]"/>
+                    <separator/>                    
+                </search>
+            </field>
+        </record>
+
         <!-- model.name action window -->
         <record id="crm_request_action" model="ir.actions.act_window">
             <field name="name">CRM Product</field>

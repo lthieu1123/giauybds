@@ -21,7 +21,7 @@
 
         <record id="crm_product_rental_user_view_all" model="res.groups">
             <field name="name">User(View all): Rental</field>
-            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_product_rental_user')]"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_product_rental_user'))]"/>
             <field name="category_id" ref="crm_product_group"/>
         </record>
 
@@ -241,7 +241,7 @@
 
          <record id="crm_request_rental_user_view_all" model="res.groups">
             <field name="name">User(View all): Rental</field>
-            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref(crm_request_rental_user'))]"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_request_rental_user'))]"/>
             <field name="category_id" ref="crm_request_group"/>
         </record>
 

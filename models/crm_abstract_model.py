@@ -17,11 +17,11 @@ class CrmAbstractModel(models.AbstractModel):
 
     @api.model
     def _default_stage(self):
-        return self.env['crm.states'].search([], limit=1, order='sequence').id
+        return self.env['crm.states.product'].search([], limit=1, order='sequence').id
 
     @api.model
     def _read_group_stage_ids(self, stages, domain, order):
-        return self.env['crm.states'].search([])
+        return self.env['crm.states.product'].search([])
 
     def _get_default_requirement(self):
         user = self.env.user
@@ -39,7 +39,7 @@ class CrmAbstractModel(models.AbstractModel):
             return False
     
     readonly_requirement = fields.Boolean('readonly_requirement',compute='_is_readonly_requirement')
-    state = fields.Many2one('crm.states', string='Trạng thái', default=_default_stage,
+    state = fields.Many2one('crm.states.product', string='Trạng thái', default=_default_stage,
                             track_visibility='always', group_expand='_read_group_stage_ids', store=True)
 
     sequence = fields.Integer(string='Số TT', readonly=True,
@@ -65,9 +65,8 @@ class CrmAbstractModel(models.AbstractModel):
         'Là chủ hồ sơ', compute="_compute_show_data")
 
     brokerage_specialist = fields.Many2one(
-        'hr.employee', 'CV môi giới', default=lambda self: self._get_default_employee_id(), track_visibility='always')
-    supporter_ids = fields.Many2many(
-        'hr.employee', 'CV môi giới', compute="_get_suppoter_ids")
+        comodel_name='hr.employee', string='CV môi giới', default=lambda self: self._get_default_employee_id(), track_visibility='always')
+    supporter_ids = fields.Many2many(comodel_name='hr.employee', string='CV chăm sóc', compute="_get_suppoter_ids",store=True)
 
     @api.depends('name')
     def _is_readonly_requirement(self):
@@ -187,8 +186,4 @@ class CrmRequestRuleAbstractModel(models.AbstractModel):
     approver = fields.Many2one('hr.employee', 'Người duyệt')
     state = fields.Selection(string='Trạng thái', selection=[('draft', 'Chưa duyệt'), (
         'approved', 'Đã duyệt'), ('cancel', 'Từ chối'), ('closed', 'Đóng')], default="draft")
-    approved_date = fields.Datetime(string='Ngày duyệt')
-
-    
-    
-    
+    approved_date = fields.Datetime(string='Ngày duyệt')     

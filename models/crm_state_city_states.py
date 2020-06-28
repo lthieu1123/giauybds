@@ -3,7 +3,7 @@
 from odoo import api, fields, models
 
 class CrmStatesProduct(models.Model):
-    _name = 'crm.states'
+    _name = 'crm.states.product'
     _description = 'CRM States BDS'
 
     name = fields.Char('State')

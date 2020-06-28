@@ -39,7 +39,10 @@ class CrmProductReuqestRuleSheet(models.Model):
     employee_id = fields.Many2one('hr.employee','CV chăm sóc',ondelete='cascade', default= lambda self: self._get_default_employee_id())
     crm_request_line_ids = fields.One2many(comodel_name='crm.product.request.rule',inverse_name="crm_request_sheet_id",string='CV chăm sóc')
     state = fields.Selection(string='Trạng thái', selection=[('draft','Chưa duyệt'),('approved','Đã duyệt'),('cancel','Từ chối')], default="draft")
-    requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cho thuê'),('sale','Cần bán')], compute='_set_requirement')
+    requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cho thuê'),('sale','Cần bán')], compute='_set_requirement',store=True)
+    mail_ids = fields.Many2many(comodel_name='mail.activity',string='Mail Activity')
+    approver = fields.Many2one('hr.employee', 'Người duyệt')
+    approved_date = fields.Datetime(string='Ngày duyệt')   
 
     def _get_url(self):
         return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
@@ -82,6 +85,7 @@ class CrmProductReuqestRuleSheet(models.Model):
         }
     
     def send_notification_request(self):
+        print('send_notification_request')
         requirement = self.requirement
         groups_id = []
         if requirement == 'sale':
@@ -95,14 +99,18 @@ class CrmProductReuqestRuleSheet(models.Model):
         user_ids = self.env['res.users'].search([
             ('groups_id','in',groups_id)
         ])
+        mail_ids = []
         for user in user_ids:
-            mess = BODY_MSG.format(self._get_url(),user.partner_id.id,user.partner_id.id,user.partner_id.name,"Vui lòng duyệt yêu cầu")
-            self.message_post(body=mess,message_type="comment",partner_ids=[user.partner_id.id])
+            res = self._create_email_activity(user)
+            mail_ids.append(res.id)
+        self.update({
+            'mail_ids': [(6,0,mail_ids)]
+        })
+            
 
     def send_notification_approve(self):
-        user = self.employee_id.user_id
-        mess = BODY_MSG.format(self._get_url(),user.partner_id.id,user.partner_id.id,user.partner_id.name,"Đã duyệt")
-        self.message_post(body=mess)
+        for mail in self.mail_ids:
+            mail.action_done()
 
     @api.multi
     def btn_save(self):
@@ -124,7 +132,9 @@ class CrmProductReuqestRuleSheet(models.Model):
     def btn_approve(self):
         self.ensure_one()
         self.update({
-            'state': 'approved'
+            'state': 'approved',
+            'approved_date': datetime.now(),
+            'approver': self.env.user.employee_ids.ids[0]
         })
         request_rule = self.env['crm.product.request.rule']
         for line in self.crm_request_line_ids:
@@ -144,14 +154,23 @@ class CrmProductReuqestRuleSheet(models.Model):
             })
         self.send_notification_approve()
                
+    def _remove_mail_activity(self):
+        for mail in self.mail_ids:
+            mail.unlink()
 
     @api.multi
     def btn_reject(self):
+        self.write({
+            'state':'cancel',
+            'approved_date': datetime.now(),
+            'approver': self.env.user.employee_ids.ids[0]
+        })
         self.crm_request_line_ids.write({
             'state':'cancel',
             'approved_date': datetime.now(),
             'approver': self.env.user.employee_ids.ids[0]
         })
+        self._remove_mail_activity()
 
     @api.model
     def create(self, vals):
@@ -159,4 +178,26 @@ class CrmProductReuqestRuleSheet(models.Model):
             vals['name'] = self.env['ir.sequence'].next_by_code('crm.product.request.rule.sheet') or '/'
             vals['sequence'] = int(vals['name'].split('-')[1])
         res = super().create(vals)
+        return res
+    
+
+    def _create_email_activity(self,user_id):
+        print('_create_email_activity')
+        model_id = self.env['ir.model'].search(
+            [('model', '=', self._name)]).id
+        activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
+        summary = 'Yêu cầu phần quyền từ {}'.format(self.employee_id.name)
+        date_deadline = fields.Date.today()
+        note = 'Yêu cầu duyệt phân quyền từ {}'.format(self.employee_id.name)
+        user_id = user_id.id
+        vals = {
+            'activity_type_id': activity_type_id,
+            'summary': summary,
+            'date_deadline': date_deadline,
+            'note': note,
+            'res_id': self.id,
+            'res_model_id': model_id,
+            'user_id': user_id
+        }
+        res = self.env['mail.activity'].create(vals)
         return res

@@ -30,7 +30,7 @@ class CrmProduct(models.Model):
     country_id = fields.Many2one('res.country', 'Quốc gia', default=lambda self: self.env.ref(
         'base.vn'), track_visibility='always')
     state_id = fields.Many2one('res.country.state', 'Tỉnh/TP',
-                               domain="[('country_id','=',country_id)]", track_visibility='always')
+                               domain="[('country_id','=',country_id)]", track_visibility='always', default = lambda self: self.env.ref('bds.state_vn_VN-SG').id)
     district_id = fields.Many2one(
         'crm.district', 'Quận/Huyện', domain="[('state_id','=?',state_id),('country_id','=',country_id)]", track_visibility='always')
     type_of_road = fields.Selection(
@@ -46,10 +46,9 @@ class CrmProduct(models.Model):
     # back_expand_uom = fields.Many2one('uom.uom','Unit of measure', default=lambda self: self.env.ref('uom.product_uom_meter'))
     number_of_floors = fields.Float('Số tầng', digits=dp.get_precision(
         'Product Unit of Measure'), track_visibility='always')
-    usd_price = fields.Float('Giá USD', digits=dp.get_precision(
+    price = fields.Float('Giá', digits=dp.get_precision(
         'Product Price'), track_visibility='always')
-    vnd_price = fields.Float('Giá VND', digits=dp.get_precision(
-        'Product Price'), track_visibility='always')
+    currency = fields.Selection(string='Tiền tệ',selection=[('usd','$'),('mil','Triệu'),('bil','Tỷ')])
     supporter_with_rule_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='CV chăm sóc và phân quyền', track_visibility='always',
                                               domain=[('state', '=', 'approved')], ondelete='cascade',
                                               readonly=True, force_save=True)
