@@ -52,13 +52,12 @@ class CrmRequest(models.Model):
 
     @api.depends('partner_kd','potential_evaluation','note','source','type_of_real_estate','type_of_road','zone','business_demand','way','rental_price','dientich','min_horizontal','parking_lot')
     def _set_description(self):
-        description = 'Khách hàng cần thuê {loaibds}  - {loaiduong} - {khuvuc}, nhu cầu kinh doanh: {nckd}. Tập trung tuyến đường {way}. \
-            Giá thuê dao động: {gia}.Cần diện tích dao động: {dientich} - Ngang tối thiểu: {min}, Cần chỗ để xe khoảng: {dexe}. \
-            Hiện đang là chủ kinh doanh: {ckd}. Đánh giá mức độ tiềm năng: {danhgia}. Ghi chú: {note}. Nguồn: {nguon}'
-        description = description.format(loaibds=self.type_of_real_estate, loaiduong=self.type_of_road, khuvuc=self.zone,nckd=self.business_demand,\
-            way=self.way,gia=self.rental_price,dientich=self.dientich, min=self.min_horizontal, dexe=self.parking_lot,\
-                ckd=self.partner_kd,danhgia=self.potential_evaluation,note=self.note,nguon=self.source)
-        return description
+        for rec in self:
+            description = 'Khách hàng cần thuê {loaibds}  - {loaiduong} - {khuvuc}, nhu cầu kinh doanh: {nckd}. Tập trung tuyến đường {way}. Giá thuê dao động: {gia}.Cần diện tích dao động: {dientich} - Ngang tối thiểu: {min}, Cần chỗ để xe khoảng: {dexe}. Hiện đang là chủ kinh doanh: {ckd}. Đánh giá mức độ tiềm năng: {danhgia}. Ghi chú: {note}. Nguồn: {nguon}'
+            description = description.format(loaibds=rec.type_of_real_estate, loaiduong=rec.type_of_road, khuvuc=rec.zone,nckd=rec.business_demand,\
+                way=rec.way,gia=rec.rental_price,dientich=rec.dientich, min=rec.min_horizontal, dexe=rec.parking_lot,\
+                    ckd=rec.partner_kd,danhgia=rec.potential_evaluation,note=rec.note,nguon=rec.source)
+            rec.description = description
 
     @api.depends('name')
     def _is_manager(self):
