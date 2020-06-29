@@ -33,8 +33,6 @@ class CrmProduct(models.Model):
                                domain="[('country_id','=',country_id)]", track_visibility='always', default = lambda self: self.env.ref('bds.state_vn_VN-SG').id, required=True)
     district_id = fields.Many2one(
         'crm.district', 'Quận/Huyện', domain="[('state_id','=?',state_id),('country_id','=',country_id)]", track_visibility='always', required=True)
-    type_of_road = fields.Selection(
-        string='Loại đường', selection=TYPE_OF_ROAD, required=True, track_visibility='always')
     horizontal = fields.Float('Ngang', digits=dp.get_precision(
         'Product Unit of Measure'), track_visibility='always')
     # horizontal_uom = fields.Many2one('uom.uom','Unit of measure', default=lambda self: self.env.ref('uom.product_uom_meter'))

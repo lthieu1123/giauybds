@@ -1,0 +1,1944 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* bds
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-29 06:39+0000\n"
+"PO-Revision-Date: 2020-06-29 06:39+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "$/Triệu/Tỷ..."
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "&amp;nbsp;"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+msgid "&amp;nbsp;<span>m</span>"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "1 MT đường & 1 MT hẻm"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "3 Mặt tiền"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "4 Mặt tiền"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+msgid "<span class=\"o_form_label\">CRM Product</span>"
+msgstr "<span class=\"o_form_label\">CRM Sản phẩm</span>"
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "<span class=\"o_form_label\">CRM Request</span>"
+msgstr "<span class=\"o_form_label\">CRM Nhu cầu</span>"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_needaction
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_needaction
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_needaction
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_needaction
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_needaction
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_needaction
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_needaction
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_needaction
+msgid "Action Needed"
+msgstr "Cần có Hành động"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_announce__active_id
+msgid "Active Id"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_announce__active_model
+msgid "Active Model"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__activity_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product__activity_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__activity_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__activity_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request__activity_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__activity_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__activity_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__activity_ids
+msgid "Activities"
+msgstr "Các hoạt động"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__activity_state
+#: model:ir.model.fields,field_description:bds.field_crm_product__activity_state
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__activity_state
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__activity_state
+#: model:ir.model.fields,field_description:bds.field_crm_request__activity_state
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__activity_state
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__activity_state
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__activity_state
+msgid "Activity State"
+msgstr "Trạng thái hoạt động"
+
+#. module: bds
+#: model:ir.model,name:bds.model_announce
+msgid "Announce"
+msgstr "Thông báo"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_attachment_count
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_attachment_count
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_attachment_count
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_attachment_count
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_attachment_count
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_attachment_count
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_attachment_count
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_attachment_count
+msgid "Attachment Count"
+msgstr "Số đính kèm"
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "BAR"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "BIDA"
+msgstr ""
+
+#. module: bds
+#: model:ir.model,name:bds.model_base
+msgid "Base"
+msgstr "Cơ bản"
+
+#. module: bds
+#: model:ir.model,name:bds.model_base_import_import
+msgid "Base Import"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+msgid "Bản đồ"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form_wizard
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form_wizard
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_view_form
+msgid "Bảng yêu cầu phân quyền"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "CAFÉ"
+msgstr ""
+
+#. module: bds
+#: model:ir.actions.act_window,name:bds.crm_product_action
+#: model:ir.model,name:bds.model_crm_product
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__crm_product_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__crm_product_id
+#: model:ir.module.category,name:bds.crm_product_group
+#: model:ir.ui.menu,name:bds.crm_product_menu_act
+#: model:ir.ui.menu,name:bds.crm_product_menu_root
+msgid "CRM Product"
+msgstr "CRM Sản phẩm"
+
+#. module: bds
+#: model:ir.model,name:bds.model_crm_product_request_rule
+msgid "CRM Product Request Rule"
+msgstr ""
+
+#. module: bds
+#: model:ir.model,name:bds.model_crm_product_request_rule_sheet
+msgid "CRM Product Request Rule Sheet"
+msgstr ""
+
+#. module: bds
+#: model:ir.actions.act_window,name:bds.crm_request_action
+#: model:ir.model,name:bds.model_crm_request
+#: model:ir.module.category,name:bds.crm_request_group
+#: model:ir.ui.menu,name:bds.crm_request_menu_act
+#: model:ir.ui.menu,name:bds.crm_request_menu_root
+msgid "CRM Request"
+msgstr "CRM Nhu cầu"
+
+#. module: bds
+#: model:ir.model,name:bds.model_crm_request_request_rule
+msgid "CRM Request Request Rule"
+msgstr ""
+
+#. module: bds
+#: model:ir.model,name:bds.model_crm_request_request_rule_sheet
+msgid "CRM Request Request Rule Sheet"
+msgstr ""
+
+#. module: bds
+#: model:ir.model,name:bds.model_crm_request_rule_abstract_model
+msgid "CRM Request Rule Abstract Model"
+msgstr ""
+
+#. module: bds
+#: model:ir.model,name:bds.model_crm_district
+msgid "CRM State BDS"
+msgstr ""
+
+#. module: bds
+#: model:ir.model,name:bds.model_crm_states_product
+#: model:ir.model,name:bds.model_crm_states_request
+msgid "CRM States BDS"
+msgstr ""
+
+#. module: bds
+#: model:ir.model,name:bds.model_crm_street
+msgid "CRM Street"
+msgstr "Đường"
+
+#. module: bds
+#: model:ir.model,name:bds.model_crm_ward
+msgid "CRM ward BDS"
+msgstr "phường/xã"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__supporter_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product__supporter_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__employee_id
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__crm_request_line_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__employee_id
+#: model:ir.model.fields,field_description:bds.field_crm_request__supporter_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__employee_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__crm_request_line_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__employee_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__employee_id
+msgid "CV chăm sóc"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__supporter_with_rule_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request__supporter_with_rule_ids
+msgid "CV chăm sóc và phân quyền"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__brokerage_specialist
+#: model:ir.model.fields,field_description:bds.field_crm_product__brokerage_specialist
+#: model:ir.model.fields,field_description:bds.field_crm_request__brokerage_specialist
+msgid "CV môi giới"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form_wizard
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form_wizard
+msgid "Cancel"
+msgstr "Hủy"
+
+#. module: bds
+#: selection:crm.abstract.model,requirement:0
+#: selection:crm.product,requirement:0
+#: selection:crm.product.request.rule,requirement:0
+#: selection:crm.product.request.rule.sheet,requirement:0
+#: selection:crm.request,requirement:0
+#: selection:crm.request.request.rule,requirement:0
+#: selection:crm.request.request.rule.sheet,requirement:0
+#: selection:crm.request.rule.abstract.model,requirement:0
+msgid "Cho thuê"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,direction:0
+#: selection:crm.product,direction:0
+#: selection:crm.request,direction:0
+msgid "Chính Bắc - DTT"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,direction:0
+#: selection:crm.product,direction:0
+#: selection:crm.request,direction:0
+msgid "Chính Nam - DTT"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,direction:0
+#: selection:crm.product,direction:0
+#: selection:crm.request,direction:0
+msgid "Chính Đông - DTT"
+msgstr ""
+
+#. module: bds
+#: selection:crm.product.request.rule,state:0
+#: selection:crm.product.request.rule.sheet,state:0
+#: selection:crm.request.request.rule,state:0
+#: selection:crm.request.request.rule.sheet,state:0
+#: selection:crm.request.rule.abstract.model,state:0
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_search
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_search
+msgid "Chưa duyệt"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__parking_lot
+msgid "Chỗ để xe"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__partner_kd
+msgid "Chủ KD hiện tại"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_district__code
+#: model:ir.model.fields,field_description:bds.field_crm_street__code
+#: model:ir.model.fields,field_description:bds.field_crm_ward__code
+msgid "Code"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_announce__create_uid
+#: model:ir.model.fields,field_description:bds.field_crm_district__create_uid
+#: model:ir.model.fields,field_description:bds.field_crm_product__create_uid
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__create_uid
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__create_uid
+#: model:ir.model.fields,field_description:bds.field_crm_request__create_uid
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__create_uid
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__create_uid
+#: model:ir.model.fields,field_description:bds.field_crm_states_product__create_uid
+#: model:ir.model.fields,field_description:bds.field_crm_street__create_uid
+#: model:ir.model.fields,field_description:bds.field_crm_ward__create_uid
+msgid "Created by"
+msgstr "Được tạo bởi"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_announce__create_date
+#: model:ir.model.fields,field_description:bds.field_crm_district__create_date
+#: model:ir.model.fields,field_description:bds.field_crm_product__create_date
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__create_date
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__create_date
+#: model:ir.model.fields,field_description:bds.field_crm_request__create_date
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__create_date
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__create_date
+#: model:ir.model.fields,field_description:bds.field_crm_states_product__create_date
+#: model:ir.model.fields,field_description:bds.field_crm_street__create_date
+#: model:ir.model.fields,field_description:bds.field_crm_ward__create_date
+msgid "Created on"
+msgstr "Thời điểm tạo"
+
+#. module: bds
+#: model:ir.model,name:bds.model_crm_abstract_model
+msgid "Crm Abstract Model"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.actions.act_window,help:bds.crm_product_request_rule_action
+#: model_terms:ir.actions.act_window,help:bds.crm_request_request_rule_action
+msgid "Các yêu cầu phân quyền của bạn sẽ được lưu trữ tại đây"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "CĂN HỘ"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Căn hộ"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,requirement:0
+#: selection:crm.product,requirement:0
+#: selection:crm.product.request.rule,requirement:0
+#: selection:crm.product.request.rule.sheet,requirement:0
+#: selection:crm.request,requirement:0
+#: selection:crm.request.request.rule,requirement:0
+#: selection:crm.request.request.rule.sheet,requirement:0
+#: selection:crm.request.rule.abstract.model,requirement:0
+msgid "Cần bán"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_tree
+msgid "Cập nhật"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "CỬA HÀNG"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_announce__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_district__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_product__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_request__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_states_product__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_street__display_name
+#: model:ir.model.fields,field_description:bds.field_crm_ward__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Diễn Giải"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__description
+#: model:ir.model.fields,field_description:bds.field_crm_product__description
+#: model:ir.model.fields,field_description:bds.field_crm_request__description
+msgid "Diễn giải"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Diễn giải..."
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__dientich
+msgid "Diện tích dao động"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form
+msgid "Duyệt"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.actions.act_window,help:bds.crm_product_request_rule_sheet_action
+#: model_terms:ir.actions.act_window,help:bds.crm_request_request_rule_sheet_action
+msgid "Duyệt các phân quyền từ nhân viên"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__length
+msgid "Dài"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__email
+msgid "Email"
+msgstr ""
+
+#. module: bds
+#: model:ir.model,name:bds.model_hr_employee
+msgid "Employee"
+msgstr "Nhân viên"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_states_product__fold
+msgid "Folded in Kanban"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_follower_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_follower_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_follower_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_follower_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_follower_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_follower_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_follower_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_follower_ids
+msgid "Followers"
+msgstr "Theo dõi"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_channel_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_channel_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_channel_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_channel_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_channel_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_channel_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_channel_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Người theo dõi (Các kênh)"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_partner_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_partner_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_partner_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_partner_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_partner_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_partner_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_partner_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Người theo dõi (Các đối tác)"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__note
+#: model:ir.model.fields,field_description:bds.field_crm_request__note
+msgid "Ghi chú"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__price
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Giá"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__rental_price
+#: model:ir.model.fields,field_description:bds.field_crm_request__rental_price
+msgid "Giá cho thuê"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "Góc 2 mặt tiền"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "HT"
+msgstr ""
+
+#. module: bds
+#: selection:res.users,notification_type:0
+msgid "Handle by Emails"
+msgstr "Xử lý bằng email"
+
+#. module: bds
+#: selection:res.users,notification_type:0
+msgid "Handle in Odoo"
+msgstr "Xử lý trong hệ thống"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__is_show_map_to_user
+msgid "Hiển Thị bản đồ cho KH"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__current_status
+msgid "Hiện trạng"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__tip
+msgid "Hoa hồng"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Homestay"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__direction
+#: model:ir.model.fields,field_description:bds.field_crm_product__direction
+#: model:ir.model.fields,field_description:bds.field_crm_request__direction
+msgid "Hướng"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__business_restrictions
+msgid "Hạn chế kinh doanh"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "Hẻm XH"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "Hẻm XM"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "Hẻm XT"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "Hẻm xe ba gác"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.actions.act_window,help:bds.crm_request_action
+msgid "Hồ sơ nhu cầu tạo tại đây"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.actions.act_window,help:bds.crm_product_action
+msgid "Hồ sơ sản phẩm tạo tại đây"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Hủy"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_announce__id
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__id
+#: model:ir.model.fields,field_description:bds.field_crm_district__id
+#: model:ir.model.fields,field_description:bds.field_crm_product__id
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__id
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__id
+#: model:ir.model.fields,field_description:bds.field_crm_request__id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__id
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__id
+#: model:ir.model.fields,field_description:bds.field_crm_states_product__id
+#: model:ir.model.fields,field_description:bds.field_crm_street__id
+#: model:ir.model.fields,field_description:bds.field_crm_ward__id
+msgid "ID"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,help:bds.field_crm_abstract_model__message_unread
+#: model:ir.model.fields,help:bds.field_crm_product__message_unread
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule__message_unread
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule_sheet__message_unread
+#: model:ir.model.fields,help:bds.field_crm_request__message_unread
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule__message_unread
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule_sheet__message_unread
+#: model:ir.model.fields,help:bds.field_crm_request_rule_abstract_model__message_unread
+msgid "If checked new messages require your attention."
+msgstr "Nếu đánh dấu chọn, các thông điệp mới yêu cầu sự có mặt của bạn."
+
+#. module: bds
+#: model:ir.model.fields,help:bds.field_crm_abstract_model__message_needaction
+#: model:ir.model.fields,help:bds.field_crm_product__message_needaction
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule__message_needaction
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule_sheet__message_needaction
+#: model:ir.model.fields,help:bds.field_crm_request__message_needaction
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule__message_needaction
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule_sheet__message_needaction
+#: model:ir.model.fields,help:bds.field_crm_request_rule_abstract_model__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Nếu đánh dấu chọn, các thông điệp mới yêu cầu sự có mặt của bạn."
+
+#. module: bds
+#: model:ir.model.fields,help:bds.field_crm_abstract_model__message_has_error
+#: model:ir.model.fields,help:bds.field_crm_product__message_has_error
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule__message_has_error
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule_sheet__message_has_error
+#: model:ir.model.fields,help:bds.field_crm_request__message_has_error
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule__message_has_error
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule_sheet__message_has_error
+#: model:ir.model.fields,help:bds.field_crm_request_rule_abstract_model__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Nếu chọn, sẽ hiển thị thông báo lỗi."
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_is_follower
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_is_follower
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_is_follower
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_is_follower
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_is_follower
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_is_follower
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_is_follower
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_is_follower
+msgid "Is Follower"
+msgstr "Trở thành người theo dõi"
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "KHO"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "KS"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__zone
+msgid "Khu vực hoạt động"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Khác"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Khách sạn"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__financial_capability
+msgid "Khả năng tài chính"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_tree
+msgid "Khởi tạo"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_announce____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_district____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_product____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_request____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_states_product____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_street____last_update
+#: model:ir.model.fields,field_description:bds.field_crm_ward____last_update
+msgid "Last Modified on"
+msgstr "Sửa lần cuối vào"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_announce__write_uid
+#: model:ir.model.fields,field_description:bds.field_crm_district__write_uid
+#: model:ir.model.fields,field_description:bds.field_crm_product__write_uid
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__write_uid
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__write_uid
+#: model:ir.model.fields,field_description:bds.field_crm_request__write_uid
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__write_uid
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__write_uid
+#: model:ir.model.fields,field_description:bds.field_crm_states_product__write_uid
+#: model:ir.model.fields,field_description:bds.field_crm_street__write_uid
+#: model:ir.model.fields,field_description:bds.field_crm_ward__write_uid
+msgid "Last Updated by"
+msgstr "Cập nhật lần cuối bởi"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_announce__write_date
+#: model:ir.model.fields,field_description:bds.field_crm_district__write_date
+#: model:ir.model.fields,field_description:bds.field_crm_product__write_date
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__write_date
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__write_date
+#: model:ir.model.fields,field_description:bds.field_crm_request__write_date
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__write_date
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__write_date
+#: model:ir.model.fields,field_description:bds.field_crm_states_product__write_date
+#: model:ir.model.fields,field_description:bds.field_crm_street__write_date
+#: model:ir.model.fields,field_description:bds.field_crm_ward__write_date
+msgid "Last Updated on"
+msgstr "Cập nhật lần cuối vào"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__type_of_real_estate
+#: model:ir.model.fields,field_description:bds.field_crm_product__type_of_real_estate
+#: model:ir.model.fields,field_description:bds.field_crm_request__type_of_real_estate
+msgid "Loại BĐS"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__type_of_road
+#: model:ir.model.fields,field_description:bds.field_crm_product__type_of_road
+#: model:ir.model.fields,field_description:bds.field_crm_request__type_of_road
+msgid "Loại đường"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__is_manager
+#: model:ir.model.fields,field_description:bds.field_crm_product__is_manager
+#: model:ir.model.fields,field_description:bds.field_crm_request__is_manager
+msgid "Là Manager"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__is_brokerage_specialist
+#: model:ir.model.fields,field_description:bds.field_crm_product__is_brokerage_specialist
+#: model:ir.model.fields,field_description:bds.field_crm_request__is_brokerage_specialist
+msgid "Là chủ hồ sơ"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__way
+msgid "Lối đi"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__mail_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__mail_ids
+msgid "Mail Activity"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_main_attachment_id
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_main_attachment_id
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_main_attachment_id
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_main_attachment_id
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_main_attachment_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_main_attachment_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_main_attachment_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Đính kèm chính"
+
+#. module: bds
+#: model:res.groups,name:bds.crm_product_manager
+#: model:res.groups,name:bds.crm_request_manager
+msgid "Manager"
+msgstr "Quản lý"
+
+#. module: bds
+#: model:res.groups,name:bds.crm_product_rental_manager
+#: model:res.groups,name:bds.crm_request_rental_manager
+msgid "Manager: Rental"
+msgstr "Quản lý: Bên Thuê"
+
+#. module: bds
+#: model:res.groups,name:bds.crm_product_sale_manager
+#: model:res.groups,name:bds.crm_request_sale_manager
+msgid "Manager: Sale"
+msgstr "Quản lý: Bên bán"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_has_error
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_has_error
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_has_error
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_has_error
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_has_error
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_has_error
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_has_error
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_has_error
+msgid "Message Delivery error"
+msgstr "Thông báo gửi đi gặp lỗi"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_ids
+msgid "Messages"
+msgstr "Thông điệp"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__customer_uid
+msgid "Mã KH"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Mặt bằng"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "Mặt tiền"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_search
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_search
+msgid "Mở bán"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_tree
+msgid "NC BĐS"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_tree
+msgid "NC KD"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "NGÂN HÀNG"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "NHÀ HÀNG"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "NHÀ SÁCH"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__activity_date_deadline
+#: model:ir.model.fields,field_description:bds.field_crm_product__activity_date_deadline
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__activity_date_deadline
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__activity_date_deadline
+#: model:ir.model.fields,field_description:bds.field_crm_request__activity_date_deadline
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__activity_date_deadline
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__activity_date_deadline
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Hạn chót lần hành động kế tiếp"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__activity_summary
+#: model:ir.model.fields,field_description:bds.field_crm_product__activity_summary
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__activity_summary
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__activity_summary
+#: model:ir.model.fields,field_description:bds.field_crm_request__activity_summary
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__activity_summary
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__activity_summary
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__activity_summary
+msgid "Next Activity Summary"
+msgstr "Tóm tắt hoạt động tiếp theo"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__activity_type_id
+#: model:ir.model.fields,field_description:bds.field_crm_product__activity_type_id
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__activity_type_id
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__activity_type_id
+#: model:ir.model.fields,field_description:bds.field_crm_request__activity_type_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__activity_type_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__activity_type_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__activity_type_id
+msgid "Next Activity Type"
+msgstr "Kiểu hành động kế tiếp"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__horizontal
+msgid "Ngang"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__min_horizontal
+msgid "Ngang tối thiểu"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__source
+#: model:ir.model.fields,field_description:bds.field_crm_request__source
+msgid "Nguồn"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__approved_date
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__approved_date
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__approved_date
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__approved_date
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__approved_date
+msgid "Ngày duyệt"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Ngày phân quyền"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Ngày tương tác"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_tree
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_view_tree
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_tree
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_view_tree
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Ngày đăng ký"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_search
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_search
+msgid "Ngưng bán"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__approver
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__approver
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__approver
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__approver
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__approver
+msgid "Người duyệt"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__requirement
+#: model:ir.model.fields,field_description:bds.field_crm_product__requirement
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__requirement
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__requirement
+#: model:ir.model.fields,field_description:bds.field_crm_request__requirement
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__requirement
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__requirement
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__requirement
+msgid "Nhu cầu"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__business_demand
+msgid "Nhu cầu KD"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Nhà nguyên căn"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Nhập số tiền...."
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Nhật ký phân quyền"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_res_users__notification_type
+msgid "Notification Management"
+msgstr "Quản lý thông báo"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_needaction_counter
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_needaction_counter
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_needaction_counter
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_needaction_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_needaction_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_needaction_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_needaction_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Số lượng Hành động"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_has_error_counter
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_has_error_counter
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_has_error_counter
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_has_error_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_has_error_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_has_error_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_has_error_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_has_error_counter
+msgid "Number of error"
+msgstr "Số lỗi"
+
+#. module: bds
+#: model:ir.model.fields,help:bds.field_crm_abstract_model__message_needaction_counter
+#: model:ir.model.fields,help:bds.field_crm_product__message_needaction_counter
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule__message_needaction_counter
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule_sheet__message_needaction_counter
+#: model:ir.model.fields,help:bds.field_crm_request__message_needaction_counter
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule__message_needaction_counter
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule_sheet__message_needaction_counter
+#: model:ir.model.fields,help:bds.field_crm_request_rule_abstract_model__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Số thông điệp cần có hành động"
+
+#. module: bds
+#: model:ir.model.fields,help:bds.field_crm_abstract_model__message_has_error_counter
+#: model:ir.model.fields,help:bds.field_crm_product__message_has_error_counter
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule__message_has_error_counter
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule_sheet__message_has_error_counter
+#: model:ir.model.fields,help:bds.field_crm_request__message_has_error_counter
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule__message_has_error_counter
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule_sheet__message_has_error_counter
+#: model:ir.model.fields,help:bds.field_crm_request_rule_abstract_model__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Số tin gửi đi bị lỗi"
+
+#. module: bds
+#: model:ir.model.fields,help:bds.field_crm_abstract_model__message_unread_counter
+#: model:ir.model.fields,help:bds.field_crm_product__message_unread_counter
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule__message_unread_counter
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule_sheet__message_unread_counter
+#: model:ir.model.fields,help:bds.field_crm_request__message_unread_counter
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule__message_unread_counter
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule_sheet__message_unread_counter
+#: model:ir.model.fields,help:bds.field_crm_request_rule_abstract_model__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Số thông điệp chưa đọc"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__back_expand
+msgid "Nở hậu"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.announcement
+#: model_terms:ir.ui.view,arch_db:bds.announcement_change_state
+msgid "OK"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.announcement
+msgid "Open"
+msgstr "Mở"
+
+#. module: bds
+#: selection:crm.abstract.model,activity_state:0
+#: selection:crm.product,activity_state:0
+#: selection:crm.product.request.rule,activity_state:0
+#: selection:crm.product.request.rule.sheet,activity_state:0
+#: selection:crm.request,activity_state:0
+#: selection:crm.request.request.rule,activity_state:0
+#: selection:crm.request.request.rule.sheet,activity_state:0
+#: selection:crm.request.rule.abstract.model,activity_state:0
+msgid "Overdue"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "PHÒNG GAME"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "PHÒNG GYM"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "PHÒNG KHÁM"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "PHÒNG TRỌ"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "PHÒNG XĂM"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__supporter_full_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request__supporter_full_ids
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form_wizard
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form_wizard
+msgid "Phân quyền"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form
+msgid "Phân quyền sản phẩm"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Phòng trọ"
+msgstr ""
+
+#. module: bds
+#: model:ir.actions.act_window,name:bds.crm_ward_action
+#: model:ir.model.fields,field_description:bds.field_crm_product__ward_no
+msgid "Phường/Xã"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+msgid "Phường/Xã..."
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,activity_state:0
+#: selection:crm.product,activity_state:0
+#: selection:crm.product.request.rule,activity_state:0
+#: selection:crm.product.request.rule.sheet,activity_state:0
+#: selection:crm.request,activity_state:0
+#: selection:crm.request.request.rule,activity_state:0
+#: selection:crm.request.request.rule.sheet,activity_state:0
+#: selection:crm.request.rule.abstract.model,activity_state:0
+msgid "Planned"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,help:bds.field_res_users__notification_type
+msgid "Policy on how to handle Chatter notifications:\n"
+"- Handle by Emails: notifications are sent to your email address\n"
+"- Handle in Odoo: notifications appear in your Odoo Inbox"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "QUÁN ĂN"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Quyền CV chăm sóc"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__adv
+msgid "Quảng cáo"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__district_id
+#: model:ir.model.fields,field_description:bds.field_crm_street__district_id
+#: model:ir.model.fields,field_description:bds.field_crm_ward__district_id
+msgid "Quận/Huyện"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+msgid "Quận/Huyện..."
+msgstr ""
+
+#. module: bds
+#: model:ir.actions.act_window,name:bds.crm_district_action
+msgid "Quận/huyện"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_district__country_id
+#: model:ir.model.fields,field_description:bds.field_crm_product__country_id
+#: model:ir.model.fields,field_description:bds.field_crm_street__country_id
+#: model:ir.model.fields,field_description:bds.field_crm_ward__country_id
+msgid "Quốc gia"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__activity_user_id
+#: model:ir.model.fields,field_description:bds.field_crm_product__activity_user_id
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__activity_user_id
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__activity_user_id
+#: model:ir.model.fields,field_description:bds.field_crm_request__activity_user_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__activity_user_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__activity_user_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__activity_user_id
+msgid "Responsible User"
+msgstr "Người chịu trách nhiệm"
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "RẠP CHIẾU PHIM"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "SALON"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_tree
+msgid "SDDK"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "SHOP"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "SHOWROOM"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "SIÊU THỊ"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "SPA"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_tree
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_tree
+msgid "STT"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Sang nhượng"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form_wizard
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form_wizard
+msgid "Save"
+msgstr "Lưu"
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_search
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_search
+msgid "Search Description"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_states_product__sequence
+msgid "Sequence"
+msgstr "Trình tự"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__crm_request_sheet_id
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__crm_request_sheet_id
+msgid "Sheet"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__is_show_email
+msgid "Show Email"
+msgstr ""
+
+#. module: bds
+#: code:addons/bds/wizard/announce.py:30
+#, python-format
+msgid "Something wrong happened, please contact with administrator."
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_states_product__name
+msgid "State"
+msgstr "Tỉnh/TP"
+
+#. module: bds
+#: model:ir.model.fields,help:bds.field_crm_abstract_model__activity_state
+#: model:ir.model.fields,help:bds.field_crm_product__activity_state
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule__activity_state
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule_sheet__activity_state
+#: model:ir.model.fields,help:bds.field_crm_request__activity_state
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule__activity_state
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule_sheet__activity_state
+#: model:ir.model.fields,help:bds.field_crm_request_rule_abstract_model__activity_state
+msgid "Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr "Trạng thái dựa trên hoạt động\n"
+"Quá hạn: Ngày đến hạn phải được chuyển\n"
+"Hôm nay: Hôm nay là ngày phải thực hiện\n"
+"Kế hoạch: Các hoạt động trong tương lai."
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_tree
+msgid "SĐK"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__sequence
+#: model:ir.model.fields,field_description:bds.field_crm_product__sequence
+#: model:ir.model.fields,field_description:bds.field_crm_request__sequence
+msgid "Số TT"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__house_no
+msgid "Số nhà"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+msgid "Số nhà..."
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__number_of_floors
+msgid "Số tầng"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__host_number_1
+#: model:ir.model.fields,field_description:bds.field_crm_product__host_number_1
+#: model:ir.model.fields,field_description:bds.field_crm_request__host_number_1
+msgid "Số ĐT 1"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__host_number_2
+#: model:ir.model.fields,field_description:bds.field_crm_product__host_number_2
+#: model:ir.model.fields,field_description:bds.field_crm_request__host_number_2
+msgid "Số ĐT 2"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__host_number_3
+#: model:ir.model.fields,field_description:bds.field_crm_product__host_number_3
+#: model:ir.model.fields,field_description:bds.field_crm_request__host_number_3
+msgid "Số ĐT 3"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Số ĐT chính..."
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Số ĐT phụ..."
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Số điện thoại"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__name
+#: model:ir.model.fields,field_description:bds.field_crm_request__name
+msgid "Số đăng ký"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "THUỐC TÂY"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "TRƯỜNG HỌC"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,help:bds.field_crm_states_product__fold
+msgid "This stage is folded in the kanban view when there are no records in that stage to display."
+msgstr ""
+
+#. module: bds
+#: model:ir.ui.menu,name:bds.crm_product_setting_menu
+#: model:ir.ui.menu,name:bds.crm_request_setting_menu
+msgid "Thiết lập"
+msgstr ""
+
+#. module: bds
+#: model:ir.ui.menu,name:bds.crm_setting_ward
+#: model:ir.ui.menu,name:bds.crm_setting_ward_1
+msgid "Thiết lập Phường/Xã"
+msgstr ""
+
+#. module: bds
+#: model:ir.ui.menu,name:bds.crm_setting_district
+#: model:ir.ui.menu,name:bds.crm_setting_district_1
+msgid "Thiết lập Quận/Huyện"
+msgstr ""
+
+#. module: bds
+#: model:ir.ui.menu,name:bds.crm_setting_street
+#: model:ir.ui.menu,name:bds.crm_setting_street_1
+msgid "Thiết lập Đường"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__convenient
+msgid "Thuận tiện"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.announcement
+#: model_terms:ir.ui.view,arch_db:bds.announcement_change_state
+msgid "Thành công"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+msgid "Thành phố/Tỉnh..."
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+msgid "Thông tin BĐS"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Thông tin chung"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Thông tin chủ nhà"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Thông tin hồ sơ"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_view_form
+msgid "Thông tin phân quyền sản phẩm"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__currency
+#: model:ir.model.fields,field_description:bds.field_crm_request__currency
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_tree
+msgid "Tiền tệ"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,activity_state:0
+#: selection:crm.product,activity_state:0
+#: selection:crm.product.request.rule,activity_state:0
+#: selection:crm.product.request.rule.sheet,activity_state:0
+#: selection:crm.request,activity_state:0
+#: selection:crm.request.request.rule,activity_state:0
+#: selection:crm.request.request.rule.sheet,activity_state:0
+#: selection:crm.request.rule.abstract.model,activity_state:0
+msgid "Today"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Toàn nhà"
+msgstr ""
+
+#. module: bds
+#: selection:crm.product,currency:0
+#: selection:crm.request,currency:0
+msgid "Triệu"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__is_duplicate_phone_1
+#: model:ir.model.fields,field_description:bds.field_crm_product__is_duplicate_phone_1
+#: model:ir.model.fields,field_description:bds.field_crm_request__is_duplicate_phone_1
+msgid "Trùng số 1"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__is_duplicate_phone_2
+#: model:ir.model.fields,field_description:bds.field_crm_product__is_duplicate_phone_2
+#: model:ir.model.fields,field_description:bds.field_crm_request__is_duplicate_phone_2
+msgid "Trùng số 2"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__is_duplicate_phone_3
+#: model:ir.model.fields,field_description:bds.field_crm_product__is_duplicate_phone_3
+#: model:ir.model.fields,field_description:bds.field_crm_request__is_duplicate_phone_3
+msgid "Trùng số 3"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__state
+#: model:ir.model.fields,field_description:bds.field_crm_product__state
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__state
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__state
+#: model:ir.model.fields,field_description:bds.field_crm_request__state
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__state
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__state
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__state
+msgid "Trạng thái"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_tree
+msgid "Tài chính"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,direction:0
+#: selection:crm.product,direction:0
+#: selection:crm.request,direction:0
+msgid "Tây - TTT"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,direction:0
+#: selection:crm.product,direction:0
+#: selection:crm.request,direction:0
+msgid "Tây Bắc - TTT"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,direction:0
+#: selection:crm.product,direction:0
+#: selection:crm.request,direction:0
+msgid "Tây Nam - TTT"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_district__name
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__name
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__name
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__name
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__name
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__name
+#: model:ir.model.fields,field_description:bds.field_crm_street__name
+#: model:ir.model.fields,field_description:bds.field_crm_ward__name
+msgid "Tên"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_tree
+msgid "Tên KH"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__host_name
+#: model:ir.model.fields,field_description:bds.field_crm_product__host_name
+#: model:ir.model.fields,field_description:bds.field_crm_request__host_name
+msgid "Tên chủ"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Tên khách hàng"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.actions.act_window,help:bds.crm_ward_action
+msgid "Tạo mới phường/xã tại đây"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.actions.act_window,help:bds.crm_district_action
+msgid "Tạo thêm các quận/huyện tại đây"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.actions.act_window,help:bds.crm_street_action
+msgid "Tạo thêm đường mới tại đây"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request__way
+msgid "Tập trung tuyến đường"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_district__state_id
+#: model:ir.model.fields,field_description:bds.field_crm_product__state_id
+#: model:ir.model.fields,field_description:bds.field_crm_street__state_id
+#: model:ir.model.fields,field_description:bds.field_crm_ward__state_id
+msgid "Tỉnh/TP"
+msgstr ""
+
+#. module: bds
+#: model:ir.ui.menu,name:bds.crm_product_request_rule_sheet_menu_act
+#: model:ir.ui.menu,name:bds.crm_request_request_rule_sheet_menu_act
+msgid "Tổng hợp yêu cầu phân quyền"
+msgstr ""
+
+#. module: bds
+#: selection:crm.product.request.rule,state:0
+#: selection:crm.product.request.rule.sheet,state:0
+#: selection:crm.request.request.rule,state:0
+#: selection:crm.request.request.rule.sheet,state:0
+#: selection:crm.request.rule.abstract.model,state:0
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form
+msgid "Từ chối"
+msgstr ""
+
+#. module: bds
+#: selection:crm.product,currency:0
+#: selection:crm.request,currency:0
+msgid "Tỷ"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_unread
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_unread
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_unread
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_unread
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_unread
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_unread
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_unread
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_unread
+msgid "Unread Messages"
+msgstr "Tin chưa đọc"
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_unread_counter
+#: model:ir.model.fields,field_description:bds.field_crm_product__message_unread_counter
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__message_unread_counter
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__message_unread_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request__message_unread_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__message_unread_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__message_unread_counter
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Bộ đếm Thông điệp chưa đọc"
+
+#. module: bds
+#: model:res.groups,name:bds.crm_product_rental_user_view_all
+#: model:res.groups,name:bds.crm_request_rental_user_view_all
+msgid "User(View all): Rental"
+msgstr "Người dùng (Được xem tất cả): Bên thuê"
+
+#. module: bds
+#: model:res.groups,name:bds.crm_product_sale_user_view_all
+#: model:res.groups,name:bds.crm_request_sale_user_view_all
+msgid "User(View all): Sale"
+msgstr "Người dùng (Được xem tất cả): Bên bán"
+
+#. module: bds
+#: model:res.groups,name:bds.crm_product_rental_user
+#: model:res.groups,name:bds.crm_request_rental_user
+msgid "User: Rental"
+msgstr "Người dùng: Bên thuê"
+
+#. module: bds
+#: model:res.groups,name:bds.crm_product_sale_user
+#: model:res.groups,name:bds.crm_request_sale_user
+msgid "User: Sale"
+msgstr "Người dùng: Bên bán"
+
+#. module: bds
+#: model:ir.model,name:bds.model_res_users
+msgid "Users"
+msgstr "Người dùng"
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "VĂN PHÒNG"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Văn phòng"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__location
+msgid "Vị trí"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__is_show_email
+msgid "Xem Email"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__is_show_map
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__is_show_map
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__is_show_map
+msgid "Xem bản đồ"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__is_show_attachment
+#: model:ir.model.fields,field_description:bds.field_crm_product__is_show_attachment
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__is_show_attachment
+#: model:ir.model.fields,field_description:bds.field_crm_request__is_show_attachment
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__is_show_attachment
+msgid "Xem hình ảnh"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__is_show_house_no
+#: model:ir.model.fields,field_description:bds.field_crm_product__is_show_house_no
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__is_show_house_no
+#: model:ir.model.fields,field_description:bds.field_crm_request__is_show_house_no
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__is_show_house_no
+msgid "Xem số nhà"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Xin phân quyền"
+msgstr ""
+
+#. module: bds
+#: model:ir.actions.act_window,name:bds.action_request_for_product
+#: model:ir.actions.act_window,name:bds.action_request_for_reuqest
+#: model:ir.actions.act_window,name:bds.crm_product_request_rule_action
+#: model:ir.actions.act_window,name:bds.crm_product_request_rule_sheet_action
+#: model:ir.actions.act_window,name:bds.crm_request_request_rule_action
+#: model:ir.actions.act_window,name:bds.crm_request_request_rule_sheet_action
+#: model:ir.ui.menu,name:bds.crm_product_request_rule_menu_act
+#: model:ir.ui.menu,name:bds.crm_request_request_rule_menu_act
+msgid "Yêu cầu phân quyền"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form_wizard
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_tree
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_form_wizard
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_sheet_view_tree
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_request_rule_view_form
+msgid "e.g. Phân quyền..."
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_announce__name
+msgid "name"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__readonly_requirement
+#: model:ir.model.fields,field_description:bds.field_crm_product__readonly_requirement
+#: model:ir.model.fields,field_description:bds.field_crm_request__readonly_requirement
+msgid "readonly_requirement"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_search
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_search
+msgid "Đang giao dịch"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__potential_evaluation
+#: model:ir.model.fields,field_description:bds.field_crm_request__potential_evaluation
+msgid "Đánh giá tiềm năng"
+msgstr ""
+
+#. module: bds
+#: selection:crm.product.request.rule,state:0
+#: selection:crm.product.request.rule.sheet,state:0
+#: selection:crm.request.request.rule,state:0
+#: selection:crm.request.request.rule.sheet,state:0
+#: selection:crm.request.rule.abstract.model,state:0
+msgid "Đã duyệt"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_search
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_search
+msgid "Đã giao dịch"
+msgstr ""
+
+#. module: bds
+#: selection:crm.product.request.rule,state:0
+#: selection:crm.request.request.rule,state:0
+#: selection:crm.request.rule.abstract.model,state:0
+msgid "Đóng"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,direction:0
+#: selection:crm.product,direction:0
+#: selection:crm.request,direction:0
+msgid "Đông Bắc - TTT"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,direction:0
+#: selection:crm.product,direction:0
+#: selection:crm.request,direction:0
+msgid "Đông Nam - DTT"
+msgstr ""
+
+#. module: bds
+#: model:ir.actions.act_window,name:bds.crm_street_action
+#: model:ir.model.fields,field_description:bds.field_crm_product__street
+msgid "Đường"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "Đường nhỏ"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
+msgid "Đường nội bộ"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+msgid "Đường..."
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_real_estate:0
+#: selection:crm.product,type_of_real_estate:0
+#: selection:crm.request,type_of_real_estate:0
+msgid "Đất"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+msgid "Địa chỉ"
+msgstr ""
+

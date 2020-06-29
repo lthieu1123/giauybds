@@ -52,6 +52,8 @@ class CrmAbstractModel(models.AbstractModel):
     direction = fields.Selection(
         string='Hướng', selection=CARDINAL_DIRECTION, track_visibility='always')
     description = fields.Text('Diễn giải',compute='_set_description',store=True)
+    type_of_road = fields.Selection(
+        string='Loại đường', selection=TYPE_OF_ROAD, required=True, track_visibility='always')
 
     host_name = fields.Char('Tên chủ', track_visibility='always')
     host_number_1 = fields.Char('Số ĐT 1')
@@ -76,11 +78,7 @@ class CrmAbstractModel(models.AbstractModel):
     is_duplicate_phone_2 = fields.Boolean('Trùng số 2', default=False)
     is_duplicate_phone_3 = fields.Boolean('Trùng số 3', default=False)
 
-    @api.constrains('is_duplicate_phone_1','is_duplicate_phone_2','is_duplicate_phone_3')
-    def _constrains_phone_number(self):
-        for rec in self:
-            if rec.is_duplicate_phone_1 or rec.is_duplicate_phone_2 or rec.is_duplicate_phone_3:
-                raise exceptions.ValidationError('Trùng số điện thoại, không thể lưu')
+    
 
     @api.depends('name')
     def _is_readonly_requirement(self):
@@ -116,70 +114,103 @@ class CrmAbstractModel(models.AbstractModel):
         is_duplicate_phone_1 = False
         is_duplicate_phone_2 = False
         is_duplicate_phone_3 = False
-        if self.host_number_1 == self.host_number_2:
-            is_duplicate_phone_1 = is_duplicate_phone_2 = True
-        if self.host_number_1 == self.host_number_3:
-            is_duplicate_phone_1 = is_duplicate_phone_3 = True
-        if self.host_number_2 == self.host_number_3:
-            is_duplicate_phone_2 = is_duplicate_phone_3 = True
-        if self.host_number_2 == self.host_number_1:
-            is_duplicate_phone_2 = is_duplicate_phone_1 = True
-        if self.host_number_3 == self.host_number_1:
-            is_duplicate_phone_3 = is_duplicate_phone_1 = True
-        if self.host_number_3 == self.host_number_2:
-            is_duplicate_phone_3 = is_duplicate_phone_2 = True
+        if self.host_number_1:
+            if self.host_number_1 == self.host_number_2:
+                is_duplicate_phone_1 = is_duplicate_phone_2 = True
+            if self.host_number_1 == self.host_number_3:
+                is_duplicate_phone_1 = is_duplicate_phone_3 = True
+        
+        if self.host_number_2:
+            if self.host_number_2 == self.host_number_3:
+                is_duplicate_phone_2 = is_duplicate_phone_3 = True
+            if self.host_number_2 == self.host_number_1:
+                is_duplicate_phone_2 = is_duplicate_phone_1 = True
+        
+        if self.host_number_3:
+            if self.host_number_3 == self.host_number_1:
+                is_duplicate_phone_3 = is_duplicate_phone_1 = True
+            if self.host_number_3 == self.host_number_2:
+                is_duplicate_phone_3 = is_duplicate_phone_2 = True
+        return is_duplicate_phone_1,is_duplicate_phone_2,is_duplicate_phone_3
+    
+    
+
+    def _check_duplicate_phone_number_in_db(self,_id=False):
+        _li_phone_data = []
+        is_duplicate_phone_1 = False
+        is_duplicate_phone_2 = False
+        is_duplicate_phone_3 = False
+        if self.requirement == 'sale':
+            #Query phone number form crm product
+            domain = [('requirement','=','sale')]
+            if self._name == 'crm.product':
+                domain.append(('id','!=',_id))
+            _li_phone_sale_tmp = self.env['crm.product'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
+            for i in _li_phone_sale_tmp:
+                _li_phone_data += i
+
+            #Query phone number form crm request
+            if self._name == 'crm.request':
+                domain.append(('id','!=',_id))
+            _li_phone_sale_tmp = self.env['crm.request'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])                
+            
+            for i in _li_phone_sale_tmp:
+                _li_phone_data += i
+        else:
+            #Query phone number form crm product
+            domain = [('requirement','=','rental')]
+            if self._name == 'crm.product':
+                domain.append(('id','!=',_id))
+            _li_phone_sale_tmp = self.env['crm.product'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
+            for i in _li_phone_sale_tmp:
+                _li_phone_data += i
+
+            #Query phone number form crm request
+            if self._name == 'crm.request':
+                domain.append(('id','!=',_id))
+            _li_phone_sale_tmp = self.env['crm.request'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
+            for i in _li_phone_sale_tmp:
+                _li_phone_data += i
+        #Validate data
+        if self.host_number_1 in _li_phone_data:
+            is_duplicate_phone_1 = True
+        if self.host_number_2 in _li_phone_data:
+            is_duplicate_phone_2 = True
+        if self.host_number_3 in _li_phone_data:
+            is_duplicate_phone_3 = True
         return is_duplicate_phone_1,is_duplicate_phone_2,is_duplicate_phone_3
     
     @api.onchange('host_number_1','host_number_2','host_number_3')
     def _duplicate_phone_num(self):
+        is_duplicate_phone_1 = False
+        is_duplicate_phone_2 = False
+        is_duplicate_phone_3 = False
+        is_duplicate_phone_1_2 = False
+        is_duplicate_phone_2_2 = False
+        is_duplicate_phone_3_2 = False
+        if (self.host_number_1 != self._origin.host_number_1) or (self.host_number_2 != self._origin.host_number_2) or (self.host_number_3 != self._origin.host_number_3):
+            is_duplicate_phone_1, is_duplicate_phone_2, is_duplicate_phone_3 = self._check_duplicate_phone_number_in_record()
+            is_duplicate_phone_1_2, is_duplicate_phone_2_2, is_duplicate_phone_3_2 = self._check_duplicate_phone_number_in_db()
+        self.is_duplicate_phone_1 = is_duplicate_phone_1 or is_duplicate_phone_1_2
+        self.is_duplicate_phone_2 = is_duplicate_phone_2 or is_duplicate_phone_2_2
+        self.is_duplicate_phone_3 = is_duplicate_phone_3 or is_duplicate_phone_3_2
+            
+
+    @api.constrains('host_number_1','host_number_2','host_number_3')
+    def _constrains_phone_number(self):
         for rec in self:
             is_duplicate_phone_1 = False
             is_duplicate_phone_2 = False
             is_duplicate_phone_3 = False
-            if rec.host_number_1 and rec.host_number_1 != rec._origin.host_number_1 and rec.host_number_2 and rec.host_number_2 != rec._origin.host_number_2 and rec.host_number_3 and rec.host_number_3 != rec._origin.host_number3:
+            is_duplicate_phone_1_2 = False
+            is_duplicate_phone_2_2 = False
+            is_duplicate_phone_3_2 = False
+            if rec.host_number_1 or rec.host_number_2 or rec.host_number_3:
                 is_duplicate_phone_1, is_duplicate_phone_2, is_duplicate_phone_3 = rec._check_duplicate_phone_number_in_record()
-                _li_phone_data = []
-                if rec.requirement == 'sale':
-                    #Query phone number form crm product
-                    _li_phone_sale_tmp = self.env['crm.product'].search([
-                        ('requirement','=','sale')
-                    ]).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
-                    for i in _li_phone_sale_tmp:
-                        _li_phone_data += i
-
-                    #Query phone number form crm request
-                    _li_phone_sale_tmp = self.env['crm.request'].search([
-                        ('requirement','=','sale')
-                    ]).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])                
-                    
-                    for i in _li_phone_sale_tmp:
-                        _li_phone_data += i
-                else:
-                    #Query phone number form crm product
-                    _li_phone_sale_tmp = self.env['crm.product'].search([
-                        ('requirement','=','rental')
-                    ]).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
-                    for i in _li_phone_sale_tmp:
-                        _li_phone_data += i
-
-                    #Query phone number form crm request
-                    _li_phone_sale_tmp = self.env['crm.request'].search([
-                        ('requirement','=','rental')
-                    ]).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
-                    for i in _li_phone_sale_tmp:
-                        _li_phone_data += i
-                #Validate data
-                if rec.host_number_1 in _li_phone_data:
-                    is_duplicate_phone_1 = True
-                if rec.host_number_2 in _li_phone_data:
-                    is_duplicate_phone_2 = True
-                if rec.host_number_3 in _li_phone_data:
-                    is_duplicate_phone_3 = True
-            rec.is_duplicate_phone_1 = is_duplicate_phone_1
-            rec.is_duplicate_phone_2 = is_duplicate_phone_2
-            rec.is_duplicate_phone_3 = is_duplicate_phone_3
-
-
+                is_duplicate_phone_1_2, is_duplicate_phone_2_2, is_duplicate_phone_3_2 = rec._check_duplicate_phone_number_in_db(rec.id)
+            if (is_duplicate_phone_1 or is_duplicate_phone_1_2) or (is_duplicate_phone_2 or is_duplicate_phone_2_2) or (is_duplicate_phone_3 or is_duplicate_phone_3_2):
+                raise exceptions.ValidationError('Trùng số điện thoại, không thể lưu')
+            
     def _get_url(self):
         return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
     

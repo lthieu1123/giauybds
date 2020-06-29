@@ -97,6 +97,7 @@
                                     <field name="currency" class="oe_inline o_address_city" placeholder="$/Triệu/Tỷ..."/>
                                 </div>
                                 <field name="business_demand"/>
+                                <field name="type_of_road"/>
                                 <field name="zone"/>
                                 <field name="email" class="bds_show_email"/>
                                 <field name="is_duplicate_phone_1" invisible="1"/>
