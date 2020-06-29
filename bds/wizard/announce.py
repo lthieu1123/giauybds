@@ -3,7 +3,7 @@ from odoo import models, fields, api, exceptions
 from datetime import datetime
 from odoo.tools.translate import _
 
-class EccAnnoucement(models.TransientModel):
+class Annoucement(models.TransientModel):
     _name = 'announce'
     _description = 'Announce'
 

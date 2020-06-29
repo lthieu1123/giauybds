@@ -19,11 +19,23 @@
             <field name="category_id" ref="crm_product_group"/>
         </record>
 
-        <record id="crm_product_change_rule_user" model="res.groups">
+        <record id="crm_product_rental_user_view_all" model="res.groups">
+            <field name="name">User(View all): Rental</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_product_rental_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <record id="crm_product_sale_user_view_all" model="res.groups">
+            <field name="name">User(View all): Sale</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_product_sale_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <!-- <record id="crm_product_change_rule_user" model="res.groups">
             <field name="name">User: Change rule</field>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
             <field name="category_id" ref="crm_product_group"/>
-        </record>
+        </record> -->
 
         <record id="crm_product_sale_manager" model="res.groups">
             <field name="name">Manager: Sale</field>
@@ -47,9 +59,9 @@
         <record id="show_crm_product_rental" model="ir.rule">
             <field name="name">CRM Product: Show rental</field>
             <field name="model_id" ref="bds.model_crm_product"/>
-            <field name="groups" eval="[(4, ref('crm_product_rental_user'))]"/>
+            <field name="groups" eval="[(4, ref('crm_product_rental_user')),(4,ref('crm_product_rental_user_view_all'))]"/>
             <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="0"/>
+            <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
             <field name="domain_force">[('requirement','=','rental')]</field>
@@ -69,9 +81,9 @@
         <record id="show_crm_product_sale" model="ir.rule">
             <field name="name">CRM Product: Show sale</field>
             <field name="model_id" ref="bds.model_crm_product"/>
-            <field name="groups" eval="[(4, ref('crm_product_sale_user'))]"/>
+            <field name="groups" eval="[(4, ref('crm_product_sale_user')),(4,ref('crm_product_sale_user_view_all'))]"/>
             <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="0"/>
+            <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
             <field name="domain_force">[('requirement','=','sale')]</field>
@@ -88,16 +100,16 @@
             <field name="domain_force">[('requirement','=','sale')]</field>
         </record>
 
-        <record id="show_crm_product_change_rule" model="ir.rule">
+        <!-- <record id="show_crm_product_change_rule" model="ir.rule">
             <field name="name">CRM Product: Change rule</field>
             <field name="model_id" ref="bds.model_crm_product"/>
             <field name="groups" eval="[(4, ref('crm_product_change_rule_user'))]"/>
             <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="0"/>
+            <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
             <field name="domain_force">[('requirement','in',['sale','rental'])]</field>
-        </record>
+        </record> -->
 
         <record id="show_crm_product_manager" model="ir.rule">
             <field name="name">CRM Product: Manager</field>
@@ -110,7 +122,7 @@
             <field name="domain_force">[(1,'=',1)]</field>
         </record>
 
-        <record id="show_crm_product_request_rule_all_record_change_rule" model="ir.rule">
+        <!-- <record id="show_crm_product_request_rule_all_record_change_rule" model="ir.rule">
             <field name="name">CRM Product Request Rule: Show all records change rule</field>
             <field name="model_id" ref="bds.model_crm_product_request_rule"/>
             <field name="groups" eval="[(4, ref('crm_product_change_rule_user'))]"/>
@@ -119,7 +131,7 @@
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
             <field name="domain_force">[(1,'=',1)]</field>
-        </record>
+        </record> -->
 
         <record id="show_crm_product_request_rule_all_sale_record" model="ir.rule">
             <field name="name">CRM Product Request Rule: Show all sale records</field>
@@ -187,7 +199,7 @@
             <field name="domain_force">[('requirement','=','rental')]</field>
         </record>
 
-        <record id="show_crm_product_request_rule_sheet_all_record_change_rule" model="ir.rule">
+        <!-- <record id="show_crm_product_request_rule_sheet_all_record_change_rule" model="ir.rule">
             <field name="name">CRM Product Request Rule Sheet: Show all records change rule</field>
             <field name="model_id" ref="bds.model_crm_product_request_rule_sheet"/>
             <field name="groups" eval="[(4, ref('crm_product_change_rule_user'))]"/>
@@ -196,7 +208,7 @@
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
             <field name="domain_force">[(1,'=',1)]</field>
-        </record>
+        </record> -->
 
         <record id="show_crm_product_request_rule_sheet_all_record" model="ir.rule">
             <field name="name">CRM Product Request Rule Sheet: Show all records</field>
@@ -227,11 +239,23 @@
             <field name="category_id" ref="crm_request_group"/>
         </record>
 
-        <record id="crm_request_change_rule_user" model="res.groups">
+         <record id="crm_request_rental_user_view_all" model="res.groups">
+            <field name="name">User(View all): Rental</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_request_rental_user'))]"/>
+            <field name="category_id" ref="crm_request_group"/>
+        </record>
+
+        <record id="crm_request_sale_user_view_all" model="res.groups">
+            <field name="name">User(View all): Sale</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_request_sale_user'))]"/>
+            <field name="category_id" ref="crm_request_group"/>
+        </record>
+
+        <!-- <record id="crm_request_change_rule_user" model="res.groups">
             <field name="name">User: Change rule</field>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
             <field name="category_id" ref="crm_request_group"/>
-        </record>
+        </record> -->
 
         <record id="crm_request_sale_manager" model="res.groups">
             <field name="name">Manager: Sale</field>
@@ -255,9 +279,9 @@
         <record id="show_crm_request_rental" model="ir.rule">
             <field name="name">CRM Request: Show rental</field>
             <field name="model_id" ref="bds.model_crm_request"/>
-            <field name="groups" eval="[(4, ref('crm_request_rental_user'))]"/>
+            <field name="groups" eval="[(4, ref('crm_request_rental_user')),(4,ref('crm_request_rental_user_view_all'))]"/>
             <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="0"/>
+            <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
             <field name="domain_force">[('requirement','=','rental')]</field>
@@ -277,9 +301,9 @@
         <record id="show_crm_request_sale" model="ir.rule">
             <field name="name">CRM Request: Show sale</field>
             <field name="model_id" ref="bds.model_crm_request"/>
-            <field name="groups" eval="[(4, ref('crm_request_sale_user'))]"/>
+            <field name="groups" eval="[(4, ref('crm_request_sale_user')),(4,ref('crm_request_sale_user_view_all'))]"/>
             <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="0"/>
+            <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
             <field name="domain_force">[('requirement','=','sale')]</field>
@@ -296,16 +320,16 @@
             <field name="domain_force">[('requirement','=','sale')]</field>
         </record>
 
-        <record id="show_crm_request_change_rule" model="ir.rule">
+        <!-- <record id="show_crm_request_change_rule" model="ir.rule">
             <field name="name">CRM Request: Change rule</field>
             <field name="model_id" ref="bds.model_crm_request"/>
             <field name="groups" eval="[(4, ref('crm_request_change_rule_user'))]"/>
             <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="0"/>
+            <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
             <field name="domain_force">[('requirement','in',['sale','rental'])]</field>
-        </record>
+        </record> -->
 
         <record id="show_crm_request_manager" model="ir.rule">
             <field name="name">CRM Request: Manager</field>
@@ -318,7 +342,7 @@
             <field name="domain_force">[(1,'=',1)]</field>
         </record>
 
-        <record id="show_crm_request_request_rule_all_record_change_rule" model="ir.rule">
+        <!-- <record id="show_crm_request_request_rule_all_record_change_rule" model="ir.rule">
             <field name="name">CRM Request Request Rule: Show all records change rule</field>
             <field name="model_id" ref="bds.model_crm_request_request_rule"/>
             <field name="groups" eval="[(4, ref('crm_request_change_rule_user'))]"/>
@@ -327,7 +351,7 @@
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
             <field name="domain_force">[(1,'=',1)]</field>
-        </record>
+        </record> -->
 
         <record id="show_crm_request_request_rule_all_sale_record" model="ir.rule">
             <field name="name">CRM Request Request Rule: Show all sale records</field>
@@ -395,7 +419,7 @@
             <field name="domain_force">[('requirement','=','rental')]</field>
         </record>
 
-        <record id="show_crm_request_request_rule_sheet_all_record_change_rule" model="ir.rule">
+        <!-- <record id="show_crm_request_request_rule_sheet_all_record_change_rule" model="ir.rule">
             <field name="name">CRM Request Request Rule Sheet: Show all records change rule</field>
             <field name="model_id" ref="bds.model_crm_request_request_rule_sheet"/>
             <field name="groups" eval="[(4, ref('crm_request_change_rule_user'))]"/>
@@ -404,7 +428,7 @@
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="0"/>
             <field name="domain_force">[(1,'=',1)]</field>
-        </record>
+        </record> -->
 
         <record id="show_crm_request_request_rule_sheet_all_record" model="ir.rule">
             <field name="name">CRM Request Request Rule Sheet: Show all records</field>

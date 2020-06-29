@@ -18,9 +18,9 @@ class CrmProductReuqestRule(models.Model):
     
     crm_product_id = fields.Many2one('crm.product','CRM Product',ondelete='cascade')
     crm_request_sheet_id = fields.Many2one('crm.product.request.rule.sheet','Sheet')
-    is_show_attachment = fields.Boolean('Xem hình ảnh', default=False)
-    is_show_house_no = fields.Boolean('Xem số nhà', default=False)
-    is_show_map = fields.Boolean('Xem bản đồ', default=False)
+    is_show_attachment = fields.Boolean('Xem hình ảnh', default=True)
+    is_show_house_no = fields.Boolean('Xem số nhà', default=True)
+    is_show_map = fields.Boolean('Xem bản đồ', default=True)
     
     @api.model
     def create(self, vals):
@@ -39,7 +39,13 @@ class CrmProductReuqestRuleSheet(models.Model):
     employee_id = fields.Many2one('hr.employee','CV chăm sóc',ondelete='cascade', default= lambda self: self._get_default_employee_id())
     crm_request_line_ids = fields.One2many(comodel_name='crm.product.request.rule',inverse_name="crm_request_sheet_id",string='CV chăm sóc')
     state = fields.Selection(string='Trạng thái', selection=[('draft','Chưa duyệt'),('approved','Đã duyệt'),('cancel','Từ chối')], default="draft")
-    requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cho thuê'),('sale','Cần bán')], compute='_set_requirement')
+    requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cho thuê'),('sale','Cần bán')], compute='_set_requirement',store=True)
+    mail_ids = fields.Many2many(comodel_name='mail.activity',string='Mail Activity')
+    approver = fields.Many2one('hr.employee', 'Người duyệt')
+    approved_date = fields.Datetime(string='Ngày duyệt')   
+
+    def _get_url(self):
+        return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
 
     @api.depends('crm_request_line_ids')
     def _set_requirement(self):
@@ -76,6 +82,9 @@ class CrmProductReuqestRuleSheet(models.Model):
             'employee_id': self.employee_id.id,
             'crm_product_id': crm_product_id.id,
             'requirement': crm_product_id.requirement,
+            'is_show_attachment': True,
+            'is_show_house_no': True,
+            'is_show_map': True
         }
     
     def send_notification_request(self):
@@ -92,14 +101,18 @@ class CrmProductReuqestRuleSheet(models.Model):
         user_ids = self.env['res.users'].search([
             ('groups_id','in',groups_id)
         ])
+        mail_ids = []
         for user in user_ids:
-            mess = BODY_MSG.format(user.partner_id.id,user.partner_id.id,user.partner_id.name,"Vui lòng duyệt yêu cầu")
-            self.message_post(body=mess,message_type="comment")
+            res = self._create_email_activity(user)
+            mail_ids.append(res.id)
+        self.update({
+            'mail_ids': [(6,0,mail_ids)]
+        })
+            
 
-    def send_notification_approve(self):
-        user = self.employee_id.user_id
-        mess = BODY_MSG.format(user.partner_id.id,user.partner_id.id,user.partner_id.name,"Đã duyệt")
-        self.message_post(body=mess)
+    def make_action_done(self):
+        for mail in self.mail_ids:
+            mail.action_done()
 
     @api.multi
     def btn_save(self):
@@ -120,8 +133,11 @@ class CrmProductReuqestRuleSheet(models.Model):
     @api.multi
     def btn_approve(self):
         self.ensure_one()
+        approver = self.env.user.employee_ids[0]
         self.update({
-            'state': 'approved'
+            'state': 'approved',
+            'approved_date': datetime.now(),
+            'approver': approver.id
         })
         request_rule = self.env['crm.product.request.rule']
         for line in self.crm_request_line_ids:
@@ -137,18 +153,30 @@ class CrmProductReuqestRuleSheet(models.Model):
             line.write({
                 'state':'approved',
                 'approved_date': datetime.now(),
-                'approver': self.env.user.employee_ids.ids[0]
+                'approver': approver.id
             })
-        self.send_notification_approve()
+        self.make_action_done()
+        self.send_notification('Đã duyệt bởi: {}'.format(approver.name))
                
+    def _remove_mail_activity(self):
+        for mail in self.mail_ids:
+            mail.unlink()
 
     @api.multi
     def btn_reject(self):
+        approver = self.env.user.employee_ids[0]
+        self.write({
+            'state':'cancel',
+            'approved_date': datetime.now(),
+            'approver': approver.id
+        })
         self.crm_request_line_ids.write({
             'state':'cancel',
             'approved_date': datetime.now(),
-            'approver': self.env.user.employee_ids.ids[0]
+            'approver': approver.id
         })
+        self._remove_mail_activity()
+        self.send_notification('Từ chối bởi: {}'.format(approver.name))
 
     @api.model
     def create(self, vals):
@@ -157,3 +185,32 @@ class CrmProductReuqestRuleSheet(models.Model):
             vals['sequence'] = int(vals['name'].split('-')[1])
         res = super().create(vals)
         return res
+
+    def _create_email_activity(self,user_id):
+        model_id = self.env['ir.model'].search(
+            [('model', '=', self._name)]).id
+        activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
+        summary = 'Yêu cầu phần quyền từ {}'.format(self.employee_id.name)
+        date_deadline = fields.Date.today()
+        note = 'Yêu cầu duyệt phân quyền từ {}'.format(self.employee_id.name)
+        user_id = user_id.id
+        vals = {
+            'activity_type_id': activity_type_id,
+            'summary': summary,
+            'date_deadline': date_deadline,
+            'note': note,
+            'res_id': self.id,
+            'res_model_id': model_id,
+            'user_id': user_id
+        }
+        res = self.env['mail.activity'].create(vals)
+        return res
+    
+    def _get_url(self):
+        return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+
+    def send_notification(self,msg):
+        user = self.employee_id.user_id
+        message = BODY_MSG.format(self._get_url(),user.partner_id.id,user.partner_id.id,user.partner_id.name,msg)
+        self.message_post(body=message,message_type="comment",partner_ids=[user.partner_id.id])
+

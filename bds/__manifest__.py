@@ -13,7 +13,7 @@
     ],
     'category': 'bds',
     'version': '1.0.0',
-    'depends': ['base','web','mail','decimal_precision','document','hr'],
+    'depends': ['base','web','mail','decimal_precision','document','hr','snailmail'],
     'data': [
         'data/res.country.state.csv',
         'data/vn_district_default.xml',

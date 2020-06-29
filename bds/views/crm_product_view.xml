@@ -2,16 +2,49 @@
 <odoo>
     <data noupdate="0">
         <!-- Add you code here -->
-        <!-- model.name action window -->
+        
+        <!-- model.name search view -->
+        <record id="crm_product_view_search" model="ir.ui.view">
+            <field name="name">Tìm kiếm sp</field>
+            <field name="model">crm.product</field>
+            <field name="arch" type="xml">
+                <search string="Search Description">
+                    <field name="name"/>
+                    <field name="requirement"/>
+                    <field name="brokerage_specialist"/>
+                    <field name="supporter_ids"/>
+                    <field name="state"/>
+                    <field name="district_id"/>
+                    <field name="ward_no"/>
+                    <field name="street"/>
+                    <separator/>
+                    <filter name="state_draft" string="Chưa duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
+                    <separator/>
+                    <filter name="state_open" string="Mở bán" domain="[('state','=',%(bds.crm_state_open)d)]"/>
+                    <separator/>
+                    <filter name="state_stop" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_stop)d)]"/>
+                    <separator/>
+                    <filter name="state_pending" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
+                    <separator/>
+                    <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
+                    <separator/>
+                    <filter name="state_ontrade" string="Đang giao dịch" domain="[('state','=',%(bds.crm_state_ongoing)d)]"/>
+                    <separator/>                    
+                </search>
+            </field>
+        </record>
+
         <record id="crm_product_action" model="ir.actions.act_window">
             <field name="name">CRM Product</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">crm.product</field>
             <field name="view_mode">tree,form</field>
             <field name="view_type">form</field>
+             <field name="search_view_id" ref="crm_product_view_search"/>
+            <field name="context">{'search_default_state_open': 1}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    <!-- Add Text Here -->
+                    Hồ sơ sản phẩm tạo tại đây
                 </p><p>
                     <!-- More details about what a user can do with this object will be OK --> 
                 </p>
@@ -26,12 +59,13 @@
                 <form>
                     <header>
                         <button name="btn_request_rule" type="object" string="Xin phân quyền" class="btn btn-primary"/>
-                        <button name="btn_test_send_message" type="object" string="TEST" class="btn btn-primary"/>
-                        <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" readonly="1" force_save="1"/>
+                        <field name="is_manager" invisible="1"/>
+                        <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" attrs="{'invisible': [('is_manager','=',False)]}"/>
                         <field name="is_brokerage_specialist" invisible="1"/>
                         <field name="is_show_attachment" invisible="1"/>
                         <field name="is_show_house_no" invisible="1"/>
                         <field name="is_show_map" invisible="1"/>
+                        
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -56,25 +90,28 @@
                                 <field name="create_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày đăng ký"/>
                                 <field name="write_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày tương tác"/>
                             </group>
+                            <field name="is_duplicate_phone_1" invisible="1"/>
+                            <field name="is_duplicate_phone_2" invisible="1"/>
+                            <field name="is_duplicate_phone_3" invisible="1"/>
                             <group string="Thông tin chủ nhà">
                                 <field name="host_name"/>
                                 <label for="host_number_1" string="Số điện thoại"/>
                                 <div class="bds_show_phone_no">
                                     <div>
-                                        <field name="host_number_1" widget="phone" class="o_address_city" placeholder="Số ĐT chính..."/>    
+                                        <field name="host_number_1" widget="phone" class="o_address_city" placeholder="Số ĐT chính..." decoration-danger="is_duplicate_phone_1"/>    
                                     </div>
                                     <div>
-                                        <field name="host_number_2" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..."/>    
+                                        <field name="host_number_2" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..." decoration-danger="is_duplicate_phone_2"/>    
                                     </div>
                                     <div>
-                                        <field name="host_number_3" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..."/>    
+                                        <field name="host_number_3" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..." decoration-danger="is_duplicate_phone_3"/>    
                                     </div>
                                 </div>
                                 
                             </group>
                         </group>
                         <div>
-                            <field name="description" placeholder="Diễn giải..." class="bds_show_description"/>
+                            <field name="description" placeholder="Diễn giải..." readonly="1" force_save="1" />
                         </div>
                         <notebook>
                             <page string="Thông tin BĐS">
@@ -85,8 +122,8 @@
                                             <field name="house_no" placeholder="Số nhà..." class="o_address_street bds_show_house_no"/>
                                             <field name="state_id" placeholder="Thành phố/Tỉnh..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
                                             <field name="district_id" placeholder="Quận/Huyện..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
-                                            <field name="ward_no" placeholder="Phường/Xã..." class="o_address_city"/>
-                                            <field name="street" placeholder="Đường..." class="o_address_city"/>
+                                            <field name="ward_no" placeholder="Phường/Xã..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="street" placeholder="Đường..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
                                             <field name="country_id" invisible="1" class="o_address_country" options="{&quot;no_open&quot;: True}"/>
                                         </div>
                                     </group>
@@ -109,12 +146,31 @@
                                         </div>
                                         <field name="number_of_floors" class="oe_inline"/>
                                         <field name="direction" class="oe_inline"/>
-                                        <label for="usd_price" string="Giá"/>
+                                        <label for="price" string="Giá"/>
                                         <div>
-                                            <field name="usd_price" class="oe_inline"/><![CDATA[&nbsp;]]><span>USD</span>
+                                            <field name="price" class="oe_inline" placeholder='Nhập số tiền....'/>
                                             <![CDATA[&nbsp;]]>
-                                            <field name="vnd_price" class="oe_inline"/><![CDATA[&nbsp;]]><span>VND</span>
+                                            <field name="currency" class="oe_inline" placeholder="$/Triệu/Tỷ..."/>
                                         </div>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string='Diễn Giải'>
+                                <group>
+                                    <group>
+                                        <field name="location"/>
+                                        <field name="current_status"/>
+                                        <field name="convenient"/>
+                                        <field name="business_restrictions"/>
+                                        <field name="rental_price"/>
+                                    </group>
+                                    <group>
+                                        <field name="note"/>
+                                        <field name="tip"/>
+                                        <field name="source"/>
+                                        <field name="way"/>
+                                        <field name="adv"/>
+                                        <field name="potential_evaluation"/>
                                     </group>
                                 </group>
                             </page>
@@ -196,30 +252,31 @@
             <field name="arch" type="xml">
                 <tree default_order="create_date desc">
                     <!-- Add your fields here -->
-                    <field name="sequence"/>
-                    <field name="name"/>
+                    <field name="sequence" string="STT"/>
+                    <field name="name" string="SĐK"/>
                     <field name="requirement"/>
                     <field name="type_of_real_estate"/>
-                    <field name="brokerage_specialist"/>
-                    <field name="supporter_ids" widget="many2many_tags"/>
-                    <field name="create_date"/>
-                    <field name="write_date"/>
+                    <field name="description" invisible="1"/>
                     <!-- <field name="description" class="bds_show_description"/>
                     <field name="house_no" class="bds_show_house_no"/> -->
-                    <field name="ward_no"/>
                     <field name="street"/>
-                    <field name="state_id"/>
+                    <field name="ward_no"/>
                     <field name="district_id"/>
+                    <field name="state_id"/>
                     <field name="country_id" invisible="1"/>
                     <field name="type_of_road"/>
                     <field name="horizontal"/>
                     <field name="length"/>
                     <field name="back_expand"/>
                     <field name="number_of_floors"/>
+                    <field name="price"/>
+                    <field name="currency"/>
                     <field name="direction"/>
-                    <field name="usd_price"/>
-                    <field name="usd_price"/>
                     <field name="host_name"/>
+                    <field name="create_date" string="Khởi tạo"/>
+                    <field name="write_date" string="Cập nhật"/>
+                    <field name="brokerage_specialist"/>
+                    <field name="supporter_ids" widget="many2many_tags"/>
                     <!-- <field name="host_number_1" class="bds_show_phone_no"/>
                     <field name="host_number_2" class="bds_show_phone_no"/>
                     <field name="host_number_3" class="bds_show_phone_no"/> -->

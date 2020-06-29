@@ -5,6 +5,7 @@ odoo.define('bds.FormController', function (require) {
     var dom = require('web.dom');
     var FormController = require('web.FormController');
     var WebFormRenderer = require('web.FormRenderer');
+    var WebListRenderer = require('web.ListRenderer');
     var FormView = require('web.FormView');
     var _t = core._t;
     var qweb = core.qweb;
@@ -58,11 +59,10 @@ odoo.define('bds.FormController', function (require) {
                     } else {
                         attachment.removeClass('o_invisible_modifier');
                     }
-                    if (!d.data.is_show_house_no) {
-                        house_no.remove();
+                    if (!d.data.is_show_email) {
+                        email.remove();
                         phone_no.remove();
-                    }
-                    if (!d.data.is_show_email) email.remove();
+                    } 
                 } else {
                     btn_save.removeClass('o_invisible_modifier');
                     attachment.removeClass('o_invisible_modifier');
@@ -79,6 +79,19 @@ odoo.define('bds.FormController', function (require) {
             if (d && (d.model === 'crm.product' || d.model === 'crm.request') && !d.data.is_brokerage_specialist) this.do_warn("Bạn không có quyền sửa hồ sơ này");
             else this._setMode('edit');
         },
+    });
+
+    WebListRenderer.include({
+        // Add tooltip for row with field description.
+        _renderRow: function(record){
+            // Description field should be shown in row or hidden.
+            var description = record.data.description;
+            var $tr =  this._super.apply(this, arguments);
+            if (description){
+                $tr = $tr.prop('title',description).tooltip();
+            }
+            return $tr;
+        }
     });
 
 });

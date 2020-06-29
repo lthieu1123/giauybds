@@ -1,38 +1,38 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <data noupdate="0">
-        <record model="crm.states.product" id="crm_state_product_draft">
+        <record model="crm.states.product" id="crm_state_draft">
             <field name="sequence">1</field>
             <field name="name">Chờ duyệt</field>
             <field name="fold" eval="False"/>
         </record>
         
 
-        <record model="crm.states.product" id="crm_state_product_open">
+        <record model="crm.states.product" id="crm_state_open">
             <field name="sequence">2</field>
             <field name="name">Mở bán</field>
             <field name="fold" eval="False"/>
         </record>
 
-        <record model="crm.states.product" id="crm_state_product_stop">
+        <record model="crm.states.product" id="crm_state_stop">
             <field name="sequence">3</field>
             <field name="name">Ngưng bán</field>
             <field name="fold" eval="False"/>
         </record>
 
-        <record model="crm.states.product" id="crm_state_product_pending">
+        <record model="crm.states.product" id="crm_state_pending">
             <field name="sequence">4</field>
             <field name="name">Tạm ngưng</field>
             <field name="fold" eval="False"/>
         </record>
 
-        <record model="crm.states.product" id="crm_state_product_done">
+        <record model="crm.states.product" id="crm_state_done">
             <field name="sequence">5</field>
             <field name="name">Đã giao dịch</field>
             <field name="fold" eval="False"/>
         </record>
 
-        <record model="crm.states.product" id="crm_state_product_ongoing">
+        <record model="crm.states.product" id="crm_state_ongoing">
             <field name="sequence">6</field>
             <field name="name">Đang giao dịch</field>
             <field name="fold" eval="False"/>

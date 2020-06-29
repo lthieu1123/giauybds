@@ -3,6 +3,7 @@
 # Import libs
 import json
 import logging
+from lxml import etree
 from odoo import SUPERUSER_ID
 from odoo import api, fields, models, exceptions
 from odoo.tools.translate import _
@@ -50,7 +51,9 @@ class CrmAbstractModel(models.AbstractModel):
         string='Loại BĐS', selection=TYPE_OF_REAL_ESTATE, required=True, track_visibility='always')
     direction = fields.Selection(
         string='Hướng', selection=CARDINAL_DIRECTION, track_visibility='always')
-    description = fields.Text('Diễn giải')
+    description = fields.Text('Diễn giải',compute='_set_description',store=True)
+    type_of_road = fields.Selection(
+        string='Loại đường', selection=TYPE_OF_ROAD, required=True, track_visibility='always')
 
     host_name = fields.Char('Tên chủ', track_visibility='always')
     host_number_1 = fields.Char('Số ĐT 1')
@@ -65,9 +68,17 @@ class CrmAbstractModel(models.AbstractModel):
         'Là chủ hồ sơ', compute="_compute_show_data")
 
     brokerage_specialist = fields.Many2one(
-        'hr.employee', 'CV môi giới', default=lambda self: self._get_default_employee_id(), track_visibility='always')
-    supporter_ids = fields.Many2many(
-        'hr.employee', 'CV môi giới', compute="_get_suppoter_ids")
+        comodel_name='hr.employee', string='CV môi giới', default=lambda self: self._get_default_employee_id(), track_visibility='always')
+    supporter_ids = fields.Many2many(comodel_name='hr.employee', string='CV chăm sóc', compute="_get_suppoter_ids",store=True)
+    is_manager = fields.Boolean('Là Manager',compute='_is_manager')
+    # is_duplicate_phone_1 = fields.Boolean('Trùng số 1', compute='_duplicate_phone_num', store=True)
+    # is_duplicate_phone_2 = fields.Boolean('Trùng số 2', compute='_duplicate_phone_num', store=True)
+    # is_duplicate_phone_3 = fields.Boolean('Trùng số 3', compute='_duplicate_phone_num', store=True)
+    is_duplicate_phone_1 = fields.Boolean('Trùng số 1', default=False)
+    is_duplicate_phone_2 = fields.Boolean('Trùng số 2', default=False)
+    is_duplicate_phone_3 = fields.Boolean('Trùng số 3', default=False)
+
+    
 
     @api.depends('name')
     def _is_readonly_requirement(self):
@@ -76,7 +87,12 @@ class CrmAbstractModel(models.AbstractModel):
             user = self.env.user
             if user.has_group('bds.crm_request_manager') or user.has_group('bds.crm_product_manager'):
                 rec.readonly_requirement = False
-            
+
+    def _is_manager(self):
+        pass
+
+    def _set_description(self):
+        pass
 
     def _compute_show_data(self):
         pass
@@ -89,30 +105,169 @@ class CrmAbstractModel(models.AbstractModel):
             ('user_id', '=', self.env.user.id)
         ]).id
 
-    def _check_constrains_phone_number(self):
+    def _check_duplicate_phone_number_in_record(self):
         """Kiểm tra 3 số điện thoại của chủ nhà có bị trùng hay không
 
         Returns:
             [type] -- [description]
         """
-        _li_phone_no = [i for i in [self.host_number_1,
-                                    self.host_number_2, self.host_number_3] if i]
-        return len(_li_phone_no) == len(set(_li_phone_no))
+        is_duplicate_phone_1 = False
+        is_duplicate_phone_2 = False
+        is_duplicate_phone_3 = False
+        if self.host_number_1:
+            if self.host_number_1 == self.host_number_2:
+                is_duplicate_phone_1 = is_duplicate_phone_2 = True
+            if self.host_number_1 == self.host_number_3:
+                is_duplicate_phone_1 = is_duplicate_phone_3 = True
+        
+        if self.host_number_2:
+            if self.host_number_2 == self.host_number_3:
+                is_duplicate_phone_2 = is_duplicate_phone_3 = True
+            if self.host_number_2 == self.host_number_1:
+                is_duplicate_phone_2 = is_duplicate_phone_1 = True
+        
+        if self.host_number_3:
+            if self.host_number_3 == self.host_number_1:
+                is_duplicate_phone_3 = is_duplicate_phone_1 = True
+            if self.host_number_3 == self.host_number_2:
+                is_duplicate_phone_3 = is_duplicate_phone_2 = True
+        return is_duplicate_phone_1,is_duplicate_phone_2,is_duplicate_phone_3
+    
+    
 
-    @api.constrains('host_number_1', 'host_number_2', 'host_number_3')
+    def _check_duplicate_phone_number_in_db(self,_id=False):
+        _li_phone_data = []
+        is_duplicate_phone_1 = False
+        is_duplicate_phone_2 = False
+        is_duplicate_phone_3 = False
+        if self.requirement == 'sale':
+            #Query phone number form crm product
+            domain = [('requirement','=','sale')]
+            if self._name == 'crm.product':
+                domain.append(('id','!=',_id))
+            _li_phone_sale_tmp = self.env['crm.product'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
+            for i in _li_phone_sale_tmp:
+                _li_phone_data += i
+
+            #Query phone number form crm request
+            if self._name == 'crm.request':
+                domain.append(('id','!=',_id))
+            _li_phone_sale_tmp = self.env['crm.request'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])                
+            
+            for i in _li_phone_sale_tmp:
+                _li_phone_data += i
+        else:
+            #Query phone number form crm product
+            domain = [('requirement','=','rental')]
+            if self._name == 'crm.product':
+                domain.append(('id','!=',_id))
+            _li_phone_sale_tmp = self.env['crm.product'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
+            for i in _li_phone_sale_tmp:
+                _li_phone_data += i
+
+            #Query phone number form crm request
+            if self._name == 'crm.request':
+                domain.append(('id','!=',_id))
+            _li_phone_sale_tmp = self.env['crm.request'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
+            for i in _li_phone_sale_tmp:
+                _li_phone_data += i
+        #Validate data
+        if self.host_number_1 in _li_phone_data:
+            is_duplicate_phone_1 = True
+        if self.host_number_2 in _li_phone_data:
+            is_duplicate_phone_2 = True
+        if self.host_number_3 in _li_phone_data:
+            is_duplicate_phone_3 = True
+        return is_duplicate_phone_1,is_duplicate_phone_2,is_duplicate_phone_3
+    
+    @api.onchange('host_number_1','host_number_2','host_number_3')
+    def _duplicate_phone_num(self):
+        is_duplicate_phone_1 = False
+        is_duplicate_phone_2 = False
+        is_duplicate_phone_3 = False
+        is_duplicate_phone_1_2 = False
+        is_duplicate_phone_2_2 = False
+        is_duplicate_phone_3_2 = False
+        if (self.host_number_1 != self._origin.host_number_1) or (self.host_number_2 != self._origin.host_number_2) or (self.host_number_3 != self._origin.host_number_3):
+            is_duplicate_phone_1, is_duplicate_phone_2, is_duplicate_phone_3 = self._check_duplicate_phone_number_in_record()
+            is_duplicate_phone_1_2, is_duplicate_phone_2_2, is_duplicate_phone_3_2 = self._check_duplicate_phone_number_in_db()
+        self.is_duplicate_phone_1 = is_duplicate_phone_1 or is_duplicate_phone_1_2
+        self.is_duplicate_phone_2 = is_duplicate_phone_2 or is_duplicate_phone_2_2
+        self.is_duplicate_phone_3 = is_duplicate_phone_3 or is_duplicate_phone_3_2
+            
+
+    @api.constrains('host_number_1','host_number_2','host_number_3')
     def _constrains_phone_number(self):
         for rec in self:
-            res = rec._check_constrains_phone_number()
-            if not res:
-                raise exceptions.ValidationError(
-                    'Số điện thoại bị trùng. Vui lòng nhập lại')
+            is_duplicate_phone_1 = False
+            is_duplicate_phone_2 = False
+            is_duplicate_phone_3 = False
+            is_duplicate_phone_1_2 = False
+            is_duplicate_phone_2_2 = False
+            is_duplicate_phone_3_2 = False
+            if rec.host_number_1 or rec.host_number_2 or rec.host_number_3:
+                is_duplicate_phone_1, is_duplicate_phone_2, is_duplicate_phone_3 = rec._check_duplicate_phone_number_in_record()
+                is_duplicate_phone_1_2, is_duplicate_phone_2_2, is_duplicate_phone_3_2 = rec._check_duplicate_phone_number_in_db(rec.id)
+            if (is_duplicate_phone_1 or is_duplicate_phone_1_2) or (is_duplicate_phone_2 or is_duplicate_phone_2_2) or (is_duplicate_phone_3 or is_duplicate_phone_3_2):
+                raise exceptions.ValidationError('Trùng số điện thoại, không thể lưu')
+            
+    def _get_url(self):
+        return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+    
+    # def _update_state(self,state_id):
+    #     self.write({
+    #         'state': state_id.id
+    #     })
+    #     context = self.env.context.copy()
+    #     context['default_message'] = 'Đã chuyển trạng thái sang: "{}"'.format(state_id.name)
+    #     view_id = self.env.ref('bds.announcement_change_state').id
+    #     return {
+    #         'name': 'Đã chuyển trạng thái',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'view_id': view_id,
+    #         'res_model': 'ecc.approval.role',
+    #         'context': context,
+    #         'target': 'new',
+    #         'type': 'ir.actions.act_window',
+    #     }
 
-    @api.onchange('host_number_1', 'host_number_2', 'host_number_3')
-    def _onchange_phone_number(self):
-        res = self._check_constrains_phone_number()
-        if not res:
-            raise exceptions.ValidationError(
-                'Số điện thoại bị trùng. Vui lòng nhập lại')
+    # @api.multi
+    # def btn_draft(self):
+    #     self.ensure_one()
+    #     state_id = self.env.ref('bds.crm_state_draft')
+    #     return self._update_state(state_id)
+        
+
+    # @api.multi
+    # def btn_for_sale(self):
+    #     self.ensure_one()
+    #     state_id = self.env.ref('bds.crm_state_open')
+    #     return self._update_state(state_id)
+
+    # @api.multi
+    # def btn_stop_sale(self):
+    #     self.ensure_one()
+    #     state_id = self.env.ref('bds.crm_state_stop')
+    #     return self._update_state(state_id)
+
+    # @api.multi
+    # def btn_pending(self):
+    #     self.ensure_one()
+    #     state_id = self.env.ref('bds.crm_state_pending')
+    #     return self._update_state(state_id)
+
+    # @api.multi
+    # def btn_trade_completed(self):
+    #     self.ensure_one()
+    #     state_id = self.env.ref('bds.crm_state_done')
+    #     return self._update_state(state_id)
+
+    # @api.multi
+    # def btn_ontrade(self):
+    #     self.ensure_one()
+    #     state_id = self.env.ref('bds.crm_state_ongoing')
+    #     return self._update_state(state_id)
 
 
 class CrmRequestRuleAbstractModel(models.AbstractModel):
@@ -129,4 +284,4 @@ class CrmRequestRuleAbstractModel(models.AbstractModel):
     approver = fields.Many2one('hr.employee', 'Người duyệt')
     state = fields.Selection(string='Trạng thái', selection=[('draft', 'Chưa duyệt'), (
         'approved', 'Đã duyệt'), ('cancel', 'Từ chối'), ('closed', 'Đóng')], default="draft")
-    approved_date = fields.Datetime(string='Ngày duyệt')
+    approved_date = fields.Datetime(string='Ngày duyệt')     

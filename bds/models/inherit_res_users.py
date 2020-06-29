@@ -10,6 +10,25 @@ from odoo.addons import decimal_precision as dp
 from ..commons.bds_constant import *
 from datetime import datetime
 
+class Base(models.AbstractModel):
+    _inherit = 'base'
+
+    
+    @api.multi
+    def export_data(self, fields_to_export, raw_data=False):
+        """Only Admin can export data
+
+        Args:
+            fields_to_export ([type]): [description]
+            raw_data (bool, optional): [description]. Defaults to False.
+
+        Returns:
+            [type]: [description]
+        """
+        if not self.env.user.has_group('base.group_system'):
+            raise exceptions.ValidationError('Bạn không có quyền xuất dữ liệu')
+        return super(Base, self).export_data(fields_to_export, raw_data)
+
 class InheritResUsers(models.Model):
     _inherit = 'res.users'
 
