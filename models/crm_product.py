@@ -141,8 +141,6 @@ class CrmProduct(models.Model):
                 'crm.product') or '/'
             vals['sequence'] = int(vals['name'][2:])
         res = super().create(vals)
-        description = res._set_description()
-        res['description'] = description
         return res
 
     @api.depends('name')
