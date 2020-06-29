@@ -101,8 +101,6 @@ class CrmRequest(models.Model):
             vals['name'] = self.env['ir.sequence'].next_by_code(
                 'crm.request') or '/'
         res = super().create(vals)
-        description = res._set_description()
-        res['description'] = description
         return res
 
     @api.multi
