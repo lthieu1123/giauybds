@@ -65,7 +65,7 @@ class CrmProduct(models.Model):
     business_restrictions = fields.Char('Hạn chế kinh doanh',)
     rental_price = fields.Char('Giá cho thuê')
     note = fields.Text('Ghi chú')
-    tip = fields.Float('Hoa hồng')
+    tip = fields.Char('Hoa hồng')
     source = fields.Char('Nguồn')
     way = fields.Char('Lối đi')
     adv = fields.Char('Quảng cáo')
@@ -74,16 +74,13 @@ class CrmProduct(models.Model):
     
     @api.depends('rental_price','note','tip','potential_evaluation','source','adv','location','current_status','convenient','business_restrictions','requirement','type_of_real_estate','type_of_road','street','ward_no','district_id','horizontal','length','direction','way')
     def _set_description(self):
-        description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - Quận {quan}. \
-                    DT: {ngang} x {dai}. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. \
-                        Hiện trạng: {hientrang}. Thuận tiện: {thuantien}. Hạn chế kinh doanh: {hckd}. \
-                            Giá cho thuê: {giachothue}(thương lượng). Ghi chú: {ghichu}. Nguồn: {nguon}. \
-                                Chủ nhà treo bảng QC: {treoquangcao}. Đánh giá sản phẩm: {danhgia}. Hoa hồng: {hoahong}'
-        description = description.format(nhucau=self.requirement, loaibds=self.type_of_real_estate, loaiduong=self.type_of_road, tenduong=self.street.name, \
-            phuong=self.ward_no.name, quan=self.district_id.name, ngang=self.horizontal, dai=self.length,huongnha=self.direction,\
-                loidi=self.way,vitri=self.location,hientrang=self.current_status,thuantien=self.convenient,hckd=self.business_restrictions,\
-                    giachothue=self.rental_price,ghichu=self.note,nguon=self.source,treoquangcao=self.adv,danhgia=self.potential_evaluation,hoahong=self.tip)
-        return description
+        for rec in self:
+            description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - Quận {quan}. DT: {ngang} x {dai}. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. Hiện trạng: {hientrang}. Thuận tiện: {thuantien}. Hạn chế kinh doanh: {hckd}. Giá cho thuê: {giachothue}(thương lượng). Ghi chú: {ghichu}. Nguồn: {nguon}. Chủ nhà treo bảng QC: {treoquangcao}. Đánh giá sản phẩm: {danhgia}. Hoa hồng: {hoahong}'
+            description = description.format(nhucau=rec.requirement, loaibds=rec.type_of_real_estate, loaiduong=rec.type_of_road, tenduong=rec.street.name, \
+                phuong=rec.ward_no.name, quan=rec.district_id.name, ngang=rec.horizontal, dai=rec.length,huongnha=rec.direction,\
+                    loidi=rec.way,vitri=rec.location,hientrang=rec.current_status,thuantien=rec.convenient,hckd=rec.business_restrictions,\
+                        giachothue=rec.rental_price,ghichu=rec.note,nguon=rec.source,treoquangcao=rec.adv,danhgia=rec.potential_evaluation,hoahong=rec.tip)
+            rec.description = description
         
 
     @api.constrains('house_no', 'street')

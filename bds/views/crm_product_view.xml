@@ -111,7 +111,7 @@
                             </group>
                         </group>
                         <div>
-                            <field name="description" placeholder="Diễn giải..." readonly="1" force_save="1" />
+                            <field name="description" placeholder="Diễn giải..."/>
                         </div>
                         <notebook>
                             <page string="Thông tin BĐS">
