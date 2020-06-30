@@ -119,11 +119,12 @@
                                     <group>
                                         <label for="street" string="Địa chỉ"/>
                                         <div class="o_address_format">
-                                            <field name="house_no" placeholder="Số nhà..." class="o_address_street bds_show_house_no"/>
+                                            <field name="is_duplicate_house_no" invisible="1"/>
+                                            <field name="house_no" placeholder="Số nhà..." class="o_address_street bds_show_house_no" decoration-danger="is_duplicate_house_no"/>
                                             <field name="state_id" placeholder="Thành phố/Tỉnh..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
                                             <field name="district_id" placeholder="Quận/Huyện..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
                                             <field name="ward_no" placeholder="Phường/Xã..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
-                                            <field name="street" placeholder="Đường..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="street" placeholder="Đường..." class="o_address_city" options="{&quot;no_open&quot;: True}" decoration-danger="is_duplicate_house_no"/>
                                             <field name="country_id" invisible="1" class="o_address_country" options="{&quot;no_open&quot;: True}"/>
                                         </div>
                                     </group>
@@ -162,30 +163,33 @@
                                         <field name="current_status"/>
                                         <field name="convenient"/>
                                         <field name="business_restrictions"/>
-                                        <field name="rental_price"/>
+                                        <field name="way"/>
                                     </group>
                                     <group>
                                         <field name="note"/>
                                         <field name="tip"/>
                                         <field name="source"/>
-                                        <field name="way"/>
                                         <field name="adv"/>
                                         <field name="potential_evaluation"/>
                                     </group>
                                 </group>
                             </page>
                             <page string="Quyền CV chăm sóc">
-                                <field name="supporter_with_rule_ids">
-                                    <tree create="false" edit="false">
+                                <field name="supporter_with_rule_ids" context="{'state_default': 'approved','default_requirement':requirement,'default_product': id}">
+                                    <tree edit="false" editable="bottom">
+                                        <field name="state" invisible="1"/>
+                                        <field name="requirement" invisible="1"/>
                                         <field name="crm_product_id" invisible="1"/>
-                                        <field name="employee_id"/>
-                                        <field name="is_show_attachment"/>
-                                        <field name="is_show_house_no"/>
-                                        <field name="is_show_map"/>
-                                        <field name="approver"/>
-                                        <field name="approved_date" string="Ngày phân quyền"/>
+                                        <field name="employee_id" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="is_show_attachment" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="is_show_house_no" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="is_show_map" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="approver" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="write_date" invisible="1"/>
+                                        <field name="approved_date" string="Ngày phân quyền" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <button name="btn_remove_rule" string="Bỏ quyền" class="btn-sm btn-primary" type="object" groups="bds.crm_product_sale_manager,bds.crm_product_rental_manager,bds.crm_product_manager"/>
                                     </tree>
-                                    <form>
+                                    <form edit="false">
                                         <group>
                                             <field name="crm_product_id" invisible="1"/>
                                             <field name="employee_id"/>
@@ -200,7 +204,7 @@
                             </page>
                             <page string="Nhật ký phân quyền" groups="bds.crm_product_change_rule_user,bds.crm_product_manager">
                                 <field name="supporter_full_ids">
-                                    <tree create="false" delete="false" editable="bottom" default_order="create_date desc" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel,closed'">
+                                    <tree create="false" delete="false" edit="false" default_order="create_date desc" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel,closed'">
                                         <field name="crm_product_id" invisible="1"/>
                                         <field name="employee_id" readonly="1"/>
                                         <field name="is_show_attachment"/>
@@ -210,9 +214,8 @@
                                         <field name="approved_date"/>
                                         <field name="approver"/>
                                         <field name="state" readonly="1"/>
-                                        <button name="btn_delete_rule" string="Hủy" type="object" class="btn btn-primary"/>
                                     </tree>
-                                    <form>
+                                    <form create="false" delete="false" edit="false">
                                         <group>
                                             <field name="crm_product_id" invisible="1"/>
                                             <field name="employee_id" readonly="1"/>

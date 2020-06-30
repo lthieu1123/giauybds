@@ -46,16 +46,16 @@ class CrmProduct(models.Model):
         'Product Unit of Measure'), track_visibility='always')
     price = fields.Float('Giá', digits=dp.get_precision(
         'Product Price'), track_visibility='always')
-    currency = fields.Selection(string='Tiền tệ',selection=[('usd','$'),('mil','Triệu'),('bil','Tỷ')])
+    currency = fields.Selection(string='Tiền tệ',selection=CURRENCY)
     supporter_with_rule_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='CV chăm sóc và phân quyền', track_visibility='always',
-                                              domain=[('state', '=', 'approved')], ondelete='cascade',
-                                              readonly=True, force_save=True)
+                                              domain=[('state', '=', 'approved')], ondelete='cascade')
     supporter_full_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='Phân quyền',
                                          groups='bds.crm_product_change_rule_user,bds.crm_product_manager', ondelete='cascade')
 
     is_show_map_to_user = fields.Boolean(
         'Hiển Thị bản đồ cho KH', default=False)
     is_show_map = fields.Boolean('Xem bản đồ', compute="_compute_show_data")
+    is_duplicate_house_no = fields.Boolean('Trùng số nhà',)
 
 
     #Field for description
@@ -63,7 +63,6 @@ class CrmProduct(models.Model):
     current_status = fields.Char('Hiện trạng',)
     convenient = fields.Char('Thuận tiện',)
     business_restrictions = fields.Char('Hạn chế kinh doanh',)
-    rental_price = fields.Char('Giá cho thuê')
     note = fields.Text('Ghi chú')
     tip = fields.Char('Hoa hồng')
     source = fields.Char('Nguồn')
@@ -72,29 +71,55 @@ class CrmProduct(models.Model):
     potential_evaluation = fields.Char('Đánh giá tiềm năng')
 
     
-    @api.depends('rental_price','note','tip','potential_evaluation','source','adv','location','current_status','convenient','business_restrictions','requirement','type_of_real_estate','type_of_road','street','ward_no','district_id','horizontal','length','direction','way')
+    @api.depends('price','currency','note','tip','potential_evaluation','source','adv','location','current_status','convenient','business_restrictions','requirement','type_of_real_estate','type_of_road','street','ward_no','district_id','horizontal','length','direction','way')
     def _set_description(self):
         for rec in self:
-            description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - Quận {quan}. DT: {ngang} x {dai}. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. Hiện trạng: {hientrang}. Thuận tiện: {thuantien}. Hạn chế kinh doanh: {hckd}. Giá cho thuê: {giachothue}(thương lượng). Ghi chú: {ghichu}. Nguồn: {nguon}. Chủ nhà treo bảng QC: {treoquangcao}. Đánh giá sản phẩm: {danhgia}. Hoa hồng: {hoahong}'
-            description = description.format(nhucau=rec.requirement, loaibds=rec.type_of_real_estate, loaiduong=rec.type_of_road, tenduong=rec.street.name, \
-                phuong=rec.ward_no.name, quan=rec.district_id.name, ngang=rec.horizontal, dai=rec.length,huongnha=rec.direction,\
+            description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - Quận {quan}. DT: {ngang} x {dai}. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. Hiện trạng: {hientrang}. Thuận tiện: {thuantien}. Hạn chế kinh doanh: {hckd}. Giá: {giachothue}(thương lượng). Ghi chú: {ghichu}. Nguồn: {nguon}. Chủ nhà treo bảng QC: {treoquangcao}. Đánh giá sản phẩm: {danhgia}. Hoa hồng: {hoahong}'
+            #Get value from selection fields
+            requirement = dict(REQUIREMENT_PRODUCT)
+            nhucau = requirement.get(rec.requirement,'')
+            type_of_real_estate = dict(TYPE_OF_REAL_ESTATE)
+            loaibds=type_of_real_estate.get(rec.type_of_real_estate,'')
+            type_of_road = dict(TYPE_OF_ROAD)
+            loaiduong = type_of_road.get(rec.type_of_road,'')
+            direction = dict(CARDINAL_DIRECTION)
+            huongnha = direction.get(rec.direction,'')
+            currency = dict(CURRENCY)
+            giachothue = '%s %s' % (rec.price,currency.get(rec.currency,''))
+
+            description = description.format(nhucau=nhucau, loaibds=loaibds, loaiduong=loaiduong, tenduong=rec.street.name, \
+                phuong=rec.ward_no.name, quan=rec.district_id.name, ngang=rec.horizontal, dai=rec.length,huongnha=huongnha,\
                     loidi=rec.way,vitri=rec.location,hientrang=rec.current_status,thuantien=rec.convenient,hckd=rec.business_restrictions,\
-                        giachothue=rec.rental_price,ghichu=rec.note,nguon=rec.source,treoquangcao=rec.adv,danhgia=rec.potential_evaluation,hoahong=rec.tip)
+                        giachothue=giachothue,ghichu=rec.note,nguon=rec.source,treoquangcao=rec.adv,danhgia=rec.potential_evaluation,hoahong=rec.tip)
             rec.description = description
-        
+    
+    @api.onchange('house_no', 'street')
+    def _check_house_no(self):
+        print('_check_house_no')
+        is_duplicate_house_no = False            
+        if self.house_no and self.street.id:
+            if self.house_no != self._origin.house_no or self.street.id != self._origin.street.id:
+                count = self.search_count([
+                    ('house_no', '=', self.house_no),
+                    ('street', '=', self.street.id),
+                    ('id','!=',self._origin.id)
+                ])
+                is_duplicate_house_no = True if count >= 1 else False
+        self.is_duplicate_house_no = is_duplicate_house_no
+
+            
 
     @api.constrains('house_no', 'street')
     def _validate_house_no_street(self):
         for rec in self:
-            if rec.house_no and rec.street.id:
-                count = self.search_count([
-                    ('house_no', '=', rec.house_no),
-                    ('street', '=', rec.street.id),
-                    ('id', '!=', rec.id)
-                ])
-                if count != 0:
-                    raise exceptions.ValidationError('Số nhà: {}, đường {}, quận {} đã tồn tại'.format(
-                        rec.house_no, rec.street.name, rec.street.district_id.name))
+            count = self.search_count([
+                ('house_no', '=', self.house_no),
+                ('street', '=', self.street.id),
+                ('id', '!=', rec.id)
+            ])
+            if count != 0:
+                raise exceptions.ValidationError('Số nhà: {}, đường {}, quận {} đã tồn tại'.format(
+                    rec.house_no, rec.street.name, rec.street.district_id.name))
 
     @api.depends('supporter_with_rule_ids')
     def _compute_show_data(self):
@@ -146,7 +171,6 @@ class CrmProduct(models.Model):
             if current_user.has_group('bds.crm_product_manager') \
             or current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_sale_manager'):
                 is_manager = True
-            print('is_manager: ',is_manager)
             rec.is_manager = is_manager          
 
     @api.multi

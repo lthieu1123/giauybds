@@ -14,12 +14,15 @@ class CrmReuqestReuqestRule(models.Model):
     _description = 'CRM Request Request Rule'
     _inherit = 'crm.product.request.rule'
 
+    def get_default_product(self):
+        return self.env.context.get('default_product',False)
 
     crm_product_id = fields.Many2one('crm.request','CRM Product',ondelete='cascade')
     crm_request_sheet_id = fields.Many2one('crm.request.request.rule.sheet','Sheet')
     is_show_attachment = fields.Boolean('Xem hình ảnh', default=True)
     is_show_house_no = fields.Boolean('Xem số nhà', default=True)
     is_show_email = fields.Boolean('Xem Email', default=True)
+    requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cần thuê'),('sale','Cần mua')])
 
     @api.model
     def create(self, vals):
@@ -29,10 +32,32 @@ class CrmReuqestReuqestRule(models.Model):
         res = super().create(vals)
         return res
 
+    @api.onchange('requirement')
+    def _domain_employee(self):
+        domain = []
+        if self.requirement == 'sale':
+            user_sale_group_id = self.env.ref('bds.crm_request_sale_user').id
+            domain = [
+                ('user_id.groups_id','=',user_sale_group_id)
+            ]
+        else:
+            user_rental_group_id = self.env.ref('bds.crm_request_rental_user').id
+            domain = [
+                ('user_id.groups_id','=',user_rental_group_id)
+            ]
+        return {
+            'domain':{
+                'employee_id': domain
+            }
+        }
+
 class CrmRequestRequestRuleSheet(models.Model):
     _name = 'crm.request.request.rule.sheet'
     _description = 'CRM Request Request Rule Sheet'
     _inherit = 'crm.product.request.rule.sheet'
+
+    requirement = fields.Selection(string='Nhu cầu', selection=[(
+        'rental', 'Cần thuê'), ('sale', 'Cần mua')], track_visibility='always')
 
     crm_request_line_ids = fields.One2many(comodel_name='crm.request.request.rule',inverse_name="crm_request_sheet_id",string='CV chăm sóc')
 
