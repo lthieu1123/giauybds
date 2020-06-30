@@ -126,7 +126,6 @@
                                 <group>
                                     <group>
                                         <field name="way"/>
-                                        <field name="rental_price"/>
                                         <field name="dientich"/>
                                         <field name="min_horizontal"/>
                                         <field name="parking_lot"/>
@@ -140,15 +139,19 @@
                                 </group>
                             </page>
                             <page string="Quyền CV chăm sóc">
-                                <field name="supporter_with_rule_ids">
+                                <field name="supporter_with_rule_ids" context="{'state_default': 'approved','default_requirement':requirement,'default_product': id}">
                                     <tree create="false" edit="false">
+                                        <field name="state" invisible="1"/>
+                                        <field name="requirement" invisible="1"/>
                                         <field name="crm_product_id" invisible="1"/>
-                                        <field name="employee_id"/>
-                                        <field name="is_show_attachment"/>
-                                        <field name="is_show_house_no"/>
-                                        <field name="is_show_email"/>
-                                        <field name="approver"/>
-                                        <field name="approved_date" string="Ngày phân quyền"/>
+                                        <field name="employee_id" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="is_show_attachment" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="is_show_house_no" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="is_show_map" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="approver" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="write_date" invisible="1"/>
+                                        <field name="approved_date" string="Ngày phân quyền" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <button name="btn_remove_rule" string="Bỏ quyền" class="btn-sm btn-primary" type="object" groups="bds.crm_request_sale_manager,bds.crm_request_rental_manager,bds.crm_request_manager"/>
                                     </tree>
                                     <form>
                                         <group>
@@ -165,7 +168,7 @@
                             </page>
                             <page string="Nhật ký phân quyền" groups="bds.crm_request_change_rule_user,bds.crm_request_manager">
                                 <field name="supporter_full_ids">
-                                    <tree create="false" delete="false" editable="bottom" default_order="create_date desc" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel,closed'">
+                                    <tree create="false" delete="false" edit="false" default_order="create_date desc" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel,closed'">
                                         <field name="crm_product_id" invisible="1"/>
                                         <field name="employee_id" readonly="1"/>
                                         <field name="is_show_attachment"/>
@@ -177,7 +180,7 @@
                                         <field name="state" readonly="1"/>
                                         <button name="btn_delete_rule" string="Hủy" type="object" class="btn btn-primary"/>
                                     </tree>
-                                    <form>
+                                    <form create="false" delete="false" edit="false">
                                         <group>
                                             <field name="crm_product_id" invisible="1"/>
                                             <field name="employee_id" readonly="1"/>
@@ -213,8 +216,8 @@
                     <field name="description" invisible="1"/>
                     <field name="sequence" string="STT"/>
                     <field name="name" string="SDDK"/>
-                    <field name="requirement" string="NC BĐS"/>
                     <field name="business_demand" string="NC KD"/>
+                    <field name="requirement" string="NC BĐS"/>
                     <field name="type_of_real_estate"/>
                     <field name="host_name" string="Tên KH"/>
                     <field name="financial_capability" string="Tài chính"/>

@@ -3,6 +3,17 @@
 from odoo.tools.translate import _
 
 ######################################
+# REQUIREMENT
+######################################
+REQUIREMENT_PRODUCT = [('rental', 'Cho thuê'), ('sale', 'Cần bán')]
+REQUIREMENT_REQUEST = [('rental', 'Cần thuê'), ('sale', 'Cần mua')]
+
+######################################
+# CURRENCY
+######################################
+CURRENCY = [('usd','$'),('mil','Triệu'),('bil','Tỷ')]
+
+######################################
 # Type OF REAL ESTATE
 ######################################
 

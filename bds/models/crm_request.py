@@ -23,6 +23,7 @@ class CrmRequest(models.Model):
     name = fields.Char(string='Số đăng ký', default='New',
                        readonly=True, force_save=True, track_visibility='always')
     customer_uid = fields.Char(string='Mã KH',track_visibility='always',compute='_set_customer_uid',store=True)
+    requirement = fields.Selection(string='Nhu cầu', selection=REQUIREMENT_REQUEST, track_visibility='always')
     email = fields.Char('Email')
     financial_capability = fields.Float('Khả năng tài chính', digits=dp.get_precision(
         'Product Price'), track_visibility='always')
@@ -32,15 +33,13 @@ class CrmRequest(models.Model):
     
     is_show_email = fields.Boolean('Show Email', compute='_compute_show_data')
     supporter_with_rule_ids = fields.One2many(comodel_name='crm.request.request.rule', inverse_name="crm_product_id", string='CV chăm sóc và phân quyền', track_visibility='always',
-                                              domain=[('state', '=', 'approved')], ondelete='cascade',
-                                              readonly=True, force_save=True)
+                                              domain=[('state', '=', 'approved')], ondelete='cascade')
     supporter_full_ids = fields.One2many(comodel_name='crm.request.request.rule', inverse_name="crm_product_id", string='Phân quyền',
                                          groups='bds.crm_request_change_rule_user,bds.crm_request_manager', ondelete='cascade')
     
 
     #Field for description
     way = fields.Char('Tập trung tuyến đường')
-    rental_price = fields.Char('Giá cho thuê',)
     dientich = fields.Char('Diện tích dao động')
     min_horizontal = fields.Char('Ngang tối thiểu')
     parking_lot = fields.Char('Chỗ để xe')
@@ -50,12 +49,23 @@ class CrmRequest(models.Model):
     potential_evaluation = fields.Char('Đánh giá tiềm năng')
 
 
-    @api.depends('partner_kd','potential_evaluation','note','source','type_of_real_estate','type_of_road','zone','business_demand','way','rental_price','dientich','min_horizontal','parking_lot')
+    @api.depends('financial_capability','currency','partner_kd','potential_evaluation','note','source','type_of_real_estate','type_of_road','zone','business_demand','way','dientich','min_horizontal','parking_lot')
     def _set_description(self):
         for rec in self:
-            description = 'Khách hàng cần thuê {loaibds}  - {loaiduong} - {khuvuc}, nhu cầu kinh doanh: {nckd}. Tập trung tuyến đường {way}. Giá thuê dao động: {gia}.Cần diện tích dao động: {dientich} - Ngang tối thiểu: {min}, Cần chỗ để xe khoảng: {dexe}. Hiện đang là chủ kinh doanh: {ckd}. Đánh giá mức độ tiềm năng: {danhgia}. Ghi chú: {note}. Nguồn: {nguon}'
-            description = description.format(loaibds=rec.type_of_real_estate, loaiduong=rec.type_of_road, khuvuc=rec.zone,nckd=rec.business_demand,\
-                way=rec.way,gia=rec.rental_price,dientich=rec.dientich, min=rec.min_horizontal, dexe=rec.parking_lot,\
+            description = 'Khách hàng {nhucau} {loaibds}  - {loaiduong} - {khuvuc}, nhu cầu kinh doanh: {nckd}. Tập trung tuyến đường {way}. Giá thuê dao động: {gia}.Cần diện tích dao động: {dientich} - Ngang tối thiểu: {min}, Cần chỗ để xe khoảng: {dexe}. Hiện đang là chủ kinh doanh: {ckd}. Đánh giá mức độ tiềm năng: {danhgia}. Ghi chú: {note}. Nguồn: {nguon}'
+             #Get value from selection fields
+            requirement = dict(REQUIREMENT_REQUEST)
+            nhucau = requirement.get(rec.requirement,'')
+            type_of_real_estate = dict(TYPE_OF_REAL_ESTATE)
+            loaibds=type_of_real_estate.get(rec.type_of_real_estate,'')
+            type_of_road = dict(TYPE_OF_ROAD)
+            loaiduong = type_of_road.get(rec.type_of_road,'')
+            business_demand = dict(NCKD)
+            nckd = business_demand.get(rec.business_demand,'')
+            gia = '%s %s' % (rec.financial_capability,rec.currency)
+
+            description = description.format(nhucau=nhucau,loaibds=loaibds, loaiduong=loaiduong, khuvuc=rec.zone,nckd=nckd,\
+                way=rec.way,gia=gia,dientich=rec.dientich, min=rec.min_horizontal, dexe=rec.parking_lot,\
                     ckd=rec.partner_kd,danhgia=rec.potential_evaluation,note=rec.note,nguon=rec.source)
             rec.description = description
 

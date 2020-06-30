@@ -45,15 +45,14 @@ class CrmAbstractModel(models.AbstractModel):
 
     sequence = fields.Integer(string='Số TT', readonly=True,
                               force_save=True, track_visibility='always', index=True)
-    requirement = fields.Selection(string='Nhu cầu', selection=[(
-        'rental', 'Cho thuê'), ('sale', 'Cần bán')], track_visibility='always', default=_get_default_requirement)
+    requirement = fields.Selection(string='Nhu cầu', selection=REQUIREMENT_PRODUCT, track_visibility='always', default=_get_default_requirement)
     type_of_real_estate = fields.Selection(
-        string='Loại BĐS', selection=TYPE_OF_REAL_ESTATE, required=True, track_visibility='always')
+        string='Loại BĐS', selection=TYPE_OF_REAL_ESTATE, track_visibility='always')
     direction = fields.Selection(
         string='Hướng', selection=CARDINAL_DIRECTION, track_visibility='always')
     description = fields.Text('Diễn giải',compute='_set_description',store=True)
     type_of_road = fields.Selection(
-        string='Loại đường', selection=TYPE_OF_ROAD, required=True, track_visibility='always')
+        string='Loại đường', selection=TYPE_OF_ROAD, track_visibility='always')
 
     host_name = fields.Char('Tên chủ', track_visibility='always')
     host_number_1 = fields.Char('Số ĐT 1')
@@ -69,7 +68,7 @@ class CrmAbstractModel(models.AbstractModel):
 
     brokerage_specialist = fields.Many2one(
         comodel_name='hr.employee', string='CV môi giới', default=lambda self: self._get_default_employee_id(), track_visibility='always')
-    supporter_ids = fields.Many2many(comodel_name='hr.employee', string='CV chăm sóc', compute="_get_suppoter_ids",store=True)
+    supporter_ids = fields.Many2many(comodel_name='hr.employee', string='CV chăm sóc', compute="_get_suppoter_ids",track_visibility='always')
     is_manager = fields.Boolean('Là Manager',compute='_is_manager')
     # is_duplicate_phone_1 = fields.Boolean('Trùng số 1', compute='_duplicate_phone_num', store=True)
     # is_duplicate_phone_2 = fields.Boolean('Trùng số 2', compute='_duplicate_phone_num', store=True)
@@ -133,8 +132,8 @@ class CrmAbstractModel(models.AbstractModel):
                 is_duplicate_phone_3 = is_duplicate_phone_2 = True
         return is_duplicate_phone_1,is_duplicate_phone_2,is_duplicate_phone_3
     
-    
 
+         
     def _check_duplicate_phone_number_in_db(self,_id=False):
         _li_phone_data = []
         is_duplicate_phone_1 = False
@@ -145,14 +144,14 @@ class CrmAbstractModel(models.AbstractModel):
             domain = [('requirement','=','sale')]
             if self._name == 'crm.product':
                 domain.append(('id','!=',_id))
-            _li_phone_sale_tmp = self.env['crm.product'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
+            _li_phone_sale_tmp = self.env['crm.product'].search(domain).mapped(lambda r: [r.host_number_1 if r.host_number_1 else None,r.host_number_2 if r.host_number_2 else None,r.host_number_3 if r.host_number_3 else None])
             for i in _li_phone_sale_tmp:
                 _li_phone_data += i
 
             #Query phone number form crm request
             if self._name == 'crm.request':
                 domain.append(('id','!=',_id))
-            _li_phone_sale_tmp = self.env['crm.request'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])                
+            _li_phone_sale_tmp = self.env['crm.request'].search(domain).mapped(lambda r: [r.host_number_1 if r.host_number_1 else None,r.host_number_2 if r.host_number_2 else None,r.host_number_3 if r.host_number_3 else None])                
             
             for i in _li_phone_sale_tmp:
                 _li_phone_data += i
@@ -161,16 +160,18 @@ class CrmAbstractModel(models.AbstractModel):
             domain = [('requirement','=','rental')]
             if self._name == 'crm.product':
                 domain.append(('id','!=',_id))
-            _li_phone_sale_tmp = self.env['crm.product'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
+            _li_phone_sale_tmp = self.env['crm.product'].search(domain).mapped(lambda r: [r.host_number_1 if r.host_number_1 else None,r.host_number_2 if r.host_number_2 else None,r.host_number_3 if r.host_number_3 else None])
             for i in _li_phone_sale_tmp:
                 _li_phone_data += i
 
             #Query phone number form crm request
             if self._name == 'crm.request':
                 domain.append(('id','!=',_id))
-            _li_phone_sale_tmp = self.env['crm.request'].search(domain).mapped(lambda r: [r.host_number_1,r.host_number_2,r.host_number_3])
+            _li_phone_sale_tmp = self.env['crm.request'].search(domain).mapped(lambda r: [r.host_number_1 if r.host_number_1 else None,r.host_number_2 if r.host_number_2 else None,r.host_number_3 if r.host_number_3 else None])
             for i in _li_phone_sale_tmp:
                 _li_phone_data += i
+
+            _li_phone_data = [i for i in _li_phone_data if i is not None]
         #Validate data
         if self.host_number_1 in _li_phone_data:
             is_duplicate_phone_1 = True
@@ -275,13 +276,29 @@ class CrmRequestRuleAbstractModel(models.AbstractModel):
     _description = 'CRM Request Rule Abstract Model'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+    def get_default_state(self):
+        return self.env.context.get('state_default','draft')
+    
+    def get_default_approver(self):
+        return self.env.user.employee_ids.ids[0]
+
+    def get_default_requirement(self):
+        return self.env.context.get('default_requirement',False)
+
     name = fields.Char(string='Tên', default='New', readonly=True,
                        force_save=True, track_visibility='always')
     requirement = fields.Selection(string='Nhu cầu', selection=[(
-        'rental', 'Cho thuê'), ('sale', 'Cần bán')], track_visibility='always')
+        'rental', 'Cho thuê'), ('sale', 'Cần bán')], track_visibility='always',defualt=get_default_requirement)
     employee_id = fields.Many2one(
         'hr.employee', 'CV chăm sóc', ondelete='cascade')
-    approver = fields.Many2one('hr.employee', 'Người duyệt')
+    approver = fields.Many2one('hr.employee', 'Người duyệt',default=get_default_approver)
     state = fields.Selection(string='Trạng thái', selection=[('draft', 'Chưa duyệt'), (
-        'approved', 'Đã duyệt'), ('cancel', 'Từ chối'), ('closed', 'Đóng')], default="draft")
-    approved_date = fields.Datetime(string='Ngày duyệt')     
+        'approved', 'Đã duyệt'), ('cancel', 'Từ chối'), ('closed', 'Đóng')], default=get_default_state)
+    approved_date = fields.Datetime(string='Ngày duyệt',default=fields.Datetime.now)     
+
+    @api.multi
+    def btn_remove_rule(self):
+        self.ensure_one()
+        self.update({
+            'state': 'closed'
+        })

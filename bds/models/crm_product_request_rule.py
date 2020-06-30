@@ -16,7 +16,10 @@ class CrmProductReuqestRule(models.Model):
     _description = 'CRM Product Request Rule'
     _inherit = 'crm.request.rule.abstract.model'
     
-    crm_product_id = fields.Many2one('crm.product','CRM Product',ondelete='cascade')
+    def get_default_product(self):
+        return self.env.context.get('default_product',False)
+
+    crm_product_id = fields.Many2one('crm.product','CRM Product',ondelete='cascade', default=get_default_product)
     crm_request_sheet_id = fields.Many2one('crm.product.request.rule.sheet','Sheet')
     is_show_attachment = fields.Boolean('Xem hình ảnh', default=True)
     is_show_house_no = fields.Boolean('Xem số nhà', default=True)
@@ -29,6 +32,25 @@ class CrmProductReuqestRule(models.Model):
             vals['sequence'] = int(vals['name'].split('-')[1])
         res = super().create(vals)
         return res
+
+    @api.onchange('requirement')
+    def _domain_employee(self):
+        domain = []
+        if self.requirement == 'sale':
+            user_sale_group_id = self.env.ref('bds.crm_product_sale_user').id
+            domain = [
+                ('user_id.groups_id','=',user_sale_group_id)
+            ]
+        else:
+            user_rental_group_id = self.env.ref('bds.crm_product_rental_user').id
+            domain = [
+                ('user_id.groups_id','=',user_rental_group_id)
+            ]
+        return {
+            'domain':{
+                'employee_id': domain
+            }
+        }
 
 class CrmProductReuqestRuleSheet(models.Model):
     _name = 'crm.product.request.rule.sheet'
