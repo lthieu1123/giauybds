@@ -202,7 +202,7 @@
                                     </form>
                                 </field>
                             </page>
-                            <page string="Nhật ký phân quyền" groups="bds.crm_product_change_rule_user,bds.crm_product_manager">
+                            <page string="Nhật ký phân quyền" groups="bds.crm_product_manager">
                                 <field name="supporter_full_ids">
                                     <tree create="false" delete="false" edit="false" default_order="create_date desc" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel,closed'">
                                         <field name="crm_product_id" invisible="1"/>

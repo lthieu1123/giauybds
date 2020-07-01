@@ -59,6 +59,7 @@ THREE_FRONT_LINES = 'three_front_lines'
 FOUR_FRONT_LINES = 'four_front_lines'
 LANE = 'lane'
 ALLEY_MOTORCYCLE_TRUCK = 'alley_motorcycle_truck'
+TWO_FRONT_LINES_ALLEY = 'two_front_lines_alley'
 
 TYPE_OF_ROAD = [
     (FRONT_LINE,'Mặt tiền'),
@@ -71,7 +72,8 @@ TYPE_OF_ROAD = [
     (THREE_FRONT_LINES,'3 Mặt tiền'),
     (FOUR_FRONT_LINES,'4 Mặt tiền'),
     (LANE,'Đường nhỏ'),
-    (ALLEY_MOTORCYCLE_TRUCK,'Hẻm xe ba gác')
+    (ALLEY_MOTORCYCLE_TRUCK,'Hẻm xe ba gác'),
+    (TWO_FRONT_LINES_ALLEY,'2 mặt tiền hẽm')
 ]
 
 ######################################
@@ -126,6 +128,12 @@ SIEU_THI = 'sieu_thi'
 VAN_PHONG = 'van_phong'
 BAR = 'bar'
 THUOC_TAY = 'thuoc_tay'
+MAT_KINH = 'mat_kinh'
+NHA_O = 'nha_o'
+KARAOKE = 'karaoke'
+QUAN_NHAU = 'quan_nhau'
+DAU_TU = 'dau_tu'
+
 
 NCKD = [
     (SHOP, 'SHOP'),
@@ -153,7 +161,12 @@ NCKD = [
     (SIEU_THI, 'SIÊU THỊ'),
     (VAN_PHONG, 'VĂN PHÒNG'),
     (BAR, 'BAR'),
-    (THUOC_TAY, 'THUỐC TÂY')
+    (THUOC_TAY, 'THUỐC TÂY'),
+    (MAT_KINH,'MẮT KÍNH'),
+    (NHA_O,'NHÀ Ở'),
+    (KARAOKE,'KARAOKE'),
+    (QUAN_NHAU,'QUÁN NHẬU'),
+    (DAU_TU,'ĐẦU TƯ')
 ]
 
 

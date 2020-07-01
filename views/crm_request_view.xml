@@ -90,7 +90,7 @@
                             <group string="Thông tin chủ nhà">
                                 <field name="customer_uid" attrs="{'invisible': [('write_date','=',False)]}"/>
                                 <field name="host_name" string="Tên khách hàng"/>
-                                <label for="financial_capability" string="Giá"/>
+                                <label for="financial_capability"/>
                                 <div>
                                     <field name="financial_capability" class="oe_inline o_address_city" placeholder='Nhập số tiền....'/>
                                     <![CDATA[&nbsp;]]>
@@ -166,7 +166,7 @@
                                     </form>
                                 </field>
                             </page>
-                            <page string="Nhật ký phân quyền" groups="bds.crm_request_change_rule_user,bds.crm_request_manager">
+                            <page string="Nhật ký phân quyền" groups="bds.crm_request_manager">
                                 <field name="supporter_full_ids">
                                     <tree create="false" delete="false" edit="false" default_order="create_date desc" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel,closed'">
                                         <field name="crm_product_id" invisible="1"/>
