@@ -17,8 +17,10 @@
     'data': [
         'data/res.country.state.csv',
         'data/vn_district_default.xml',
-        'data/vn_sg_ward_default.xml',
-        'data/vn_sg_street_default.xml',
+        # 'data/vn_sg_ward_default.xml',
+        # 'data/vn_sg_street_default.xml',
+        'data/crm.street.csv',
+        'data/crm.ward.csv',
         'data/crm_sequence.xml',
         'data/crm_state.xml',
         'static/src/xml/custom_render_formview_template.xml',

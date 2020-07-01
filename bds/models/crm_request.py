@@ -35,7 +35,7 @@ class CrmRequest(models.Model):
     supporter_with_rule_ids = fields.One2many(comodel_name='crm.request.request.rule', inverse_name="crm_product_id", string='CV chăm sóc và phân quyền', track_visibility='always',
                                               domain=[('state', '=', 'approved')], ondelete='cascade')
     supporter_full_ids = fields.One2many(comodel_name='crm.request.request.rule', inverse_name="crm_product_id", string='Phân quyền',
-                                         groups='bds.crm_request_change_rule_user,bds.crm_request_manager', ondelete='cascade')
+                                         groups='bds.crm_request_manager', ondelete='cascade')
     
 
     #Field for description
@@ -52,7 +52,7 @@ class CrmRequest(models.Model):
     @api.depends('financial_capability','currency','partner_kd','potential_evaluation','note','source','type_of_real_estate','type_of_road','zone','business_demand','way','dientich','min_horizontal','parking_lot')
     def _set_description(self):
         for rec in self:
-            description = 'Khách hàng {nhucau} {loaibds}  - {loaiduong} - {khuvuc}, nhu cầu kinh doanh: {nckd}. Tập trung tuyến đường {way}. Giá thuê dao động: {gia}.Cần diện tích dao động: {dientich} - Ngang tối thiểu: {min}, Cần chỗ để xe khoảng: {dexe}. Hiện đang là chủ kinh doanh: {ckd}. Đánh giá mức độ tiềm năng: {danhgia}. Ghi chú: {note}. Nguồn: {nguon}'
+            description = 'Khách hàng {nhucau} {loaibds}  - {loaiduong} - {khuvuc}, nhu cầu kinh doanh: {nckd}. Tập trung tuyến đường {way}. Tài chính dao động: {gia}.Cần diện tích dao động: {dientich} - Ngang tối thiểu: {min}, Cần chỗ để xe khoảng: {dexe}. Hiện đang là chủ kinh doanh: {ckd}. Đánh giá mức độ tiềm năng: {danhgia}. Ghi chú: {note}. Nguồn: {nguon}'
              #Get value from selection fields
             requirement = dict(REQUIREMENT_REQUEST)
             nhucau = requirement.get(rec.requirement,'')

@@ -50,7 +50,7 @@ class CrmProduct(models.Model):
     supporter_with_rule_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='CV chăm sóc và phân quyền', track_visibility='always',
                                               domain=[('state', '=', 'approved')], ondelete='cascade')
     supporter_full_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='Phân quyền',
-                                         groups='bds.crm_product_change_rule_user,bds.crm_product_manager', ondelete='cascade')
+                                         groups='bds.crm_product_manager', ondelete='cascade')
 
     is_show_map_to_user = fields.Boolean(
         'Hiển Thị bản đồ cho KH', default=False)

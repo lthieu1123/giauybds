@@ -86,11 +86,9 @@ class CrmRequestRequestRuleSheet(models.Model):
         requirement = self.requirement
         groups_id = []
         if requirement == 'sale':
-            groups_id.append(self.env.ref('bds.crm_request_change_rule_user').id)
             groups_id.append(self.env.ref('bds.crm_request_sale_manager').id)
             groups_id.append(self.env.ref('bds.crm_request_manager').id)
         else:
-            groups_id.append(self.env.ref('bds.crm_request_change_rule_user').id)
             groups_id.append(self.env.ref('bds.crm_request_rental_manager').id)
             groups_id.append(self.env.ref('bds.crm_request_manager').id)
         user_ids = self.env['res.users'].search([

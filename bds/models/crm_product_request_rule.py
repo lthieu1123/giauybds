@@ -113,11 +113,9 @@ class CrmProductReuqestRuleSheet(models.Model):
         requirement = self.requirement
         groups_id = []
         if requirement == 'sale':
-            groups_id.append(self.env.ref('bds.crm_product_change_rule_user').id)
             groups_id.append(self.env.ref('bds.crm_product_sale_manager').id)
             groups_id.append(self.env.ref('bds.crm_product_manager').id)
         else:
-            groups_id.append(self.env.ref('bds.crm_product_change_rule_user').id)
             groups_id.append(self.env.ref('bds.crm_product_rental_manager').id)
             groups_id.append(self.env.ref('bds.crm_product_manager').id)
         user_ids = self.env['res.users'].search([
