@@ -176,7 +176,7 @@
                             </page>
                             <page string="Quyền CV chăm sóc">
                                 <field name="supporter_with_rule_ids" context="{'state_default': 'approved','default_requirement':requirement,'default_product': id}">
-                                    <tree edit="false" editable="bottom">
+                                    <tree edit="false" editable="bottom" delete="false">
                                         <field name="state" invisible="1"/>
                                         <field name="requirement" invisible="1"/>
                                         <field name="crm_product_id" invisible="1"/>

@@ -136,7 +136,8 @@ DAU_TU = 'dau_tu'
 
 
 NCKD = [
-    (DAU_TU,'ĐẦU TƯ'),
+    (DAU_TU,'ĐẦU TƯ'),    
+    (NHA_O,'NHÀ Ở'),
     (SHOP, 'SHOP'),
     (CUA_HANG, 'CỬA HÀNG'),
     (PHONG_GYM, 'PHÒNG GYM'),
@@ -164,7 +165,6 @@ NCKD = [
     (BAR, 'BAR'),
     (THUOC_TAY, 'THUỐC TÂY'),
     (MAT_KINH,'MẮT KÍNH'),
-    (NHA_O,'NHÀ Ở'),
     (KARAOKE,'KARAOKE'),
     (QUAN_NHAU,'QUÁN NHẬU'),
 ]
