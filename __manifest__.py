@@ -17,6 +17,7 @@
     'data': [
         'data/res.country.state.csv',
         'data/vn_district_default.xml',
+        'data/crm_product_function.xml',
         # 'data/vn_sg_ward_default.xml',
         # 'data/vn_sg_street_default.xml',
         'data/crm.street.csv',

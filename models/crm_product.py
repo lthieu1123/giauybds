@@ -142,11 +142,10 @@ class CrmProduct(models.Model):
                 rec.is_show_house_no = employee_id.is_show_house_no
                 rec.is_show_map = employee_id.is_show_map
 
-    @api.depends('supporter_with_rule_ids')
+    @api.depends('supporter_with_rule_ids','supporter_with_rule_ids.state')
     def _get_suppoter_ids(self):
         for rec in self:
-            rec.supporter_ids = rec.supporter_with_rule_ids.mapped(
-                'employee_id')
+            rec.supporter_ids = rec.supporter_with_rule_ids.filtered(lambda r: r.state=='approved').mapped('employee_id')
 
     @api.onchange('district_id')
     def _onchange_district(self):
@@ -188,3 +187,26 @@ class CrmProduct(models.Model):
             'target': 'new',
             'res_id': False,
         }
+    
+    @api.model
+    def _adjust_price(self):
+        self.env.cr.execute("update crm_product set price = price / 1000 where price > 999.99")
+        self.env.cr.execute("""
+            update crm_product
+            set name = (
+                select tmp.name_new
+                from (select
+                    id as id,
+                    name as name,
+                    row_number() OVER () as count,
+                    case
+                        when row_number() OVER () < 10 then right(concat('SP00000',row_number() OVER ()),8 )
+                        when row_number() OVER () > 9 and row_number() OVER () < 100 then right(concat('SP0000',row_number() OVER ()),8 )
+                        when row_number() OVER () > 99 and row_number() OVER () < 1000 then right(concat('SP000',row_number() OVER ()),8 )
+                        when row_number() OVER () > 999 and row_number() OVER () < 10000 then right(concat('SP00',row_number() OVER ()),8 )
+                        when row_number() OVER () > 9999 and row_number() OVER () < 100000 then right(concat('SP0',row_number() OVER ()),8 )
+                    end as name_new
+                from crm_product) as tmp
+                where tmp.id = crm_product.id 
+            )
+        """)

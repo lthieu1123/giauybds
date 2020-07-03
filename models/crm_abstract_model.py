@@ -68,7 +68,7 @@ class CrmAbstractModel(models.AbstractModel):
 
     brokerage_specialist = fields.Many2one(
         comodel_name='hr.employee', string='CV môi giới', default=lambda self: self._get_default_employee_id(), track_visibility='always')
-    supporter_ids = fields.Many2many(comodel_name='hr.employee', string='CV chăm sóc', compute="_get_suppoter_ids",track_visibility='always')
+    supporter_ids = fields.Many2many(comodel_name='hr.employee', string='CV chăm sóc', compute="_get_suppoter_ids",track_visibility='always',store=True)
     is_manager = fields.Boolean('Là Manager',compute='_is_manager')
     # is_duplicate_phone_1 = fields.Boolean('Trùng số 1', compute='_duplicate_phone_num', store=True)
     # is_duplicate_phone_2 = fields.Boolean('Trùng số 2', compute='_duplicate_phone_num', store=True)

@@ -109,6 +109,7 @@ class CrmRequest(models.Model):
         if vals.get('name', 'New') != '':
             vals['name'] = self.env['ir.sequence'].next_by_code(
                 'crm.request') or '/'
+            vals['sequence'] = int(vals['name'][2:])
         res = super().create(vals)
         return res
 
@@ -127,3 +128,26 @@ class CrmRequest(models.Model):
             'target': 'new',
             'res_id': False,
         }
+
+    @api.model
+    def _adjust_price(self):
+        self.env.cr.execute("update crm_request set price = price / 1000 where price > 999.99")
+        self.env.cr.execute("""
+            update crm_request
+            set name = (
+                select tmp.name_new
+                from (select
+                    id as id,
+                    name as name,
+                    row_number() OVER () as count,
+                    case
+                        when row_number() OVER () < 10 then right(concat('KH00000',row_number() OVER ()),8 )
+                        when row_number() OVER () > 9 and row_number() OVER () < 100 then right(concat('KH0000',row_number() OVER ()),8 )
+                        when row_number() OVER () > 99 and row_number() OVER () < 1000 then right(concat('KH000',row_number() OVER ()),8 )
+                        when row_number() OVER () > 999 and row_number() OVER () < 10000 then right(concat('KH00',row_number() OVER ()),8 )
+                        when row_number() OVER () > 9999 and row_number() OVER () < 100000 then right(concat('KH0',row_number() OVER ()),8 )
+                    end as name_new
+                from crm_request) as tmp
+                where tmp.id = crm_request.id 
+            )
+        """)
