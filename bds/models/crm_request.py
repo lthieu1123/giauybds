@@ -131,7 +131,7 @@ class CrmRequest(models.Model):
 
     @api.model
     def _adjust_price(self):
-        self.env.cr.execute("update crm_request set price = price / 1000 where price > 999.99")
+        # self.env.cr.execute("update crm_request set price = price / 1000 where price > 999.99")
         self.env.cr.execute("""
             update crm_request
             set name = (
