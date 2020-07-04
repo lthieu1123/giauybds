@@ -9,14 +9,16 @@
             <field name="model">crm.product</field>
             <field name="arch" type="xml">
                 <search string="Search Description">
+                    
                     <field name="name"/>
-                    <field name="requirement"/>
-                    <field name="brokerage_specialist"/>
-                    <field name="supporter_ids"/>
-                    <field name="state"/>
-                    <field name="district_id"/>
-                    <field name="ward_no"/>
+                    <field name="house_no_search"/>
                     <field name="street"/>
+                    <field name="brokerage_specialist"/>
+                    <field name="phone_number_search"/>
+                    <field name="district_id"/>
+                    <field name="district_id"/>
+                    <field name="supporter_ids"/>
+                    <field name="requirement"/>
                     <separator/>
                     <filter name="state_draft" string="Chưa duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
                     <separator/>
@@ -24,7 +26,7 @@
                     <separator/>
                     <filter name="state_stop" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_stop)d)]"/>
                     <separator/>
-                    <filter name="state_pending" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
+                    <filter name="state_pending" string="Tạm ngưng" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
                     <separator/>
                     <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
                     <separator/>
@@ -95,6 +97,8 @@
                             <field name="is_duplicate_phone_3" invisible="1"/>
                             <group string="Thông tin chủ nhà">
                                 <field name="host_name"/>
+                                <field name="phone_number_search" invisible="1"/>
+                                <field name="house_no_search" invisible="1"/>
                                 <label for="host_number_1" string="Số điện thoại"/>
                                 <div class="bds_show_phone_no">
                                     <div>
@@ -255,13 +259,16 @@
             <field name="arch" type="xml">
                 <tree default_order="create_date desc">
                     <!-- Add your fields here -->
+                    <field name="is_show_attachment" invisible="1"/>
+                    <field name="is_show_house_no" invisible="1"/>
+                    <field name="is_show_map" invisible="1"/>
+                    <field name="is_brokerage_specialist" invisible="1"/>
+                    <field name="description" invisible="1"/>
                     <field name="sequence" string="STT"/>
                     <field name="name" string="SĐK"/>
                     <field name="requirement"/>
                     <field name="type_of_real_estate"/>
-                    <field name="description" invisible="1"/>
-                    <!-- <field name="description" class="bds_show_description"/>
-                    <field name="house_no" class="bds_show_house_no"/> -->
+                    <field name="house_no"/>
                     <field name="street"/>
                     <field name="ward_no"/>
                     <field name="district_id"/>
@@ -280,6 +287,8 @@
                     <field name="write_date" string="Cập nhật"/>
                     <field name="brokerage_specialist"/>
                     <field name="supporter_ids" widget="many2many_tags"/>
+                    <field name="phone_number_search" invisible="1"/>
+                    <field name="house_no_search" invisible="1"/>
                     <!-- <field name="host_number_1" class="bds_show_phone_no"/>
                     <field name="host_number_2" class="bds_show_phone_no"/>
                     <field name="host_number_3" class="bds_show_phone_no"/> -->

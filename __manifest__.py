@@ -28,6 +28,7 @@
         'security/ir_group_rule.xml',
         'security/ir.model.access.csv',
         'wizard/announce_views.xml',
+        'wizard/change_state_wizard_views.xml',
         'views/crm_product_view.xml',
         'views/crm_product_request_rule.xml',
         'views/crm_product_request_rule_sheet.xml',

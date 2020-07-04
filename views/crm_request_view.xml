@@ -9,11 +9,12 @@
             <field name="arch" type="xml">
                 <search string="Search Description">
                     <field name="name"/>
+                    <field name="business_demand"/>
+                    <field name="host_name"/>
                     <field name="customer_uid"/>
-                    <field name="requirement"/>
                     <field name="brokerage_specialist"/>
+                    <field name="phone_number_search"/>
                     <field name="supporter_ids"/>
-                    <field name="zone"/>
                     <separator/>
                     <filter name="state_draft" string="Chưa duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
                     <separator/>
@@ -21,7 +22,7 @@
                     <separator/>
                     <filter name="state_stop" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_stop)d)]"/>
                     <separator/>
-                    <filter name="state_pending" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
+                    <filter name="state_pending" string="Tạm ngưng" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
                     <separator/>
                     <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
                     <separator/>
@@ -103,6 +104,7 @@
                                 <field name="is_duplicate_phone_1" invisible="1"/>
                                 <field name="is_duplicate_phone_2" invisible="1"/>
                                 <field name="is_duplicate_phone_3" invisible="1"/>
+                                <field name="phone_number_search" invisible="1"/>
                                 <label for="host_number_1" string="Số điện thoại"/>
                                 <div class="bds_show_phone_no">
                                     <div>
@@ -147,7 +149,7 @@
                                         <field name="employee_id" attrs="{'readonly':[('write_date','!=',False)]}"/>
                                         <field name="is_show_attachment" attrs="{'readonly':[('write_date','!=',False)]}"/>
                                         <field name="is_show_house_no" attrs="{'readonly':[('write_date','!=',False)]}"/>
-                                        <field name="is_show_map" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="is_show_email" attrs="{'readonly':[('write_date','!=',False)]}"/>
                                         <field name="approver" attrs="{'readonly':[('write_date','!=',False)]}"/>
                                         <field name="write_date" invisible="1"/>
                                         <field name="approved_date" string="Ngày phân quyền" attrs="{'readonly':[('write_date','!=',False)]}"/>
@@ -213,6 +215,10 @@
             <field name="arch" type="xml">
                 <tree default_order="create_date desc">
                     <!-- Add your fields here -->
+                    <field name="is_brokerage_specialist" invisible="1"/>
+                    <field name="is_show_attachment" invisible="1"/>
+                    <field name="is_show_house_no" invisible="1"/>
+                    <field name="is_show_email" invisible="1"/>
                     <field name="description" invisible="1"/>
                     <field name="sequence" string="STT"/>
                     <field name="name" string="SDDK"/>
@@ -220,8 +226,13 @@
                     <field name="requirement" string="NC BĐS"/>
                     <field name="type_of_real_estate"/>
                     <field name="host_name" string="Tên KH"/>
+                    <field name="zone"/>
+                    <field name="note"/>
                     <field name="financial_capability" string="Tài chính"/>
                     <field name="currency" string="Tiền tệ"/>
+                    <field name="host_number_1"/>
+                    <field name="host_number_2"/>
+                    <field name="host_number_3"/>
                     <field name="brokerage_specialist"/>
                     <field name="supporter_ids" widget="many2many_tags"/>
                     <field name="create_date"/>

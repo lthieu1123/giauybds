@@ -91,6 +91,32 @@ odoo.define('bds.FormController', function (require) {
                 $tr = $tr.prop('title',description).tooltip();
             }
             return $tr;
+        },
+
+        _renderBodyCell: function (record, node, colIndex, options) {
+            var $html =  this._super.apply(this, arguments);
+            
+            if (record.model === 'crm.product'){
+                var is_brokerage_specialist = record.data.is_brokerage_specialist;
+                var is_show_house_no = record.data.is_show_house_no;
+                if (!is_brokerage_specialist){
+                    if (!is_show_house_no) {
+                        if (node.attrs.name == "house_no") $html[0].innerHTML = "HIDE";
+                    }
+                }
+            }
+
+            if (record.model === 'crm.request'){
+                var is_brokerage_specialist = record.data.is_brokerage_specialist;
+                var is_show_house_no = record.data.is_show_house_no;
+                if (!is_brokerage_specialist){
+                    if (!is_show_house_no) {
+                        if (node.attrs.name == "host_number_1" || node.attrs.name == "host_number_2" || node.attrs.name == "host_number_3") $html[0].innerHTML = "HIDE";
+                    }
+                }
+            }           
+            
+            return $html;
         }
     });
 

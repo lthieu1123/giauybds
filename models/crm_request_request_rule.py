@@ -19,9 +19,9 @@ class CrmReuqestReuqestRule(models.Model):
 
     crm_product_id = fields.Many2one('crm.request','CRM Product',ondelete='cascade')
     crm_request_sheet_id = fields.Many2one('crm.request.request.rule.sheet','Sheet')
-    is_show_attachment = fields.Boolean('Xem hình ảnh', default=True)
-    is_show_house_no = fields.Boolean('Xem số nhà', default=True)
-    is_show_email = fields.Boolean('Xem Email', default=True)
+    is_show_attachment = fields.Boolean('Xem hình ảnh', default=True, readonly=True, force_save=True)
+    is_show_house_no = fields.Boolean('Xem số nhà', default=True, readonly=True, force_save=True)
+    is_show_email = fields.Boolean('Xem Email', default=True, readonly=True, force_save=True)
     requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cần thuê'),('sale','Cần mua')])
 
     @api.model
