@@ -70,6 +70,58 @@ class CrmProduct(models.Model):
     adv = fields.Char('Quảng cáo')
     potential_evaluation = fields.Char('Đánh giá tiềm năng')
 
+    #Search fields
+    phone_number_search = fields.Char(compute='_do_something_search',search='_search_phone_number',string='Số ĐT')
+    house_no_search = fields.Char(compute='_do_something_search', search='_search_house_no', string='Số nhà')
+
+
+    def _do_something_search(self):
+        pass
+    
+    def _get_fields_to_ignore_in_search(self):
+        return ['host_number_1','host_number_2','host_number_3','house_no']
+
+    @api.model
+    def fields_get(self, allfields=None, attributes=None):
+        res = super().fields_get(allfields, attributes=attributes)
+        for field in self._get_fields_to_ignore_in_search():
+            if res.get(field):
+                res.get(field)['searchable'] = False
+        return res
+
+    def _get_domain_default(self):
+        current_user = self.env.user
+        employee_id = current_user.employee_ids.ids[0]
+        if current_user.has_group('bds.crm_product_manager'):
+            return []
+    
+        if (current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all')) or (current_user.has_group('bds.crm_product_sale_user_view_all') or current_user.has_group('bds.crm_product_sale_manager')):
+            if (current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all')) and (current_user.has_group('bds.crm_product_sale_user_view_all') or current_user.has_group('bds.crm_product_sale_manager')):
+                domain  = ['|',('requirement','=','rental'),('requirement','=','sale')]
+            elif current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all'):
+                domain  = [('requirement','=','rental')]
+            else:
+                domain  = [('requirement','=','sale')]    
+        else:
+            if current_user.has_group('bds.crm_product_rental_user') and current_user.has_group('bds.crm_product_sale_user'):
+                domain =  ['|',('requirement','=','rental'),('requirement','=','sale'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)] + domain
+            elif current_user.has_group('bds.crm_product_rental_user'):
+                domain =  [('requirement','=','rental'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)]
+            else:
+                domain =  [('requirement','=','sale'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)]
+        return domain
+
+    @api.multi
+    def _search_phone_number(self, operator, value):
+        main_domain = ['|','|',('host_number_1','=',value),('host_number_2','=',value),('host_number_3','=',value)]
+        domain = self._get_domain_default()
+        return domain + main_domain
+    
+    @api.multi
+    def _search_house_no(self, operator, value):
+        main_domain = [('house_no','=',value)]
+        domain = self._get_domain_default()
+        return domain + main_domain
     
     @api.depends('price','currency','note','tip','potential_evaluation','source','adv','location','current_status','convenient','business_restrictions','requirement','type_of_real_estate','type_of_road','street','ward_no','district_id','horizontal','length','direction','way')
     def _set_description(self):
@@ -191,10 +243,8 @@ class CrmProduct(models.Model):
     @api.model
     def _adjust_price(self):
         self.env.cr.execute("update crm_product set price = price / 1000 where price > 999.99")
-        self.env.cr.execute("""
-            update crm_product
-            set name = (
-                select tmp.name_new
+        sub_query = """
+            select tmp.{}
                 from (select
                     id as id,
                     name as name,
@@ -208,5 +258,11 @@ class CrmProduct(models.Model):
                     end as name_new
                 from crm_product) as tmp
                 where tmp.id = crm_product.id 
-            )
-        """)
+        """
+        name = sub_query.format('name_new')
+        count = sub_query.format('count')
+        self.env.cr.execute("""
+            update crm_product
+            set name = ({}),
+            sequence = ({})
+            """.format(name,count))

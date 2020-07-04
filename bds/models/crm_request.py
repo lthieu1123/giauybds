@@ -48,6 +48,52 @@ class CrmRequest(models.Model):
     source = fields.Char('Nguồn')
     potential_evaluation = fields.Char('Đánh giá tiềm năng')
 
+    #Search fields
+    phone_number_search = fields.Char(compute='_do_something_search',search='_search_phone_number',string='Số ĐT')
+
+    def _do_something_search(self):
+        pass
+    
+    def _get_fields_to_ignore_in_search(self):
+        return ['host_number_1','host_number_2','host_number_3',]
+
+    @api.model
+    def fields_get(self, allfields=None, attributes=None):
+        res = super().fields_get(allfields, attributes=attributes)
+        for field in self._get_fields_to_ignore_in_search():
+            if res.get(field):
+                res.get(field)['searchable'] = False
+        return res
+
+    def _get_domain_default(self):
+        current_user = self.env.user
+        employee_id = current_user.employee_ids.ids[0]
+        if current_user.has_group('bds.crm_request_manager'):
+            return []
+    
+        if (current_user.has_group('bds.crm_request_rental_manager') or current_user.has_group('bds.crm_request_rental_user_view_all')) or (current_user.has_group('bds.crm_request_sale_user_view_all') or current_user.has_group('bds.crm_request_sale_manager')):
+            if (current_user.has_group('bds.crm_request_rental_manager') or current_user.has_group('bds.crm_request_rental_user_view_all')) and (current_user.has_group('bds.crm_request_sale_user_view_all') or current_user.has_group('bds.crm_request_sale_manager')):
+                domain  = ['|',('requirement','=','rental'),('requirement','=','sale')]
+            elif current_user.has_group('bds.crm_request_rental_manager') or current_user.has_group('bds.crm_request_rental_user_view_all'):
+                domain  = [('requirement','=','rental')]
+            else:
+                domain  = [('requirement','=','sale')]    
+        else:
+            if current_user.has_group('bds.crm_request_rental_user') and current_user.has_group('bds.crm_request_sale_user'):
+                domain =  ['|',('requirement','=','rental'),('requirement','=','sale'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)] + domain
+            elif current_user.has_group('bds.crm_request_rental_user'):
+                domain =  [('requirement','=','rental'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)]
+            else:
+                domain =  [('requirement','=','sale'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)]
+        return domain
+
+    @api.multi
+    def _search_phone_number(self, operator, value):
+        main_domain = ['|','|',('host_number_1','=',value),('host_number_2','=',value),('host_number_3','=',value)]
+        domain = self._get_domain_default()
+        return domain + main_domain
+    
+
 
     @api.depends('financial_capability','currency','partner_kd','potential_evaluation','note','source','type_of_real_estate','type_of_road','zone','business_demand','way','dientich','min_horizontal','parking_lot')
     def _set_description(self):
@@ -85,7 +131,7 @@ class CrmRequest(models.Model):
             rec.customer_uid = rec.name
 
 
-    @api.depends('supporter_with_rule_ids')
+    @api.depends('supporter_with_rule_ids','supporter_with_rule_ids.state')
     def _compute_show_data(self):
         current_user = self.env.user
         for rec in self:
@@ -132,10 +178,8 @@ class CrmRequest(models.Model):
     @api.model
     def _adjust_price(self):
         # self.env.cr.execute("update crm_request set price = price / 1000 where price > 999.99")
-        self.env.cr.execute("""
-            update crm_request
-            set name = (
-                select tmp.name_new
+        sub_query = """
+            select tmp.{}
                 from (select
                     id as id,
                     name as name,
@@ -149,5 +193,11 @@ class CrmRequest(models.Model):
                     end as name_new
                 from crm_request) as tmp
                 where tmp.id = crm_request.id 
-            )
-        """)
+        """
+        name = sub_query.format('name_new')
+        count = sub_query.format('count')
+        self.env.cr.execute("""
+            update crm_request
+            set name = ({}),
+            sequence = ({})
+            """.format(name,count))

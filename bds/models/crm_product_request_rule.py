@@ -21,9 +21,9 @@ class CrmProductReuqestRule(models.Model):
 
     crm_product_id = fields.Many2one('crm.product','CRM Product',ondelete='cascade', default=get_default_product)
     crm_request_sheet_id = fields.Many2one('crm.product.request.rule.sheet','Sheet')
-    is_show_attachment = fields.Boolean('Xem hình ảnh', default=True)
-    is_show_house_no = fields.Boolean('Xem số nhà', default=True)
-    is_show_map = fields.Boolean('Xem bản đồ', default=True)
+    is_show_attachment = fields.Boolean('Xem hình ảnh', default=True, readonly=True, force_save=True)
+    is_show_house_no = fields.Boolean('Xem số nhà', default=True, readonly=True, force_save=True)
+    is_show_map = fields.Boolean('Xem bản đồ', default=True, readonly=True, force_save=True)
     
     @api.model
     def create(self, vals):
