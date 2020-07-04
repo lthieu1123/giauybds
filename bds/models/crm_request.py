@@ -89,7 +89,7 @@ class CrmRequest(models.Model):
 
     @api.multi
     def _search_phone_number(self, operator, value):
-        main_domain = ['|','|',('host_number_1','=',value),('host_number_2','=',value),('host_number_3','=',value)]
+        main_domain = ['|','|',('host_number_1','ilike',value),('host_number_2','ilike',value),('host_number_3','ilike',value)]
         domain = self._get_domain_default()
         return domain + main_domain
     
