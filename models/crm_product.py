@@ -113,13 +113,13 @@ class CrmProduct(models.Model):
 
     @api.multi
     def _search_phone_number(self, operator, value):
-        main_domain = ['|','|',('host_number_1','=',value),('host_number_2','=',value),('host_number_3','=',value)]
+        main_domain = ['|','|',('host_number_1','ilike',value),('host_number_2','ilike',value),('host_number_3','ilike',value)]
         domain = self._get_domain_default()
         return domain + main_domain
     
     @api.multi
     def _search_house_no(self, operator, value):
-        main_domain = [('house_no','=',value)]
+        main_domain = [('house_no','ilike',value)]
         domain = self._get_domain_default()
         return domain + main_domain
     
