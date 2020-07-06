@@ -259,7 +259,7 @@
             <field name="name">crm.product.view.tree</field>
             <field name="model">crm.product</field>
             <field name="arch" type="xml">
-                <tree default_order="create_date desc">
+                <tree default_order="write_date desc">
                     <!-- Add your fields here -->
                     <field name="is_show_attachment" invisible="1"/>
                     <field name="is_show_house_no" invisible="1"/>

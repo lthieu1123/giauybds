@@ -215,7 +215,7 @@
             <field name="name">crm.request.view.tree</field>
             <field name="model">crm.request</field>
             <field name="arch" type="xml">
-                <tree default_order="create_date desc">
+                <tree default_order="write_date desc">
                     <!-- Add your fields here -->
                     <field name="is_brokerage_specialist" invisible="1"/>
                     <field name="is_show_attachment" invisible="1"/>
