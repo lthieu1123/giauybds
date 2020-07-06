@@ -29,6 +29,7 @@ class ApproveRejectProductWizard(models.TransientModel):
     @api.multi
     def btn_apply(self):
         self.ensure_one()
+        self._validate_user_has_role()
         context = self.env.context.copy()
         msg = 'Đã chuyển {} {} sang trạng thái: "{}"'
         action = {
@@ -59,4 +60,15 @@ class ApproveRejectProductWizard(models.TransientModel):
                 'context': context
             })
             return action
+    
+    def _validate_user_has_role(self):
+        if not self._is_user_has_manage_role():
+            raise exceptions.ValidationError('Chỉ quản lý mới được phép thay đổi trạng thái')
+
+    def _is_user_has_manage_role(self):
+        current_user = self.env.user
+        if current_user.has_group('bds.crm_product_sale_manager') or current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_manager') or current_user.has_group('bds.crm_request_sale_manager') or current_user.has_group('bds.crm_request_rental_manager') or current_user.has_group('bds.crm_request_manager'):
+            return True
+        else:
+            return False    
     

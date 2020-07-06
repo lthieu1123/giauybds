@@ -94,7 +94,8 @@ class CrmProduct(models.Model):
         employee_id = current_user.employee_ids.ids[0]
         if current_user.has_group('bds.crm_product_manager'):
             return []
-    
+        
+        domain = []
         if (current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all')) or (current_user.has_group('bds.crm_product_sale_user_view_all') or current_user.has_group('bds.crm_product_sale_manager')):
             if (current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all')) and (current_user.has_group('bds.crm_product_sale_user_view_all') or current_user.has_group('bds.crm_product_sale_manager')):
                 domain  = ['|',('requirement','=','rental'),('requirement','=','sale')]

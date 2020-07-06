@@ -27,7 +27,9 @@
                     <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
                     <separator/>
                     <filter name="state_ontrade" string="Đang giao dịch" domain="[('state','=',%(bds.crm_state_ongoing)d)]"/>
-                    <separator/>                    
+                    <separator/>    
+                    <filter name="my_own_request" string="Bài của tôi" domain="[('brokerage_specialist.user_id','=',uid)]"/>
+                    <separator/>                
                 </search>
             </field>
         </record>
