@@ -108,9 +108,9 @@ odoo.define('bds.FormController', function (require) {
 
             if (record.model === 'crm.request'){
                 var is_brokerage_specialist = record.data.is_brokerage_specialist;
-                var is_show_house_no = record.data.is_show_house_no;
+                var is_show_email = record.data.is_show_email;
                 if (!is_brokerage_specialist){
-                    if (!is_show_house_no) {
+                    if (!is_show_email) {
                         if (node.attrs.name == "host_number_1" || node.attrs.name == "host_number_2" || node.attrs.name == "host_number_3") $html[0].innerHTML = "HIDE";
                     }
                 }

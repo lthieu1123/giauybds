@@ -70,7 +70,8 @@ class CrmRequest(models.Model):
         employee_id = current_user.employee_ids.ids[0]
         if current_user.has_group('bds.crm_request_manager'):
             return []
-    
+        
+        domain = []
         if (current_user.has_group('bds.crm_request_rental_manager') or current_user.has_group('bds.crm_request_rental_user_view_all')) or (current_user.has_group('bds.crm_request_sale_user_view_all') or current_user.has_group('bds.crm_request_sale_manager')):
             if (current_user.has_group('bds.crm_request_rental_manager') or current_user.has_group('bds.crm_request_rental_user_view_all')) and (current_user.has_group('bds.crm_request_sale_user_view_all') or current_user.has_group('bds.crm_request_sale_manager')):
                 domain  = ['|',('requirement','=','rental'),('requirement','=','sale')]
