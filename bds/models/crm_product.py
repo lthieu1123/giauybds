@@ -97,25 +97,36 @@ class CrmProduct(models.Model):
         
         domain = []
         if (current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all')) or (current_user.has_group('bds.crm_product_sale_user_view_all') or current_user.has_group('bds.crm_product_sale_manager')):
+            _logger.info('User has product manager')
             if (current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all')) and (current_user.has_group('bds.crm_product_sale_user_view_all') or current_user.has_group('bds.crm_product_sale_manager')):
+                _logger.info('User has manager rental and sale')
                 domain  = ['|',('requirement','=','rental'),('requirement','=','sale')]
             elif current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all'):
+                _logger.info('User has only rental manager')
                 domain  = [('requirement','=','rental')]
             else:
+                _logger.info('User has only sale manager')
                 domain  = [('requirement','=','sale')]    
         else:
             if current_user.has_group('bds.crm_product_rental_user') and current_user.has_group('bds.crm_product_sale_user'):
+                _logger.info('User has rental sale')
                 domain =  ['|',('requirement','=','rental'),('requirement','=','sale'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)] + domain
             elif current_user.has_group('bds.crm_product_rental_user'):
+                _logger.info('User has only rental')
                 domain =  [('requirement','=','rental'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)]
             else:
+                _logger.info('User has only sale')
                 domain =  [('requirement','=','sale'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)]
+        _logger.info('domain')
+        _logger.info(domain)
         return domain
 
     @api.multi
     def _search_phone_number(self, operator, value):
         main_domain = ['|','|',('host_number_1','ilike',value),('host_number_2','ilike',value),('host_number_3','ilike',value)]
         domain = self._get_domain_default()
+        _logger.info('PHone Domain')
+        _logger.info(domain + main_domain)
         return domain + main_domain
     
     @api.multi
