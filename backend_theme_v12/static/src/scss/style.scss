@@ -30,6 +30,11 @@ $brand-secondary: #5EC269;
 $brand-primary-dark: darken($brand-primary, 10%);
 $brand-secondary-dark: darken($brand-secondary, 10%);
 
+table.o_list_view ,tr.o_data_row {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
 body {
 
     font-family: "Roboto";

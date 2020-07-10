@@ -547,6 +547,11 @@ html .o_web_client .o_main .o_main_content {
             background-color: $o-list-footer-bg-color;
         }
     }
+	
+	table.o_list_view ,tr.o_data_row {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
 }
 
 // Waiting Cursor
