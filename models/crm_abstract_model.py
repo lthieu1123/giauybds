@@ -44,7 +44,7 @@ class CrmAbstractModel(models.AbstractModel):
                             track_visibility='always', group_expand='_read_group_stage_ids', store=True)
 
     sequence = fields.Integer(string='Số TT', readonly=True,
-                              force_save=True, track_visibility='always', index=True)
+                              force_save=True, track_visibility='always',index=True)
     requirement = fields.Selection(string='Nhu cầu', selection=REQUIREMENT_PRODUCT, track_visibility='always', default=_get_default_requirement)
     type_of_real_estate = fields.Selection(
         string='Loại BĐS', selection=TYPE_OF_REAL_ESTATE, track_visibility='always')
@@ -54,10 +54,10 @@ class CrmAbstractModel(models.AbstractModel):
     type_of_road = fields.Selection(
         string='Loại đường', selection=TYPE_OF_ROAD, track_visibility='always')
 
-    host_name = fields.Char('Tên chủ', track_visibility='always')
-    host_number_1 = fields.Char('Số ĐT 1')
-    host_number_2 = fields.Char('Số ĐT 2')
-    host_number_3 = fields.Char('Số ĐT 3')
+    host_name = fields.Char('Tên chủ', track_visibility='always', index=True)
+    host_number_1 = fields.Char('Số ĐT 1', index=True)
+    host_number_2 = fields.Char('Số ĐT 2', index=True)
+    host_number_3 = fields.Char('Số ĐT 3', index=True)
 
     is_show_attachment = fields.Boolean(
         'Xem hình ảnh', compute="_compute_show_data")
@@ -67,8 +67,8 @@ class CrmAbstractModel(models.AbstractModel):
         'Là chủ hồ sơ', compute="_compute_show_data")
 
     brokerage_specialist = fields.Many2one(
-        comodel_name='hr.employee', string='CV môi giới', default=lambda self: self._get_default_employee_id(), track_visibility='always')
-    supporter_ids = fields.Many2many(comodel_name='hr.employee', string='CV chăm sóc', compute="_get_suppoter_ids",track_visibility='always',store=True)
+        comodel_name='hr.employee', string='CV môi giới', default=lambda self: self._get_default_employee_id(), track_visibility='always', index=True)
+    supporter_ids = fields.Many2many(comodel_name='hr.employee', string='CV chăm sóc', compute="_get_suppoter_ids",track_visibility='always',store=True,index=True)
     is_manager = fields.Boolean('Là Manager',compute='_is_manager')
     # is_duplicate_phone_1 = fields.Boolean('Trùng số 1', compute='_duplicate_phone_num', store=True)
     # is_duplicate_phone_2 = fields.Boolean('Trùng số 2', compute='_duplicate_phone_num', store=True)
