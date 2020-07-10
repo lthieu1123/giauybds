@@ -146,7 +146,7 @@ class CrmProduct(models.Model):
                         giachothue=giachothue,ghichu=rec.note,nguon=rec.source,treoquangcao=rec.adv,danhgia=rec.potential_evaluation,hoahong=rec.tip)
             rec.description = description
     
-    @api.onchange('house_no', 'street')
+    @api.onchange('house_no', 'street','requirement')
     def _check_house_no(self):
         print('_check_house_no')
         is_duplicate_house_no = False            
@@ -163,13 +163,14 @@ class CrmProduct(models.Model):
 
             
 
-    @api.constrains('house_no', 'street')
+    @api.constrains('house_no', 'street','requirement',)
     def _validate_house_no_street(self):
         for rec in self:
             count = self.search_count([
                 ('house_no', '=', self.house_no),
                 ('street', '=', self.street.id),
-                ('id', '!=', rec.id)
+                ('id', '!=', rec.id),
+                ('requirement','=',rec.requirement)
             ])
             if count != 0:
                 raise exceptions.ValidationError('Số nhà: {}, đường {}, quận {} đã tồn tại'.format(
