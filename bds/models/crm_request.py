@@ -94,7 +94,10 @@ class CrmRequest(models.Model):
         domain = self._get_domain_default()
         return domain + main_domain
     
-
+    @api.depends('supporter_with_rule_ids','supporter_with_rule_ids.state')
+    def _get_suppoter_ids(self):
+        for rec in self:
+            rec.supporter_ids = rec.supporter_with_rule_ids.filtered(lambda r: r.state=='approved').mapped('employee_id')
 
     @api.depends('financial_capability','currency','partner_kd','potential_evaluation','note','source','type_of_real_estate','type_of_road','zone','business_demand','way','dientich','min_horizontal','parking_lot')
     def _set_description(self):
