@@ -205,3 +205,7 @@ class CrmRequest(models.Model):
             set name = ({}),
             sequence = ({})
             """.format(name,count))
+    
+    @api.model
+    def _set_supporters(self):
+        self.env['crm.request'].search([])._get_suppoter_ids()
