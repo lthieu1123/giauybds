@@ -4,5 +4,6 @@
         <!-- Add you code here -->
         <!-- <function model="crm.product" name="_adjust_price"/>
         <function model="crm.request" name="_adjust_price"/> -->
+        <!-- <function model="crm.request" name="_set_supporters"/> -->
     </data>
 </odoo>
