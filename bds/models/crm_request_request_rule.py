@@ -85,12 +85,13 @@ class CrmRequestRequestRuleSheet(models.Model):
     def send_notification_request(self):
         requirement = self.requirement
         groups_id = []
+        groups_id.append(self.env.ref('bds.crm_request_manager').id)
         if requirement == 'sale':
             groups_id.append(self.env.ref('bds.crm_request_sale_manager').id)
-            groups_id.append(self.env.ref('bds.crm_request_manager').id)
+            groups_id.append(self.env.ref('bds.crm_request_sale_user_view_all').id)
         else:
             groups_id.append(self.env.ref('bds.crm_request_rental_manager').id)
-            groups_id.append(self.env.ref('bds.crm_request_manager').id)
+            groups_id.append(self.env.ref('bds.crm_request_rental_user_view_all').id)
         user_ids = self.env['res.users'].search([
             ('groups_id','in',groups_id)
         ])
