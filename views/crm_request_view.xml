@@ -155,7 +155,7 @@
                                         <field name="approver" attrs="{'readonly':[('write_date','!=',False)]}"/>
                                         <field name="write_date" invisible="1"/>
                                         <field name="approved_date" string="Ngày phân quyền" attrs="{'readonly':[('write_date','!=',False)]}"/>
-                                        <button name="btn_remove_rule" string="Bỏ quyền" class="btn-sm btn-primary" type="object" groups="bds.crm_request_sale_manager,bds.crm_request_rental_manager,bds.crm_request_manager"/>
+                                        <button name="btn_remove_rule" string="Bỏ quyền" class="btn-sm btn-primary" type="object" groups="bds.crm_request_sale_manager,bds.crm_request_rental_manager,bds.crm_request_manager,bds.crm_request_sale_user_view_all,bds.crm_request_rental_user_view_all"/>
                                     </tree>
                                     <form>
                                         <group>
