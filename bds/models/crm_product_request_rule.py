@@ -112,12 +112,13 @@ class CrmProductReuqestRuleSheet(models.Model):
     def send_notification_request(self):
         requirement = self.requirement
         groups_id = []
+        groups_id.append(self.env.ref('bds.crm_product_manager').id)
         if requirement == 'sale':
             groups_id.append(self.env.ref('bds.crm_product_sale_manager').id)
-            groups_id.append(self.env.ref('bds.crm_product_manager').id)
+            # groups_id.append(self.env.ref('bds.crm_product_sale_user_view_all').id)
         else:
             groups_id.append(self.env.ref('bds.crm_product_rental_manager').id)
-            groups_id.append(self.env.ref('bds.crm_product_manager').id)
+            # groups_id.append(self.env.ref('bds.crm_product_rental_user_view_all').id)
         user_ids = self.env['res.users'].search([
             ('groups_id','in',groups_id)
         ])
@@ -223,7 +224,9 @@ class CrmProductReuqestRuleSheet(models.Model):
             'res_model_id': model_id,
             'user_id': user_id
         }
+        print('_create_email_activity')
         res = self.env['mail.activity'].create(vals)
+        print(': res')
         return res
     
     def _get_url(self):

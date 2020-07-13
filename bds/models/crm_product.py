@@ -148,12 +148,11 @@ class CrmProduct(models.Model):
     
     @api.onchange('house_no', 'street','requirement')
     def _check_house_no(self):
-        print('_check_house_no')
         is_duplicate_house_no = False            
         if self.house_no and self.street.id:
             if self.house_no != self._origin.house_no or self.street.id != self._origin.street.id:
                 count = self.search_count([
-                    ('house_no', '=', self.house_no),
+                    ('house_no', '=ilike', self.house_no),
                     ('street', '=', self.street.id),
                     ('id','!=',self._origin.id),
                     ('requirement','=',self.requirement)
@@ -167,7 +166,7 @@ class CrmProduct(models.Model):
     def _validate_house_no_street(self):
         for rec in self:
             count = self.search_count([
-                ('house_no', '=', self.house_no),
+                ('house_no', '=ilike', self.house_no),
                 ('street', '=', self.street.id),
                 ('id', '!=', rec.id),
                 ('requirement','=',rec.requirement)

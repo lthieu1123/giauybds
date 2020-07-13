@@ -83,19 +83,23 @@ class CrmRequestRequestRuleSheet(models.Model):
         }
 
     def send_notification_request(self):
+        print('send_notification_request')
         requirement = self.requirement
         groups_id = []
+        groups_id.append(self.env.ref('bds.crm_request_manager').id)
         if requirement == 'sale':
             groups_id.append(self.env.ref('bds.crm_request_sale_manager').id)
-            groups_id.append(self.env.ref('bds.crm_request_manager').id)
+            # groups_id.append(self.env.ref('bds.crm_request_sale_user_view_all').id)
         else:
             groups_id.append(self.env.ref('bds.crm_request_rental_manager').id)
-            groups_id.append(self.env.ref('bds.crm_request_manager').id)
+            # groups_id.append(self.env.ref('bds.crm_request_rental_user_view_all').id)
         user_ids = self.env['res.users'].search([
             ('groups_id','in',groups_id)
         ])
         mail_ids = []
+        print('user_ids: ',user_ids)
         for user in user_ids:
+            print('USER: ',user)
             res = self._create_email_activity(user)
             mail_ids.append(res.id)
         self.update({
