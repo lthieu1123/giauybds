@@ -10,10 +10,10 @@ from odoo.addons import decimal_precision as dp
 from ..commons.bds_constant import *
 from datetime import datetime
 
+
 class Base(models.AbstractModel):
     _inherit = 'base'
 
-    
     @api.multi
     def export_data(self, fields_to_export, raw_data=False):
         """Only Admin can export data
@@ -28,6 +28,7 @@ class Base(models.AbstractModel):
         if not self.env.user.has_group('base.group_system'):
             raise exceptions.ValidationError('Bạn không có quyền xuất dữ liệu')
         return super(Base, self).export_data(fields_to_export, raw_data)
+
 
 class InheritResUsers(models.Model):
     _inherit = 'res.users'
@@ -48,22 +49,24 @@ class InheritResUsers(models.Model):
         type(self).SELF_READABLE_FIELDS.extend(['notification_type'])
         return init_res
 
+
 class InheritHrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     def _validate_only_user(self):
         existed = self.search([
-            ('user_id','=',self.user_id.id),
-            ('id','!=',self.id if self.id else False)
+            ('user_id', '=', self.user_id.id),
+            ('id', '!=', self.id if self.id else False)
         ])
         if existed.id:
-            raise exceptions.ValidationError('Đã có nhân viên cho người dùng: "{}". Vui lòng chọn người dùng khác.'.format(self.user_id.name))
+            raise exceptions.ValidationError(
+                'Đã có nhân viên cho người dùng: "{}". Vui lòng chọn người dùng khác.'.format(self.user_id.name))
 
     @api.onchange('user_id')
     def _onchange_user_id(self):
         if self.user_id.id:
             self._validate_only_user()
-    
+
     @api.constrains('user_id')
     def _constrains_user_id(self):
         for rec in self:
@@ -71,7 +74,7 @@ class InheritHrEmployee(models.Model):
                 rec._validate_only_user()
 
     @api.model
-    def create(self,vals):
+    def create(self, vals):
         res = super().create(vals)
         if res.user_id.id:
             res.user_id.write({
@@ -80,11 +83,9 @@ class InheritHrEmployee(models.Model):
         return res
 
     @api.multi
-    def write(self,vals):
+    def write(self, vals):
         res = super().write(vals)
         for rec in self:
             if rec.user_id.id:
                 rec.user_id.write({'employee_id': rec.id})
         return res
-
-    

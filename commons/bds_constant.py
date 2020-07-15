@@ -32,7 +32,7 @@ OTHER = 'other'
 TYPE_OF_REAL_ESTATE = [
     (TRANSFER,'Sang nhượng'),
     (LAND, 'Đất'),
-    (BUILDING, 'Toàn nhà'),
+    (BUILDING, 'Toà nhà'),
     (HOTEL,'Khách sạn'),
     (PREMISES,'Mặt bằng'),
     (HOUSE,'Nhà nguyên căn'),
@@ -152,7 +152,7 @@ NCKD = [
     (HT, 'HT'),
     (NHA_HANG, 'NHÀ HÀNG'),
     (QUAN_AN, 'QUÁN ĂN'),
-    (CAFE, 'CAFÉ'),
+    (CAFE, 'CAFE'),
     (NGAN_HANG, 'NGÂN HÀNG'),
     (SPA, 'SPA'),
     (SHOWROOM, 'SHOWROOM'),

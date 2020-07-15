@@ -16,11 +16,18 @@
                     <field name="brokerage_specialist"/>
                     <field name="phone_number_search"/>
                     <field name="district_id"/>
-                    <field name="district_id"/>
+                    <field name="ward_no"/>
                     <field name="supporter_ids"/>
                     <field name="requirement"/>
+                    <filter name="state_draft" string="Chờ duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
+                    <filter name="state_open" string="Mở bán" domain="[('state','=',%(bds.crm_state_open)d)]"/>
+                    <filter name="state_stop" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_stop)d)]"/>
+                    <filter name="state_pending" string="Tạm ngưng" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
+                    <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
+                    <filter name="state_ontrade" string="Đang giao dịch" domain="[('state','=',%(bds.crm_state_ongoing)d)]"/>
+                    <filter name="my_own_request" string="Bài của tôi" domain="[('brokerage_specialist.user_id','=',uid)]"/>
                     <separator/>
-                    <filter name="state_draft" string="Chưa duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
+                    <filter name="state_draft" string="Chờ duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
                     <separator/>
                     <filter name="state_open" string="Mở bán" domain="[('state','=',%(bds.crm_state_open)d)]"/>
                     <separator/>
@@ -218,6 +225,7 @@
                                         <field name="is_show_map"/>
                                         <field name="create_date" string="Ngày đăng ký"/>
                                         <field name="approved_date"/>
+                                        <field name="rejected_data"/>
                                         <field name="approver"/>
                                         <field name="state" readonly="1"/>
                                     </tree>
@@ -230,6 +238,7 @@
                                             <field name="is_show_map"/>
                                             <field name="create_date" string="Ngày đăng ký"/>
                                             <field name="approved_date"/>
+                                            <field name="rejected_data"/>
                                             <field name="approver"/>
                                             <field name="state" readonly="1"/>
                                         </group>
@@ -274,7 +283,7 @@
                     <field name="street"/>
                     <field name="ward_no"/>
                     <field name="district_id"/>
-                    <field name="state_id"/>
+                    <field name="state_id" invisible="1"/>
                     <field name="country_id" invisible="1"/>
                     <field name="type_of_road"/>
                     <field name="horizontal"/>

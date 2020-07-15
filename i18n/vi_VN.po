@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-29 06:39+0000\n"
-"PO-Revision-Date: 2020-06-29 06:39+0000\n"
+"POT-Creation-Date: 2020-07-15 16:25+0000\n"
+"PO-Revision-Date: 2020-07-15 16:25+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -43,6 +43,13 @@ msgstr ""
 #: selection:crm.abstract.model,type_of_road:0
 #: selection:crm.product,type_of_road:0
 #: selection:crm.request,type_of_road:0
+msgid "2 mặt tiền hẽm"
+msgstr ""
+
+#. module: bds
+#: selection:crm.abstract.model,type_of_road:0
+#: selection:crm.product,type_of_road:0
+#: selection:crm.request,type_of_road:0
 msgid "3 Mặt tiền"
 msgstr ""
 
@@ -54,14 +61,14 @@ msgid "4 Mặt tiền"
 msgstr ""
 
 #. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "<span class=\"o_form_label\">CRM Customer</span>"
+msgstr "<span class=\"o_form_label\">CRM Khách hàng</span>"
+
+#. module: bds
 #: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
 msgid "<span class=\"o_form_label\">CRM Product</span>"
 msgstr "<span class=\"o_form_label\">CRM Sản phẩm</span>"
-
-#. module: bds
-#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
-msgid "<span class=\"o_form_label\">CRM Request</span>"
-msgstr "<span class=\"o_form_label\">CRM Nhu cầu</span>"
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_crm_abstract_model__message_needaction
@@ -107,7 +114,7 @@ msgstr "Các hoạt động"
 #: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__activity_state
 #: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__activity_state
 msgid "Activity State"
-msgstr "Trạng thái hoạt động"
+msgstr "Tình trạng hoạt động"
 
 #. module: bds
 #: model:ir.model,name:bds.model_announce
@@ -147,6 +154,12 @@ msgid "Base Import"
 msgstr ""
 
 #. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_search
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_search
+msgid "Bài của tôi"
+msgstr ""
+
+#. module: bds
 #: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
 msgid "Bản đồ"
 msgstr ""
@@ -162,9 +175,22 @@ msgid "Bảng yêu cầu phân quyền"
 msgstr ""
 
 #. module: bds
-#: selection:crm.request,business_demand:0
-msgid "CAFÉ"
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+msgid "Bỏ quyền"
 msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "CAFE"
+msgstr ""
+
+#. module: bds
+#: model:ir.actions.act_window,name:bds.crm_request_action
+#: model:ir.ui.menu,name:bds.crm_request_menu_act
+#: model:ir.ui.menu,name:bds.crm_request_menu_root
+msgid "CRM Customer"
+msgstr "CRM Khách hàng"
 
 #. module: bds
 #: model:ir.actions.act_window,name:bds.crm_product_action
@@ -188,13 +214,9 @@ msgid "CRM Product Request Rule Sheet"
 msgstr ""
 
 #. module: bds
-#: model:ir.actions.act_window,name:bds.crm_request_action
 #: model:ir.model,name:bds.model_crm_request
-#: model:ir.module.category,name:bds.crm_request_group
-#: model:ir.ui.menu,name:bds.crm_request_menu_act
-#: model:ir.ui.menu,name:bds.crm_request_menu_root
 msgid "CRM Request"
-msgstr "CRM Nhu cầu"
+msgstr "CRM Khách hàng"
 
 #. module: bds
 #: model:ir.model,name:bds.model_crm_request_request_rule
@@ -218,7 +240,6 @@ msgstr ""
 
 #. module: bds
 #: model:ir.model,name:bds.model_crm_states_product
-#: model:ir.model,name:bds.model_crm_states_request
 msgid "CRM States BDS"
 msgstr ""
 
@@ -266,13 +287,15 @@ msgid "Cancel"
 msgstr "Hủy"
 
 #. module: bds
+#: model:ir.model,name:bds.model_change_state_wizard
+msgid "Change Sate Wizard"
+msgstr ""
+
+#. module: bds
 #: selection:crm.abstract.model,requirement:0
 #: selection:crm.product,requirement:0
 #: selection:crm.product.request.rule,requirement:0
 #: selection:crm.product.request.rule.sheet,requirement:0
-#: selection:crm.request,requirement:0
-#: selection:crm.request.request.rule,requirement:0
-#: selection:crm.request.request.rule.sheet,requirement:0
 #: selection:crm.request.rule.abstract.model,requirement:0
 msgid "Cho thuê"
 msgstr ""
@@ -304,14 +327,18 @@ msgstr ""
 #: selection:crm.request.request.rule,state:0
 #: selection:crm.request.request.rule.sheet,state:0
 #: selection:crm.request.rule.abstract.model,state:0
-#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_search
-#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_search
 msgid "Chưa duyệt"
 msgstr ""
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_crm_request__parking_lot
 msgid "Chỗ để xe"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_search
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_search
+msgid "Chờ duyệt"
 msgstr ""
 
 #. module: bds
@@ -328,6 +355,7 @@ msgstr ""
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_announce__create_uid
+#: model:ir.model.fields,field_description:bds.field_change_state_wizard__create_uid
 #: model:ir.model.fields,field_description:bds.field_crm_district__create_uid
 #: model:ir.model.fields,field_description:bds.field_crm_product__create_uid
 #: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__create_uid
@@ -343,6 +371,7 @@ msgstr "Được tạo bởi"
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_announce__create_date
+#: model:ir.model.fields,field_description:bds.field_change_state_wizard__create_date
 #: model:ir.model.fields,field_description:bds.field_crm_district__create_date
 #: model:ir.model.fields,field_description:bds.field_crm_product__create_date
 #: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__create_date
@@ -384,11 +413,22 @@ msgstr ""
 #: selection:crm.product,requirement:0
 #: selection:crm.product.request.rule,requirement:0
 #: selection:crm.product.request.rule.sheet,requirement:0
+#: selection:crm.request.rule.abstract.model,requirement:0
+msgid "Cần bán"
+msgstr ""
+
+#. module: bds
 #: selection:crm.request,requirement:0
 #: selection:crm.request.request.rule,requirement:0
 #: selection:crm.request.request.rule.sheet,requirement:0
-#: selection:crm.request.rule.abstract.model,requirement:0
-msgid "Cần bán"
+msgid "Cần mua"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,requirement:0
+#: selection:crm.request.request.rule,requirement:0
+#: selection:crm.request.request.rule.sheet,requirement:0
+msgid "Cần thuê"
 msgstr ""
 
 #. module: bds
@@ -403,6 +443,7 @@ msgstr ""
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_announce__display_name
+#: model:ir.model.fields,field_description:bds.field_change_state_wizard__display_name
 #: model:ir.model.fields,field_description:bds.field_crm_abstract_model__display_name
 #: model:ir.model.fields,field_description:bds.field_crm_district__display_name
 #: model:ir.model.fields,field_description:bds.field_crm_product__display_name
@@ -519,14 +560,7 @@ msgstr ""
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_crm_product__price
 #: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
-#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
 msgid "Giá"
-msgstr ""
-
-#. module: bds
-#: model:ir.model.fields,field_description:bds.field_crm_product__rental_price
-#: model:ir.model.fields,field_description:bds.field_crm_request__rental_price
-msgid "Giá cho thuê"
 msgstr ""
 
 #. module: bds
@@ -624,13 +658,13 @@ msgid "Hồ sơ sản phẩm tạo tại đây"
 msgstr ""
 
 #. module: bds
-#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
-#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_form
+#: model_terms:ir.ui.view,arch_db:bds.change_state_wizard_view_form
 msgid "Hủy"
 msgstr ""
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_announce__id
+#: model:ir.model.fields,field_description:bds.field_change_state_wizard__id
 #: model:ir.model.fields,field_description:bds.field_crm_abstract_model__id
 #: model:ir.model.fields,field_description:bds.field_crm_district__id
 #: model:ir.model.fields,field_description:bds.field_crm_product__id
@@ -696,6 +730,11 @@ msgstr "Trở thành người theo dõi"
 
 #. module: bds
 #: selection:crm.request,business_demand:0
+msgid "KARAOKE"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
 msgid "KHO"
 msgstr ""
 
@@ -735,6 +774,7 @@ msgstr ""
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_announce____last_update
+#: model:ir.model.fields,field_description:bds.field_change_state_wizard____last_update
 #: model:ir.model.fields,field_description:bds.field_crm_abstract_model____last_update
 #: model:ir.model.fields,field_description:bds.field_crm_district____last_update
 #: model:ir.model.fields,field_description:bds.field_crm_product____last_update
@@ -752,6 +792,7 @@ msgstr "Sửa lần cuối vào"
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_announce__write_uid
+#: model:ir.model.fields,field_description:bds.field_change_state_wizard__write_uid
 #: model:ir.model.fields,field_description:bds.field_crm_district__write_uid
 #: model:ir.model.fields,field_description:bds.field_crm_product__write_uid
 #: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__write_uid
@@ -767,6 +808,7 @@ msgstr "Cập nhật lần cuối bởi"
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_announce__write_date
+#: model:ir.model.fields,field_description:bds.field_change_state_wizard__write_date
 #: model:ir.model.fields,field_description:bds.field_crm_district__write_date
 #: model:ir.model.fields,field_description:bds.field_crm_product__write_date
 #: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__write_date
@@ -879,6 +921,11 @@ msgid "Mã KH"
 msgstr ""
 
 #. module: bds
+#: selection:crm.request,business_demand:0
+msgid "MẮT KÍNH"
+msgstr ""
+
+#. module: bds
 #: selection:crm.abstract.model,type_of_real_estate:0
 #: selection:crm.product,type_of_real_estate:0
 #: selection:crm.request,type_of_real_estate:0
@@ -921,6 +968,11 @@ msgstr ""
 #. module: bds
 #: selection:crm.request,business_demand:0
 msgid "NHÀ SÁCH"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
+msgid "NHÀ Ở"
 msgstr ""
 
 #. module: bds
@@ -976,6 +1028,13 @@ msgid "Nguồn"
 msgstr ""
 
 #. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__rejected_data
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__rejected_data
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__rejected_data
+msgid "Ngày bỏ quyền"
+msgstr ""
+
+#. module: bds
 #: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__approved_date
 #: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__approved_date
 #: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__approved_date
@@ -1026,6 +1085,7 @@ msgid "Người duyệt"
 msgstr ""
 
 #. module: bds
+#: model:ir.model.fields,field_description:bds.field_change_state_wizard__crm_request_ids
 #: model:ir.model.fields,field_description:bds.field_crm_abstract_model__requirement
 #: model:ir.model.fields,field_description:bds.field_crm_product__requirement
 #: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__requirement
@@ -1034,6 +1094,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__requirement
 #: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__requirement
 #: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__requirement
+#: model_terms:ir.ui.view,arch_db:bds.change_state_wizard_view_form
 msgid "Nhu cầu"
 msgstr ""
 
@@ -1232,6 +1293,11 @@ msgstr ""
 
 #. module: bds
 #: selection:crm.request,business_demand:0
+msgid "QUÁN NHẬU"
+msgstr ""
+
+#. module: bds
+#: selection:crm.request,business_demand:0
 msgid "QUÁN ĂN"
 msgstr ""
 
@@ -1291,11 +1357,6 @@ msgstr ""
 #. module: bds
 #: selection:crm.request,business_demand:0
 msgid "SALON"
-msgstr ""
-
-#. module: bds
-#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_tree
-msgid "SDDK"
 msgstr ""
 
 #. module: bds
@@ -1390,7 +1451,14 @@ msgstr "Trạng thái dựa trên hoạt động\n"
 
 #. module: bds
 #: model_terms:ir.ui.view,arch_db:bds.crm_product_view_tree
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_tree
 msgid "SĐK"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_change_state_wizard__crm_product_ids
+#: model_terms:ir.ui.view,arch_db:bds.change_state_wizard_view_form
+msgid "Sản phẩm"
 msgstr ""
 
 #. module: bds
@@ -1402,6 +1470,7 @@ msgstr ""
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_crm_product__house_no
+#: model:ir.model.fields,field_description:bds.field_crm_product__house_no_search
 msgid "Số nhà"
 msgstr ""
 
@@ -1411,8 +1480,9 @@ msgid "Số nhà..."
 msgstr ""
 
 #. module: bds
-#: model:ir.model.fields,field_description:bds.field_crm_product__number_of_floors
-msgid "Số tầng"
+#: model:ir.model.fields,field_description:bds.field_crm_product__phone_number_search
+#: model:ir.model.fields,field_description:bds.field_crm_request__phone_number_search
+msgid "Số ĐT"
 msgstr ""
 
 #. module: bds
@@ -1468,6 +1538,18 @@ msgstr ""
 #. module: bds
 #: selection:crm.request,business_demand:0
 msgid "TRƯỜNG HỌC"
+msgstr ""
+
+#. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.change_state_wizard_view_form
+msgid "Thay đổi"
+msgstr ""
+
+#. module: bds
+#: model:ir.actions.act_window,name:bds.change_state_wizard_crm_product_action
+#: model:ir.actions.act_window,name:bds.change_state_wizard_crm_reuqest_action
+#: model_terms:ir.ui.view,arch_db:bds.change_state_wizard_view_form
+msgid "Thay đổi trạng thái"
 msgstr ""
 
 #. module: bds
@@ -1567,7 +1649,7 @@ msgstr ""
 #: selection:crm.abstract.model,type_of_real_estate:0
 #: selection:crm.product,type_of_real_estate:0
 #: selection:crm.request,type_of_real_estate:0
-msgid "Toàn nhà"
+msgid "Toà nhà"
 msgstr ""
 
 #. module: bds
@@ -1598,6 +1680,12 @@ msgid "Trùng số 3"
 msgstr ""
 
 #. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__is_duplicate_house_no
+msgid "Trùng số nhà"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_change_state_wizard__state
 #: model:ir.model.fields,field_description:bds.field_crm_abstract_model__state
 #: model:ir.model.fields,field_description:bds.field_crm_product__state
 #: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__state
@@ -1665,6 +1753,12 @@ msgid "Tên khách hàng"
 msgstr ""
 
 #. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.crm_product_view_search
+#: model_terms:ir.ui.view,arch_db:bds.crm_request_view_search
+msgid "Tạm ngưng"
+msgstr ""
+
+#. module: bds
 #: model_terms:ir.actions.act_window,help:bds.crm_ward_action
 msgid "Tạo mới phường/xã tại đây"
 msgstr ""
@@ -1677,6 +1771,11 @@ msgstr ""
 #. module: bds
 #: model_terms:ir.actions.act_window,help:bds.crm_street_action
 msgid "Tạo thêm đường mới tại đây"
+msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_product__number_of_floors
+msgid "Tầng/Lầu"
 msgstr ""
 
 #. module: bds
@@ -1769,6 +1868,11 @@ msgid "Users"
 msgstr "Người dùng"
 
 #. module: bds
+#: model_terms:ir.ui.view,arch_db:bds.change_state_wizard_view_form
+msgid "Vui lòng chọn trạng thái cần chuyển:"
+msgstr ""
+
+#. module: bds
 #: selection:crm.request,business_demand:0
 msgid "VĂN PHÒNG"
 msgstr ""
@@ -1784,6 +1888,30 @@ msgstr ""
 #: model:ir.model.fields,field_description:bds.field_crm_product__location
 msgid "Vị trí"
 msgstr ""
+
+#. module: bds
+#: model:ir.model.fields,field_description:bds.field_crm_abstract_model__website_message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product__website_message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule__website_message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_product_request_rule_sheet__website_message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request__website_message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__website_message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_request_rule_sheet__website_message_ids
+#: model:ir.model.fields,field_description:bds.field_crm_request_rule_abstract_model__website_message_ids
+msgid "Website Messages"
+msgstr "Thông điệp Website"
+
+#. module: bds
+#: model:ir.model.fields,help:bds.field_crm_abstract_model__website_message_ids
+#: model:ir.model.fields,help:bds.field_crm_product__website_message_ids
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule__website_message_ids
+#: model:ir.model.fields,help:bds.field_crm_product_request_rule_sheet__website_message_ids
+#: model:ir.model.fields,help:bds.field_crm_request__website_message_ids
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule__website_message_ids
+#: model:ir.model.fields,help:bds.field_crm_request_request_rule_sheet__website_message_ids
+#: model:ir.model.fields,help:bds.field_crm_request_rule_abstract_model__website_message_ids
+msgid "Website communication history"
+msgstr "Lịch sử thông tin liên lạc website"
 
 #. module: bds
 #: model:ir.model.fields,field_description:bds.field_crm_request_request_rule__is_show_email
@@ -1832,6 +1960,11 @@ msgstr ""
 #: model:ir.ui.menu,name:bds.crm_request_request_rule_menu_act
 msgid "Yêu cầu phân quyền"
 msgstr ""
+
+#. module: bds
+#: model:ir.module.category,name:bds.crm_request_group
+msgid "crm customer"
+msgstr "crm khách hàng"
 
 #. module: bds
 #: model_terms:ir.ui.view,arch_db:bds.crm_product_request_rule_sheet_view_form
@@ -1938,7 +2071,11 @@ msgid "Đất"
 msgstr ""
 
 #. module: bds
+#: selection:crm.request,business_demand:0
+msgid "ĐẦU TƯ"
+msgstr ""
+
+#. module: bds
 #: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
 msgid "Địa chỉ"
 msgstr ""
-

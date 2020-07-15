@@ -5,5 +5,6 @@
         <!-- <function model="crm.product" name="_adjust_price"/>
         <function model="crm.request" name="_adjust_price"/> -->
         <!-- <function model="crm.request" name="_set_supporters"/> -->
+        <!-- <function model="crm.street" name="_change_all_data_to_no_update"/> -->
     </data>
 </odoo>

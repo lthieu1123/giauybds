@@ -15,20 +15,26 @@ class CrmProductReuqestRule(models.Model):
     _name = 'crm.product.request.rule'
     _description = 'CRM Product Request Rule'
     _inherit = 'crm.request.rule.abstract.model'
-    
-    def get_default_product(self):
-        return self.env.context.get('default_product',False)
 
-    crm_product_id = fields.Many2one('crm.product','CRM Product',ondelete='cascade', default=get_default_product)
-    crm_request_sheet_id = fields.Many2one('crm.product.request.rule.sheet','Sheet')
-    is_show_attachment = fields.Boolean('Xem hình ảnh', default=True, readonly=True, force_save=True)
-    is_show_house_no = fields.Boolean('Xem số nhà', default=True, readonly=True, force_save=True)
-    is_show_map = fields.Boolean('Xem bản đồ', default=True, readonly=True, force_save=True)
-    
+    def get_default_product(self):
+        return self.env.context.get('default_product', False)
+
+    crm_product_id = fields.Many2one(
+        'crm.product', 'CRM Product', ondelete='cascade', default=get_default_product)
+    crm_request_sheet_id = fields.Many2one(
+        'crm.product.request.rule.sheet', 'Sheet')
+    is_show_attachment = fields.Boolean(
+        'Xem hình ảnh', default=True, readonly=True, force_save=True)
+    is_show_house_no = fields.Boolean(
+        'Xem số nhà', default=True, readonly=True, force_save=True)
+    is_show_map = fields.Boolean(
+        'Xem bản đồ', default=True, readonly=True, force_save=True)
+
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
-            vals['name'] = self.env['ir.sequence'].next_by_code('crm.product.request.rule') or '/'
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'crm.product.request.rule') or '/'
             vals['sequence'] = int(vals['name'].split('-')[1])
         res = super().create(vals)
         return res
@@ -39,32 +45,40 @@ class CrmProductReuqestRule(models.Model):
         if self.requirement == 'sale':
             user_sale_group_id = self.env.ref('bds.crm_product_sale_user').id
             domain = [
-                ('user_id.groups_id','=',user_sale_group_id)
+                ('user_id.groups_id', '=', user_sale_group_id)
             ]
         else:
-            user_rental_group_id = self.env.ref('bds.crm_product_rental_user').id
+            user_rental_group_id = self.env.ref(
+                'bds.crm_product_rental_user').id
             domain = [
-                ('user_id.groups_id','=',user_rental_group_id)
+                ('user_id.groups_id', '=', user_rental_group_id)
             ]
         return {
-            'domain':{
+            'domain': {
                 'employee_id': domain
             }
         }
+
 
 class CrmProductReuqestRuleSheet(models.Model):
     _name = 'crm.product.request.rule.sheet'
     _description = 'CRM Product Request Rule Sheet'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name = fields.Char(string='Tên', default='New', readonly=True, force_save=True, track_visibility='always')
-    employee_id = fields.Many2one('hr.employee','CV chăm sóc',ondelete='cascade', default= lambda self: self._get_default_employee_id())
-    crm_request_line_ids = fields.One2many(comodel_name='crm.product.request.rule',inverse_name="crm_request_sheet_id",string='CV chăm sóc')
-    state = fields.Selection(string='Trạng thái', selection=[('draft','Chưa duyệt'),('approved','Đã duyệt'),('cancel','Từ chối')], default="draft")
-    requirement = fields.Selection(string='Nhu cầu', selection=[('rental','Cho thuê'),('sale','Cần bán')], compute='_set_requirement',store=True)
-    mail_ids = fields.Many2many(comodel_name='mail.activity',string='Mail Activity')
+    name = fields.Char(string='Tên', default='New', readonly=True,
+                       force_save=True, track_visibility='always')
+    employee_id = fields.Many2one('hr.employee', 'CV chăm sóc', ondelete='cascade',
+                                  default=lambda self: self._get_default_employee_id())
+    crm_request_line_ids = fields.One2many(
+        comodel_name='crm.product.request.rule', inverse_name="crm_request_sheet_id", string='CV chăm sóc')
+    state = fields.Selection(string='Trạng thái', selection=[(
+        'draft', 'Chưa duyệt'), ('approved', 'Đã duyệt'), ('cancel', 'Từ chối')], default="draft")
+    requirement = fields.Selection(string='Nhu cầu', selection=[(
+        'rental', 'Cho thuê'), ('sale', 'Cần bán')], compute='_set_requirement', store=True)
+    mail_ids = fields.Many2many(
+        comodel_name='mail.activity', string='Mail Activity')
     approver = fields.Many2one('hr.employee', 'Người duyệt')
-    approved_date = fields.Datetime(string='Ngày duyệt')   
+    approved_date = fields.Datetime(string='Ngày duyệt')
 
     def _get_url(self):
         return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
@@ -72,34 +86,36 @@ class CrmProductReuqestRuleSheet(models.Model):
     @api.depends('crm_request_line_ids')
     def _set_requirement(self):
         for rec in self:
-            sale_count = len(rec.crm_request_line_ids.filtered(lambda r: r.requirement == 'sale').ids)
-            rental_count = len(rec.crm_request_line_ids.filtered(lambda r: r.requirement == 'rental').ids)
+            sale_count = len(rec.crm_request_line_ids.filtered(
+                lambda r: r.requirement == 'sale').ids)
+            rental_count = len(rec.crm_request_line_ids.filtered(
+                lambda r: r.requirement == 'rental').ids)
             if sale_count and rental_count:
-                raise exceptions.VallidationError('Không thể chọn 2 yêu cầu cho thuê và bán trong cùng 1 bảng xin phân quyền.')
-            elif sale_count and rental_count==0:
+                raise exceptions.VallidationError(
+                    'Không thể chọn 2 yêu cầu cho thuê và bán trong cùng 1 bảng xin phân quyền.')
+            elif sale_count and rental_count == 0:
                 rec.requirement = 'sale'
             else:
                 rec.requirement = 'rental'
-    
 
     def _get_default_employee_id(self):
         return self.env['hr.employee'].search([
-            ('user_id','=',self.env.user.id)
+            ('user_id', '=', self.env.user.id)
         ]).id
 
     @api.onchange('employee_id')
     def _onchange_employee_id(self):
         context = self.env.context.copy()
-        if context.get('active_ids',False) and context.get('active_model','') == 'crm.product':
+        if context.get('active_ids', False) and context.get('active_model', '') == 'crm.product':
             product_lines = []
             ids = context.get('active_ids')
             for _id in ids:
-                crm_request_line_value = self._prepare_crm_request_line(self.env['crm.product'].browse(_id))
+                crm_request_line_value = self._prepare_crm_request_line(
+                    self.env['crm.product'].browse(_id))
                 product_lines.append((0, 0, crm_request_line_value))
             self.crm_request_line_ids = product_lines
 
-
-    def _prepare_crm_request_line(self,crm_product_id):
+    def _prepare_crm_request_line(self, crm_product_id):
         return {
             'employee_id': self.employee_id.id,
             'crm_product_id': crm_product_id.id,
@@ -108,28 +124,27 @@ class CrmProductReuqestRuleSheet(models.Model):
             'is_show_house_no': True,
             'is_show_map': True
         }
-    
+
     def send_notification_request(self):
         requirement = self.requirement
         groups_id = []
         groups_id.append(self.env.ref('bds.crm_product_manager').id)
         if requirement == 'sale':
             groups_id.append(self.env.ref('bds.crm_product_sale_manager').id)
-            groups_id.append(self.env.ref('bds.crm_product_sale_user_view_all').id)
+            # groups_id.append(self.env.ref('bds.crm_product_sale_user_view_all').id)
         else:
             groups_id.append(self.env.ref('bds.crm_product_rental_manager').id)
-            groups_id.append(self.env.ref('bds.crm_product_rental_user_view_all').id)
+            # groups_id.append(self.env.ref('bds.crm_product_rental_user_view_all').id)
         user_ids = self.env['res.users'].search([
-            ('groups_id','in',groups_id)
+            ('groups_id', 'in', groups_id)
         ])
         mail_ids = []
         for user in user_ids:
             res = self._create_email_activity(user)
             mail_ids.append(res.id)
         self.update({
-            'mail_ids': [(6,0,mail_ids)]
+            'mail_ids': [(6, 0, mail_ids)]
         })
-            
 
     def make_action_done(self):
         for mail in self.mail_ids:
@@ -161,24 +176,25 @@ class CrmProductReuqestRuleSheet(models.Model):
             'approver': approver.id
         })
         request_rule = self.env['crm.product.request.rule']
+        self._set_all_previous_approved_to_close()
         for line in self.crm_request_line_ids:
             existed_line_id = request_rule.search([
-                ('employee_id','=',line.employee_id.id),
-                ('crm_product_id','=',line.crm_product_id.id),
-                ('state','=','approved')
+                ('employee_id', '=', line.employee_id.id),
+                ('crm_product_id', '=', line.crm_product_id.id),
+                ('state', '=', 'approved')
             ])
             if existed_line_id.id:
                 existed_line_id.write({
-                    'state':'closed',
+                    'state': 'closed',
                 })
             line.write({
-                'state':'approved',
+                'state': 'approved',
                 'approved_date': datetime.now(),
                 'approver': approver.id
             })
         self.make_action_done()
         self.send_notification('Đã duyệt bởi: {}'.format(approver.name))
-               
+
     def _remove_mail_activity(self):
         for mail in self.mail_ids:
             mail.unlink()
@@ -187,12 +203,12 @@ class CrmProductReuqestRuleSheet(models.Model):
     def btn_reject(self):
         approver = self.env.user.employee_ids[0]
         self.write({
-            'state':'cancel',
+            'state': 'cancel',
             'approved_date': datetime.now(),
             'approver': approver.id
         })
         self.crm_request_line_ids.write({
-            'state':'cancel',
+            'state': 'cancel',
             'approved_date': datetime.now(),
             'approver': approver.id
         })
@@ -202,12 +218,13 @@ class CrmProductReuqestRuleSheet(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
-            vals['name'] = self.env['ir.sequence'].next_by_code('crm.product.request.rule.sheet') or '/'
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'crm.product.request.rule.sheet') or '/'
             vals['sequence'] = int(vals['name'].split('-')[1])
         res = super().create(vals)
         return res
 
-    def _create_email_activity(self,user_id):
+    def _create_email_activity(self, user_id):
         model_id = self.env['ir.model'].search(
             [('model', '=', self._name)]).id
         activity_type_id = self.env.ref('mail.mail_activity_data_todo').id
@@ -226,12 +243,22 @@ class CrmProductReuqestRuleSheet(models.Model):
         }
         res = self.env['mail.activity'].create(vals)
         return res
-    
+
     def _get_url(self):
         return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
 
-    def send_notification(self,msg):
+    def send_notification(self, msg):
         user = self.employee_id.user_id
-        message = BODY_MSG.format(self._get_url(),user.partner_id.id,user.partner_id.id,user.partner_id.name,msg)
-        self.message_post(body=message,message_type="comment",partner_ids=[user.partner_id.id])
+        message = BODY_MSG.format(self._get_url(
+        ), user.partner_id.id, user.partner_id.id, user.partner_id.name, msg)
+        self.message_post(body=message, message_type="comment",
+                          partner_ids=[user.partner_id.id])
 
+    def _set_all_previous_approved_to_close(self):
+        product_ids = self.crm_request_line_ids.mapped(
+            lambda r: r.crm_product_id)
+        for product in product_ids:
+            supporters = product.supporter_with_rule_ids.filtered(
+                lambda r: r.state == 'approved')
+            if len(supporters):
+                supporters.write({'state': 'closed'})

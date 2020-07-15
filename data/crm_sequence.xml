@@ -26,10 +26,10 @@
             <field name="company_id" eval="False"/>
         </record>
 
-        <!-- CRM REQUEST -->
+        <!-- CRM Customer -->
 
         <record id="seq_crm_request_sequence" model="ir.sequence">
-            <field name="name">CRM Request</field>
+            <field name="name">CRM Customer</field>
             <field name="code">crm.request</field>
             <field name="prefix">KH</field>
             <field name="padding">6</field>
@@ -37,7 +37,7 @@
         </record>
 
         <record id="crm_request_request_rule_sequence" model="ir.sequence">
-            <field name="name">CRM Request Request Rule</field>
+            <field name="name">CRM Customer Request Rule</field>
             <field name="code">crm.request.request.rule</field>
             <field name="prefix">PQKH-</field>
             <field name="padding">6</field>
@@ -45,7 +45,7 @@
         </record>
 
         <record id="crm_request_request_rule_sheet_sequence" model="ir.sequence">
-            <field name="name">CRM Request Request Rule Sheet</field>
+            <field name="name">CRM Customer Request Rule Sheet</field>
             <field name="code">crm.request.request.rule.sheet</field>
             <field name="prefix">Xin Phân Quyền KH-</field>
             <field name="padding">6</field>
