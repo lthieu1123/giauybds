@@ -125,6 +125,7 @@ class CrmRequestRequestRuleSheet(models.Model):
             'approved_date': datetime.now(),
             'approver': approver.id
         })
+        self._set_all_previous_approved_to_close()
         request_rule = self.env['crm.request.request.rule']
         for line in self.crm_request_line_ids:
             existed_line_id = request_rule.search([

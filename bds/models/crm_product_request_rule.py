@@ -258,5 +258,7 @@ class CrmProductReuqestRuleSheet(models.Model):
         product_ids = self.crm_request_line_ids.mapped(
             lambda r: r.crm_product_id)
         for product in product_ids:
-            product.supporter_with_rule_ids.filtered(
-                lambda r: r.state == 'approved').write({'state': 'closed'})
+            supporters = product.supporter_with_rule_ids.filtered(
+                lambda r: r.state == 'approved')
+            if len(supporters):
+                supporters.write({'state': 'closed'})
