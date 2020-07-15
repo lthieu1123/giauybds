@@ -30,7 +30,7 @@ class CrmProduct(models.Model):
     country_id = fields.Many2one('res.country', 'Quốc gia', default=lambda self: self.env.ref(
         'base.vn'), track_visibility='always',)
     state_id = fields.Many2one('res.country.state', 'Tỉnh/TP',
-                               domain="[('country_id','=',country_id)]", track_visibility='always', default = lambda self: self.env.ref('bds.state_vn_VN-SG').id, required=True)
+                               domain="[('country_id','=',country_id)]", track_visibility='always', default=lambda self: self.env.ref('bds.state_vn_VN-SG').id, required=True)
     district_id = fields.Many2one(
         'crm.district', 'Quận/Huyện', domain="[('state_id','=?',state_id),('country_id','=',country_id)]", track_visibility='always', required=True)
     horizontal = fields.Float('Ngang', digits=dp.get_precision(
@@ -42,11 +42,11 @@ class CrmProduct(models.Model):
     back_expand = fields.Float('Nở hậu', digits=dp.get_precision(
         'Product Unit of Measure'), track_visibility='always')
     # back_expand_uom = fields.Many2one('uom.uom','Unit of measure', default=lambda self: self.env.ref('uom.product_uom_meter'))
-    number_of_floors = fields.Float('Số tầng', digits=dp.get_precision(
+    number_of_floors = fields.Float('Tầng/Lầu', digits=dp.get_precision(
         'Product Unit of Measure'), track_visibility='always')
     price = fields.Float('Giá', digits=dp.get_precision(
         'Product Price'), track_visibility='always')
-    currency = fields.Selection(string='Tiền tệ',selection=CURRENCY)
+    currency = fields.Selection(string='Tiền tệ', selection=CURRENCY)
     supporter_with_rule_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='CV chăm sóc và phân quyền', track_visibility='always',
                                               domain=[('state', '=', 'approved')], ondelete='cascade')
     supporter_full_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='Phân quyền',
@@ -57,8 +57,7 @@ class CrmProduct(models.Model):
     is_show_map = fields.Boolean('Xem bản đồ', compute="_compute_show_data")
     is_duplicate_house_no = fields.Boolean('Trùng số nhà',)
 
-
-    #Field for description
+    # Field for description
     location = fields.Char('Vị trí',)
     current_status = fields.Char('Hiện trạng',)
     convenient = fields.Char('Thuận tiện',)
@@ -70,16 +69,17 @@ class CrmProduct(models.Model):
     adv = fields.Char('Quảng cáo')
     potential_evaluation = fields.Char('Đánh giá tiềm năng')
 
-    #Search fields
-    phone_number_search = fields.Char(compute='_do_something_search',search='_search_phone_number',string='Số ĐT')
-    house_no_search = fields.Char(compute='_do_something_search', search='_search_house_no', string='Số nhà')
-
+    # Search fields
+    phone_number_search = fields.Char(
+        compute='_do_something_search', search='_search_phone_number', string='Số ĐT')
+    house_no_search = fields.Char(
+        compute='_do_something_search', search='_search_house_no', string='Số nhà')
 
     def _do_something_search(self):
         pass
-    
+
     def _get_fields_to_ignore_in_search(self):
-        return ['host_number_1','host_number_2','host_number_3','house_no']
+        return ['host_number_1', 'host_number_2', 'host_number_3', 'house_no']
 
     @api.model
     def fields_get(self, allfields=None, attributes=None):
@@ -94,82 +94,86 @@ class CrmProduct(models.Model):
         employee_id = current_user.employee_ids.ids[0]
         if current_user.has_group('bds.crm_product_manager'):
             return []
-        
+
         domain = []
         if (current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all')) or (current_user.has_group('bds.crm_product_sale_user_view_all') or current_user.has_group('bds.crm_product_sale_manager')):
             if (current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all')) and (current_user.has_group('bds.crm_product_sale_user_view_all') or current_user.has_group('bds.crm_product_sale_manager')):
-                domain  = ['|',('requirement','=','rental'),('requirement','=','sale')]
+                domain = ['|', ('requirement', '=', 'rental'),
+                          ('requirement', '=', 'sale')]
             elif current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_rental_user_view_all'):
-                domain  = [('requirement','=','rental')]
+                domain = [('requirement', '=', 'rental')]
             else:
-                domain  = [('requirement','=','sale')]    
+                domain = [('requirement', '=', 'sale')]
         else:
             if current_user.has_group('bds.crm_product_rental_user') and current_user.has_group('bds.crm_product_sale_user'):
-                domain =  ['|',('requirement','=','rental'),('requirement','=','sale'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)] + domain
+                domain = ['|', ('requirement', '=', 'rental'), ('requirement', '=', 'sale'), '|', (
+                    'brokerage_specialist', '=', employee_id), ('supporter_ids', '=', employee_id)] + domain
             elif current_user.has_group('bds.crm_product_rental_user'):
-                domain =  [('requirement','=','rental'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)]
+                domain = [('requirement', '=', 'rental'), '|', ('brokerage_specialist',
+                                                                '=', employee_id), ('supporter_ids', '=', employee_id)]
             else:
-                domain =  [('requirement','=','sale'),'|',('brokerage_specialist','=',employee_id),('supporter_ids','=',employee_id)]
+                domain = [('requirement', '=', 'sale'), '|', ('brokerage_specialist',
+                                                              '=', employee_id), ('supporter_ids', '=', employee_id)]
         return domain
 
     @api.multi
     def _search_phone_number(self, operator, value):
-        main_domain = ['|','|',('host_number_1','ilike',value),('host_number_2','ilike',value),('host_number_3','ilike',value)]
+        main_domain = ['|', '|', ('host_number_1', 'ilike', value), (
+            'host_number_2', 'ilike', value), ('host_number_3', 'ilike', value)]
         domain = self._get_domain_default()
         return domain + main_domain
-    
+
     @api.multi
     def _search_house_no(self, operator, value):
-        main_domain = [('house_no','ilike',value)]
+        main_domain = [('house_no', 'ilike', value)]
         domain = self._get_domain_default()
         return domain + main_domain
-    
-    @api.depends('price','currency','note','tip','potential_evaluation','source','adv','location','current_status','convenient','business_restrictions','requirement','type_of_real_estate','type_of_road','street','ward_no','district_id','horizontal','length','direction','way')
+
+    @api.depends('price', 'currency', 'note', 'tip', 'potential_evaluation', 'source', 'adv', 'location', 'current_status', 'convenient', 'business_restrictions', 'requirement', 'type_of_real_estate', 'type_of_road', 'street', 'ward_no', 'district_id', 'horizontal', 'length', 'direction', 'way')
     def _set_description(self):
         for rec in self:
-            description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - Quận {quan}. DT: {ngang} x {dai}. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. Hiện trạng: {hientrang}. Thuận tiện: {thuantien}. Hạn chế kinh doanh: {hckd}. Giá: {giachothue}(thương lượng). Ghi chú: {ghichu}. Nguồn: {nguon}. Chủ nhà treo bảng QC: {treoquangcao}. Đánh giá sản phẩm: {danhgia}. Hoa hồng: {hoahong}'
-            #Get value from selection fields
+            description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - {quan}. DT: {ngang} x {dai}, Tầng/Lầu: {tanglau}. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. Hiện trạng: {hientrang}. Thuận tiện: {thuantien}. Hạn chế kinh doanh: {hckd}. Giá: {giachothue}(thương lượng). Ghi chú: {ghichu}. Nguồn: {nguon}. Chủ nhà treo bảng QC: {treoquangcao}. Đánh giá sản phẩm: {danhgia}. Hoa hồng: {hoahong}'
+            # Get value from selection fields
             requirement = dict(REQUIREMENT_PRODUCT)
-            nhucau = requirement.get(rec.requirement,'')
+            nhucau = requirement.get(rec.requirement, '')
             type_of_real_estate = dict(TYPE_OF_REAL_ESTATE)
-            loaibds=type_of_real_estate.get(rec.type_of_real_estate,'')
+            loaibds = type_of_real_estate.get(rec.type_of_real_estate, '')
             type_of_road = dict(TYPE_OF_ROAD)
-            loaiduong = type_of_road.get(rec.type_of_road,'')
+            loaiduong = type_of_road.get(rec.type_of_road, '')
             direction = dict(CARDINAL_DIRECTION)
-            huongnha = direction.get(rec.direction,'')
+            huongnha = direction.get(rec.direction, '')
             currency = dict(CURRENCY)
-            giachothue = '%s %s' % (rec.price,currency.get(rec.currency,''))
+            giachothue = '%s %s' % (rec.price, currency.get(rec.currency, ''))
+            tanglau = rec.number_of_floors
 
-            description = description.format(nhucau=nhucau, loaibds=loaibds, loaiduong=loaiduong, tenduong=rec.street.name, \
-                phuong=rec.ward_no.name, quan=rec.district_id.name, ngang=rec.horizontal, dai=rec.length,huongnha=huongnha,\
-                    loidi=rec.way,vitri=rec.location,hientrang=rec.current_status,thuantien=rec.convenient,hckd=rec.business_restrictions,\
-                        giachothue=giachothue,ghichu=rec.note,nguon=rec.source,treoquangcao=rec.adv,danhgia=rec.potential_evaluation,hoahong=rec.tip)
+            description = description.format(nhucau=nhucau, loaibds=loaibds, loaiduong=loaiduong, tenduong=rec.street.name,
+                                             phuong=rec.ward_no.name, quan=rec.district_id.name, ngang=rec.horizontal, dai=rec.length,tanglau=tanglau, huongnha=huongnha,
+                                             loidi=rec.way, vitri=rec.location, hientrang=rec.current_status, thuantien=rec.convenient, hckd=rec.business_restrictions,
+                                             giachothue=giachothue, ghichu=rec.note, nguon=rec.source, treoquangcao=rec.adv, danhgia=rec.potential_evaluation, hoahong=rec.tip)
             rec.description = description
-    
-    @api.onchange('house_no', 'street','requirement')
+
+    @api.onchange('house_no', 'street', 'requirement')
     def _check_house_no(self):
-        is_duplicate_house_no = False            
+        is_duplicate_house_no = False
         if self.house_no and self.street.id:
             if self.house_no != self._origin.house_no or self.street.id != self._origin.street.id:
                 count = self.search_count([
                     ('house_no', '=ilike', self.house_no),
                     ('street', '=', self.street.id),
-                    ('id','!=',self._origin.id),
-                    ('requirement','=',self.requirement)
+                    ('id', '!=', self._origin.id),
+                    ('requirement', '=', self.requirement)
                 ])
                 is_duplicate_house_no = True if count >= 1 else False
         self.is_duplicate_house_no = is_duplicate_house_no
 
-            
-
-    @api.constrains('house_no', 'street','requirement',)
+    @api.constrains('house_no', 'street', 'requirement',)
     def _validate_house_no_street(self):
         for rec in self:
             count = self.search_count([
                 ('house_no', '=ilike', self.house_no),
                 ('street', '=', self.street.id),
                 ('id', '!=', rec.id),
-                ('requirement','=',rec.requirement)
+                ('requirement', '=', rec.requirement)
             ])
             if count != 0:
                 raise exceptions.ValidationError('Số nhà: {}, đường {}, quận {} đã tồn tại'.format(
@@ -184,8 +188,8 @@ class CrmProduct(models.Model):
                     or current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_sale_manager'):
                 rec.is_brokerage_specialist = True
             elif rec.brokerage_specialist.user_id == current_user \
-                or current_user.has_group('bds.crm_product_rental_user_view_all')\
-                     or current_user.has_group('bds.crm_product_sale_user_view_all'):
+                    or current_user.has_group('bds.crm_product_rental_user_view_all')\
+                    or current_user.has_group('bds.crm_product_sale_user_view_all'):
                 rec.is_show_attachment = True
                 rec.is_show_house_no = True
                 rec.is_show_map = True
@@ -196,10 +200,11 @@ class CrmProduct(models.Model):
                 rec.is_show_house_no = employee_id.is_show_house_no
                 rec.is_show_map = employee_id.is_show_map
 
-    @api.depends('supporter_with_rule_ids','supporter_with_rule_ids.state')
+    @api.depends('supporter_with_rule_ids', 'supporter_with_rule_ids.state')
     def _get_suppoter_ids(self):
         for rec in self:
-            rec.supporter_ids = rec.supporter_with_rule_ids.filtered(lambda r: r.state=='approved').mapped('employee_id')
+            rec.supporter_ids = rec.supporter_with_rule_ids.filtered(
+                lambda r: r.state == 'approved').mapped('employee_id')
 
     @api.onchange('district_id')
     def _onchange_district(self):
@@ -222,9 +227,9 @@ class CrmProduct(models.Model):
         for rec in self:
             is_manager = False
             if current_user.has_group('bds.crm_product_manager') \
-            or current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_sale_manager'):
+                    or current_user.has_group('bds.crm_product_rental_manager') or current_user.has_group('bds.crm_product_sale_manager'):
                 is_manager = True
-            rec.is_manager = is_manager          
+            rec.is_manager = is_manager
 
     @api.multi
     def btn_request_rule(self):
@@ -241,10 +246,11 @@ class CrmProduct(models.Model):
             'target': 'new',
             'res_id': False,
         }
-    
+
     @api.model
     def _adjust_price(self):
-        self.env.cr.execute("update crm_product set price = price / 1000 where price > 999.99")
+        self.env.cr.execute(
+            "update crm_product set price = price / 1000 where price > 999.99")
         sub_query = """
             select tmp.{}
                 from (select
@@ -267,4 +273,4 @@ class CrmProduct(models.Model):
             update crm_product
             set name = ({}),
             sequence = ({})
-            """.format(name,count))
+            """.format(name, count))
