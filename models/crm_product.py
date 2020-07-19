@@ -125,14 +125,14 @@ class CrmProduct(models.Model):
 
     @api.multi
     def _search_house_no(self, operator, value):
-        main_domain = [('house_no', 'ilike', value)]
+        main_domain = [('house_no', '=ilike', value+'%')]
         domain = self._get_domain_default()
         return domain + main_domain
 
     @api.depends('price', 'currency', 'note', 'tip', 'potential_evaluation', 'source', 'adv', 'location', 'current_status', 'convenient', 'business_restrictions', 'requirement', 'type_of_real_estate', 'type_of_road', 'street', 'ward_no', 'district_id', 'horizontal', 'length', 'direction', 'way')
     def _set_description(self):
         for rec in self:
-            description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - {quan}. DT: {ngang} x {dai}, Tầng/Lầu: {tanglau}. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. Hiện trạng: {hientrang}. Thuận tiện: {thuantien}. Hạn chế kinh doanh: {hckd}. Giá: {giachothue}(thương lượng). Ghi chú: {ghichu}. Nguồn: {nguon}. Chủ nhà treo bảng QC: {treoquangcao}. Đánh giá sản phẩm: {danhgia}. Hoa hồng: {hoahong}'
+            description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - {quan}. DT: {ngang} x {dai}, {tanglau} tầng/lầu. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. Hiện trạng: {hientrang}. Thuận tiện: {thuantien}. Hạn chế kinh doanh: {hckd}. Giá: {giachothue}(thương lượng). Ghi chú: {ghichu}. Nguồn: {nguon}. Chủ nhà treo bảng QC: {treoquangcao}. Đánh giá sản phẩm: {danhgia}. Hoa hồng: {hoahong}'
             # Get value from selection fields
             requirement = dict(REQUIREMENT_PRODUCT)
             nhucau = requirement.get(rec.requirement, '')
