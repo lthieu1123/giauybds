@@ -8,8 +8,8 @@
             <field name="arch" type="xml">
                 <form create="false" edit="false">
                     <header>
-                        <button name="btn_approve" string="Duyệt" type="object" class="btn btn-primary" states="draft" groups="bds.crm_request_sale_manager,bds.crm_request_rental_manager,bds.crm_request_manager"/>
-                        <button name="btn_reject" string="Từ chối" type="object" class="btn btn-secondary" states="draft"/>
+                        <button name="btn_approve" string="Duyệt" type="object" class="btn btn-primary" states="draft" groups="bds.crm_request_sale_manager,bds.crm_request_rental_manager,bds.crm_request_manager,bds.crm_request_rental_user_view_all,bds.crm_request_sale_user_view_all"/>
+                        <button name="btn_reject" string="Từ chối" type="object" class="btn btn-secondary" states="draft" groups="bds.crm_request_sale_manager,bds.crm_request_rental_manager,bds.crm_request_manager,bds.crm_request_rental_user_view_all,bds.crm_request_sale_user_view_all"/>
                         <field name="state" widget="statusbar" readonly="1" force_save="1"/>
                     </header>
                     <sheet>
