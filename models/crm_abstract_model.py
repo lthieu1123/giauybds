@@ -44,8 +44,8 @@ class CrmAbstractModel(models.AbstractModel):
     state = fields.Many2one('crm.states.product', string='Trạng thái', default=_default_stage,
                             track_visibility='always', group_expand='_read_group_stage_ids', store=True)
 
-    sequence = fields.Integer(string='Số TT', readonly=True,
-                              force_save=True, track_visibility='always', index=True)
+    sequence = fields.Integer(string='Số TT', readonly=True,force_save=True)
+    
     requirement = fields.Selection(string='Nhu cầu', selection=REQUIREMENT_PRODUCT,
                                    track_visibility='always', default=_get_default_requirement)
     type_of_real_estate = fields.Selection(
@@ -112,9 +112,7 @@ class CrmAbstractModel(models.AbstractModel):
         Returns:
             [type] -- [description]
         """
-        is_duplicate_phone_1 = False
-        is_duplicate_phone_2 = False
-        is_duplicate_phone_3 = False
+        is_duplicate_phone_1 = is_duplicate_phone_2 = is_duplicate_phone_3 = False
         if self.host_number_1:
             if self.host_number_1 == self.host_number_2:
                 is_duplicate_phone_1 = is_duplicate_phone_2 = True
@@ -134,7 +132,15 @@ class CrmAbstractModel(models.AbstractModel):
                 is_duplicate_phone_3 = is_duplicate_phone_2 = True
         return is_duplicate_phone_1, is_duplicate_phone_2, is_duplicate_phone_3
 
-    def _check_duplicate_phone_number_in_db(self, _id=False):
+    def _check_duplicate_phone_number_in_db_removed(self, _id=False):
+        """This function has been removed
+
+        Args:
+            _id (bool, optional): [description]. Defaults to False.
+
+        Returns:
+            [type]: [description]
+        """
         _li_phone_data = []
         is_duplicate_phone_1 = False
         is_duplicate_phone_2 = False
@@ -185,34 +191,56 @@ class CrmAbstractModel(models.AbstractModel):
             is_duplicate_phone_3 = True
         return is_duplicate_phone_1, is_duplicate_phone_2, is_duplicate_phone_3
 
-    @api.onchange('host_number_1', 'host_number_2', 'host_number_3')
+    def _check_duplicate_phone_number_in_data_base(self,phone_number=False,_id=False):
+        if not phone_number:
+            return False
+        domain = [
+            ('requirement', '=', self.requirement),
+            '|','|',
+                ('host_number_1','=',phone_number),
+                ('host_number_2','=',phone_number),
+                ('host_number_3','=',phone_number),
+        ]
+        is_dup_1 = is_dup_2 = False
+        if self._name == 'crm.product':
+            is_dup_1 = True if self.env['crm.request'].search_count(domain) else False
+            domain += [('id','!=',_id)]
+            is_dup_2 = True if self.search_count(domain) else False
+        elif self._name == 'crm.request':
+            is_dup_1 = True if self.env['crm.product'].search_count(domain) else False
+            domain += [('id','!=',_id)]
+            is_dup_2 = True if self.search_count(domain) else False
+        else:
+            is_dup_1 = True if self.env['crm.product'].search_count(domain) else False
+            is_dup_2 = True if self.env['crm.request'].search_count(domain) else False
+
+        return is_dup_1 or is_dup_2
+
+    @api.onchange('host_number_1', 'host_number_2', 'host_number_3','requirement')
     def _duplicate_phone_num(self):
-        is_duplicate_phone_1 = False
-        is_duplicate_phone_2 = False
-        is_duplicate_phone_3 = False
-        is_duplicate_phone_1_2 = False
-        is_duplicate_phone_2_2 = False
-        is_duplicate_phone_3_2 = False
-        if (self.host_number_1 != self._origin.host_number_1) or (self.host_number_2 != self._origin.host_number_2) or (self.host_number_3 != self._origin.host_number_3):
+        is_duplicate_phone_1 = is_duplicate_phone_2 = is_duplicate_phone_3 = is_duplicate_phone_1_2 = is_duplicate_phone_2_2 = is_duplicate_phone_3_2 = False
+        if self.host_number_1 and (self.host_number_1 != self._origin.host_number_1):
             is_duplicate_phone_1, is_duplicate_phone_2, is_duplicate_phone_3 = self._check_duplicate_phone_number_in_record()
-            is_duplicate_phone_1_2, is_duplicate_phone_2_2, is_duplicate_phone_3_2 = self._check_duplicate_phone_number_in_db()
+            is_duplicate_phone_1_2 = self._check_duplicate_phone_number_in_data_base(phone_number=self.host_number_1, _id=self._origin.id)
+        if self.host_number_2 and (self.host_number_2 != self._origin.host_number_2):
+            is_duplicate_phone_1, is_duplicate_phone_2, is_duplicate_phone_3 = self._check_duplicate_phone_number_in_record()
+            is_duplicate_phone_2_2 = self._check_duplicate_phone_number_in_data_base(phone_number=self.host_number_2, _id=self._origin.id)
+        if self.host_number_3 and (self.host_number_3 != self._origin.host_number_3):
+            is_duplicate_phone_1, is_duplicate_phone_2, is_duplicate_phone_3 = self._check_duplicate_phone_number_in_record()
+            is_duplicate_phone_3_2 = self._check_duplicate_phone_number_in_data_base(phone_number=self.host_number_3, _id=self._origin.id)
         self.is_duplicate_phone_1 = is_duplicate_phone_1 or is_duplicate_phone_1_2
         self.is_duplicate_phone_2 = is_duplicate_phone_2 or is_duplicate_phone_2_2
         self.is_duplicate_phone_3 = is_duplicate_phone_3 or is_duplicate_phone_3_2
 
-    @api.constrains('host_number_1', 'host_number_2', 'host_number_3')
+    @api.constrains('host_number_1', 'host_number_2', 'host_number_3',)
     def _constrains_phone_number(self):
         for rec in self:
-            is_duplicate_phone_1 = False
-            is_duplicate_phone_2 = False
-            is_duplicate_phone_3 = False
-            is_duplicate_phone_1_2 = False
-            is_duplicate_phone_2_2 = False
-            is_duplicate_phone_3_2 = False
+            is_duplicate_phone_1 = is_duplicate_phone_2 = is_duplicate_phone_3 = is_duplicate_phone_1_2 = is_duplicate_phone_2_2 = is_duplicate_phone_3_2 = False
             if rec.host_number_1 or rec.host_number_2 or rec.host_number_3:
                 is_duplicate_phone_1, is_duplicate_phone_2, is_duplicate_phone_3 = rec._check_duplicate_phone_number_in_record()
-                is_duplicate_phone_1_2, is_duplicate_phone_2_2, is_duplicate_phone_3_2 = rec._check_duplicate_phone_number_in_db(
-                    rec.id)
+                is_duplicate_phone_1_2 = rec._check_duplicate_phone_number_in_data_base(phone_number=rec.host_number_1, _id=rec.id)
+                is_duplicate_phone_2_2 = rec._check_duplicate_phone_number_in_data_base(phone_number=rec.host_number_2, _id=rec.id)
+                is_duplicate_phone_3_2 = rec._check_duplicate_phone_number_in_data_base(phone_number=rec.host_number_3, _id=rec.id)
             if (is_duplicate_phone_1 or is_duplicate_phone_1_2) or (is_duplicate_phone_2 or is_duplicate_phone_2_2) or (is_duplicate_phone_3 or is_duplicate_phone_3_2):
                 raise exceptions.ValidationError(
                     'Trùng số điện thoại, không thể lưu')

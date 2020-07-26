@@ -6,6 +6,7 @@ odoo.define('bds.FormController', function (require) {
     var FormController = require('web.FormController');
     var WebFormRenderer = require('web.FormRenderer');
     var WebListRenderer = require('web.ListRenderer');
+    var WebListController = require('web.ListController');
     var FormView = require('web.FormView');
     var _t = core._t;
     var qweb = core.qweb;
@@ -117,7 +118,9 @@ odoo.define('bds.FormController', function (require) {
             }           
             
             return $html;
-        }
+        },
+
+        
     });
 
 });

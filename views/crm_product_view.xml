@@ -25,7 +25,8 @@
                     <filter name="state_pending" string="Tạm ngưng" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
                     <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
                     <filter name="state_ontrade" string="Đang giao dịch" domain="[('state','=',%(bds.crm_state_ongoing)d)]"/>
-                    <filter name="my_own_request" string="Bài của tôi" domain="[('brokerage_specialist.user_id','=',uid)]"/>
+                    <separator/>
+                    <filter name="my_own_request" string="Bài của tôi" domain="[('brokerage_specialist.user_id.id','=',uid)]"/>
                     <group string="Nhóm..." expand="0">
                         <filter name="brokerage_specialist" string="CV môi giới" domain="[]" context="{'group_by': 'brokerage_specialist'}"/>
                         <filter name="type_of_real_estate" string="Loại BĐS" domain="[]" context="{'group_by': 'type_of_real_estate'}"/>
@@ -139,10 +140,10 @@
                                         <div class="o_address_format">
                                             <field name="is_duplicate_house_no" invisible="1"/>
                                             <field name="house_no" placeholder="Số nhà..." class="o_address_street bds_show_house_no" decoration-danger="is_duplicate_house_no"/>
-                                            <field name="state_id" placeholder="Thành phố/Tỉnh..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
-                                            <field name="district_id" placeholder="Quận/Huyện..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
-                                            <field name="ward_no" placeholder="Phường/Xã..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
                                             <field name="street" placeholder="Đường..." class="o_address_city" options="{&quot;no_open&quot;: True}" decoration-danger="is_duplicate_house_no"/>
+                                            <field name="ward_no" placeholder="Phường/Xã..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="district_id" placeholder="Quận/Huyện..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="state_id" placeholder="Thành phố/Tỉnh..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
                                             <field name="country_id" invisible="1" class="o_address_country" options="{&quot;no_open&quot;: True}"/>
                                         </div>
                                     </group>
@@ -280,7 +281,7 @@
                     <field name="is_show_map" invisible="1"/>
                     <field name="is_brokerage_specialist" invisible="1"/>
                     <field name="description" invisible="1"/>
-                    <field name="sequence" string="STT"/>
+                    <field name="sequence" string="STT" invisible="1"/>
                     <field name="name" string="SĐK"/>
                     <field name="requirement"/>
                     <field name="type_of_real_estate"/>

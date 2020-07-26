@@ -152,30 +152,24 @@ class CrmProduct(models.Model):
                                              giachothue=giachothue, ghichu=rec.note, nguon=rec.source, treoquangcao=rec.adv, danhgia=rec.potential_evaluation, hoahong=rec.tip)
             rec.description = description
 
+    def _is_duplicate_house_no(self,_id):
+        count = self.search_count([
+            ('house_no', '=', self.house_no),
+            ('street', '=', self.street.id),
+            ('id', '!=', _id),
+            ('requirement', '=', self.requirement)
+        ])
+        return True if count else False
+
     @api.onchange('house_no', 'street', 'requirement')
     def _check_house_no(self):
-        is_duplicate_house_no = False
-        if self.house_no and self.street.id:
-            if self.house_no != self._origin.house_no or self.street.id != self._origin.street.id:
-                count = self.search_count([
-                    ('house_no', '=ilike', self.house_no),
-                    ('street', '=', self.street.id),
-                    ('id', '!=', self._origin.id),
-                    ('requirement', '=', self.requirement)
-                ])
-                is_duplicate_house_no = True if count >= 1 else False
-        self.is_duplicate_house_no = is_duplicate_house_no
+        if self.house_no and self.street.id:    
+            self.is_duplicate_house_no = self._is_duplicate_house_no(self._origin.id)
 
     @api.constrains('house_no', 'street', 'requirement',)
     def _validate_house_no_street(self):
         for rec in self:
-            count = self.search_count([
-                ('house_no', '=ilike', self.house_no),
-                ('street', '=', self.street.id),
-                ('id', '!=', rec.id),
-                ('requirement', '=', rec.requirement)
-            ])
-            if count != 0:
+            if rec._is_duplicate_house_no(rec.id):
                 raise exceptions.ValidationError('Số nhà: {}, đường {}, quận {} đã tồn tại'.format(
                     rec.house_no, rec.street.name, rec.street.district_id.name))
 
@@ -274,3 +268,14 @@ class CrmProduct(models.Model):
             set name = ({}),
             sequence = ({})
             """.format(name, count))
+    
+    @api.onchange('street')
+    def _onchange_street(self):
+        if self.street.id and self.district_id.id != self.street.district_id.id:
+            self.district_id = self.street.district_id
+    
+
+    @api.onchange('ward_no')
+    def _onchange_ward(self):
+        if self.ward_no.id and self.district_id.id != self.ward_no.district_id.id:
+            self.district_id = self.ward_no.district_id
