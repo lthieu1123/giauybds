@@ -30,7 +30,7 @@ class CrmRequest(models.Model):
     currency = fields.Selection(string='Tiền tệ', selection=[
                                 ('usd', '$'), ('mil', 'Triệu'), ('bil', 'Tỷ')])
     zone = fields.Char('Khu vực hoạt động', track_visibility='always')
-    business_demand = fields.Selection(string='Nhu cầu KD', selection=NCKD)
+    business_demand = fields.Selection(string='Nhu cầu KD', selection=NCKD, required=True)
 
     is_show_email = fields.Boolean('Show Email', compute='_compute_show_data')
     supporter_with_rule_ids = fields.One2many(comodel_name='crm.request.request.rule', inverse_name="crm_product_id", string='CV chăm sóc và phân quyền', track_visibility='always',
@@ -119,7 +119,8 @@ class CrmRequest(models.Model):
             loaiduong = type_of_road.get(rec.type_of_road, '')
             business_demand = dict(NCKD)
             nckd = business_demand.get(rec.business_demand, '')
-            gia = '%s %s' % (rec.financial_capability, rec.currency)
+            currency = dict(CURRENCY)
+            gia = '%s %s' % (rec.financial_capability, currency.get(rec.currency, ''))
 
             description = description.format(nhucau=nhucau, loaibds=loaibds, loaiduong=loaiduong, khuvuc=rec.zone, nckd=nckd,
                                              way=rec.way, gia=gia, dientich=rec.dientich, min=rec.min_horizontal, dexe=rec.parking_lot,
