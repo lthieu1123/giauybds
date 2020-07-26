@@ -22,7 +22,11 @@
                     <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
                     <filter name="state_ontrade" string="Đang giao dịch" domain="[('state','=',%(bds.crm_state_ongoing)d)]"/>
                     <filter name="my_own_request" string="Bài của tôi" domain="[('brokerage_specialist.user_id','=',uid)]"/>
-                    <separator/>
+                    <group string="Nhóm..." expand="0">
+                        <filter name="brokerage_specialist" string="CV môi giới" domain="[]" context="{'group_by': 'brokerage_specialist'}"/>
+                        <filter name="type_of_real_estate" string="Loại BĐS" domain="[]" context="{'group_by': 'type_of_real_estate'}"/>
+                    </group>
+                    <!-- <separator/>
                     <filter name="state_draft" string="Chờ duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
                     <separator/>
                     <filter name="state_open" string="Mở bán" domain="[('state','=',%(bds.crm_state_open)d)]"/>
@@ -36,7 +40,7 @@
                     <filter name="state_ontrade" string="Đang giao dịch" domain="[('state','=',%(bds.crm_state_ongoing)d)]"/>
                     <separator/>    
                     <filter name="my_own_request" string="Bài của tôi" domain="[('brokerage_specialist.user_id','=',uid)]"/>
-                    <separator/>                
+                    <separator/>                 -->
                 </search>
             </field>
         </record>
