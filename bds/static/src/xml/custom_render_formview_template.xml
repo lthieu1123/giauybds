@@ -6,6 +6,7 @@
             <xpath expr="." position="inside">
                 <!-- Js path -->
                 <script type="text/javascript" src="/bds/static/src/js/custom_render_formview.js"/>
+                <link rel="stylesheet" href="/bds/static/src/css/table_border_css.css"/> 
             </xpath>
         </template>
     </data>

@@ -1,0 +1,7 @@
+.o_list_view.table td {
+   border-left: 1px solid #f8f9fa;
+   border-right: 1px solid #f8f9fa;
+   border-bottom: 1px solid black;
+   border-top: 1px solid black;
+   border-collapse: collapse;
+}

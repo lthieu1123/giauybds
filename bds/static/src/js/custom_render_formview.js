@@ -6,6 +6,7 @@ odoo.define('bds.FormController', function (require) {
     var FormController = require('web.FormController');
     var WebFormRenderer = require('web.FormRenderer');
     var WebListRenderer = require('web.ListRenderer');
+    var WebListController = require('web.ListController');
     var FormView = require('web.FormView');
     var _t = core._t;
     var qweb = core.qweb;
@@ -95,7 +96,6 @@ odoo.define('bds.FormController', function (require) {
 
         _renderBodyCell: function (record, node, colIndex, options) {
             var $html =  this._super.apply(this, arguments);
-            
             if (record.model === 'crm.product'){
                 var is_brokerage_specialist = record.data.is_brokerage_specialist;
                 var is_show_house_no = record.data.is_show_house_no;
@@ -117,7 +117,9 @@ odoo.define('bds.FormController', function (require) {
             }           
             
             return $html;
-        }
+        },
+
+        
     });
 
 });
