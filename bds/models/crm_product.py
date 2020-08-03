@@ -154,7 +154,7 @@ class CrmProduct(models.Model):
 
     def _is_duplicate_house_no(self,_id):
         count = self.search_count([
-            ('house_no', '=', self.house_no),
+            ('house_no', '=ilike', self.house_no),
             ('street', '=', self.street.id),
             ('id', '!=', _id),
             ('requirement', '=', self.requirement)
