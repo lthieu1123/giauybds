@@ -2079,10 +2079,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:bds.crm_product_view_form
 msgid "Địa chỉ"
 msgstr ""
-
-#. module: web
-#. openerp-web
-#: code:addons/web/static/src/xml/base.xml:1126
-#, python-format
-msgid "Add Custom Filter"
-msgstr "Tìm kiếm nâng cao"

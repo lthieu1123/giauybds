@@ -96,7 +96,6 @@ odoo.define('bds.FormController', function (require) {
 
         _renderBodyCell: function (record, node, colIndex, options) {
             var $html =  this._super.apply(this, arguments);
-            
             if (record.model === 'crm.product'){
                 var is_brokerage_specialist = record.data.is_brokerage_specialist;
                 var is_show_house_no = record.data.is_show_house_no;
