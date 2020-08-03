@@ -154,7 +154,7 @@ class CrmProduct(models.Model):
 
     def _is_duplicate_house_no(self,_id):
         count = self.search_count([
-            ('house_no', '=', self.house_no),
+            ('house_no', '=ilike', self.house_no),
             ('street', '=', self.street.id),
             ('id', '!=', _id),
             ('requirement', '=', self.requirement)
@@ -279,3 +279,9 @@ class CrmProduct(models.Model):
     def _onchange_ward(self):
         if self.ward_no.id and self.district_id.id != self.ward_no.district_id.id:
             self.district_id = self.ward_no.district_id
+    
+    @api.onchange('district_id')
+    def _onchange_district(self):
+        if self.district_id.id and self.district_id.id != self.street.district_id.id:
+            self.street = None
+            self.ward_no = None
