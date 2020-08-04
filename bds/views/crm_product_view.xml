@@ -139,10 +139,10 @@
                                         <div class="o_address_format">
                                             <field name="is_duplicate_house_no" invisible="1"/>
                                             <field name="house_no" placeholder="Số nhà..." class="o_address_street bds_show_house_no" decoration-danger="is_duplicate_house_no"/>
-                                            <field name="state_id" placeholder="Thành phố/Tỉnh..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
-                                            <field name="district_id" placeholder="Quận/Huyện..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
-                                            <field name="ward_no" placeholder="Phường/Xã..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
                                             <field name="street" placeholder="Đường..." class="o_address_city" options="{&quot;no_open&quot;: True}" decoration-danger="is_duplicate_house_no"/>
+                                            <field name="ward_no" placeholder="Phường/Xã..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="district_id" placeholder="Quận/Huyện..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="state_id" placeholder="Thành phố/Tỉnh..." class="o_address_city" options="{&quot;no_open&quot;: True}"/>
                                             <field name="country_id" invisible="1" class="o_address_country" options="{&quot;no_open&quot;: True}"/>
                                         </div>
                                     </group>

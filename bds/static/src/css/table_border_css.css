@@ -5,3 +5,8 @@
    border-top: 1px solid black;
    border-collapse: collapse;
 }
+
+.text-danger {
+   border: 1px solid red !important;
+   color: #dc3545 !important;
+}
