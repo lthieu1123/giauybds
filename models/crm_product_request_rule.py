@@ -131,10 +131,10 @@ class CrmProductReuqestRuleSheet(models.Model):
         groups_id.append(self.env.ref('bds.crm_product_manager').id)
         if requirement == 'sale':
             groups_id.append(self.env.ref('bds.crm_product_sale_manager').id)
-            # groups_id.append(self.env.ref('bds.crm_product_sale_user_view_all').id)
+            groups_id.append(self.env.ref('bds.crm_product_sale_user_view_all').id)
         else:
             groups_id.append(self.env.ref('bds.crm_product_rental_manager').id)
-            # groups_id.append(self.env.ref('bds.crm_product_rental_user_view_all').id)
+            groups_id.append(self.env.ref('bds.crm_product_rental_user_view_all').id)
         user_ids = self.env['res.users'].search([
             ('groups_id', 'in', groups_id)
         ])
