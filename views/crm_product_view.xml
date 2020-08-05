@@ -25,7 +25,8 @@
                     <filter name="state_pending" string="Tạm ngưng" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
                     <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
                     <filter name="state_ontrade" string="Đang giao dịch" domain="[('state','=',%(bds.crm_state_ongoing)d)]"/>
-                    <filter name="my_own_request" string="Bài của tôi" domain="[('brokerage_specialist.user_id','=',uid)]"/>
+                    <separator/>
+                    <filter name="my_own_request" string="Bài của tôi" domain="[('brokerage_specialist.user_id.id','=',uid)]"/>
                     <group string="Nhóm..." expand="0">
                         <filter name="brokerage_specialist" string="CV môi giới" domain="[]" context="{'group_by': 'brokerage_specialist'}"/>
                         <filter name="type_of_real_estate" string="Loại BĐS" domain="[]" context="{'group_by': 'type_of_real_estate'}"/>
@@ -89,7 +90,7 @@
                             <h1>
                                 <field name="name"/>
                             </h1>
-                            <field name="sequence" attrs="{'invisible': [('sequence','=',0)]}"/>
+                            <field name="sequence" invisible="1"/>
                         </div>
                                 
                                 
@@ -149,7 +150,7 @@
                                     <group>
                                         <label for="type_of_road"/>
                                         <div>
-                                            <field name="type_of_road" class="oe_inline"/>
+                                            <field name="type_of_road" class="oe_inline" require="1"/>
                                         </div>
                                         <label for="horizontal"/>
                                         <div>
@@ -280,7 +281,7 @@
                     <field name="is_show_map" invisible="1"/>
                     <field name="is_brokerage_specialist" invisible="1"/>
                     <field name="description" invisible="1"/>
-                    <field name="sequence" string="STT"/>
+                    <field name="sequence" string="STT" invisible="1"/>
                     <field name="name" string="SĐK"/>
                     <field name="requirement"/>
                     <field name="type_of_real_estate"/>

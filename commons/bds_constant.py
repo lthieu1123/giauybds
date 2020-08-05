@@ -133,11 +133,14 @@ NHA_O = 'nha_o'
 KARAOKE = 'karaoke'
 QUAN_NHAU = 'quan_nhau'
 DAU_TU = 'dau_tu'
+KINH_DOANH = 'kinh_doanh'
+TOUR = 'tour'
 
 
 NCKD = [
     (DAU_TU,'ĐẦU TƯ'),    
     (NHA_O,'NHÀ Ở'),
+    (KINH_DOANH, 'Kinh Doanh'),
     (SHOP, 'SHOP'),
     (CUA_HANG, 'CỬA HÀNG'),
     (PHONG_GYM, 'PHÒNG GYM'),
@@ -167,6 +170,7 @@ NCKD = [
     (MAT_KINH,'MẮT KÍNH'),
     (KARAOKE,'KARAOKE'),
     (QUAN_NHAU,'QUÁN NHẬU'),
+    (TOUR, 'Tour')
 ]
 
 
