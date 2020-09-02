@@ -51,6 +51,7 @@ class CrmProduct(models.Model):
                                               domain=[('state', '=', 'approved')], ondelete='cascade')
     supporter_full_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='Phân quyền',
                                          groups='bds.crm_product_manager', ondelete='cascade')
+    the_point = fields.GeoPoint('Coordinate')
 
     is_show_map_to_user = fields.Boolean(
         'Hiển Thị bản đồ cho KH', default=False)
