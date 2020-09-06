@@ -175,3 +175,22 @@ NCKD = [
 
 
 BODY_MSG = """<span><a href="{0}/web#model=res.partner&amp;id={1}" class="o_mail_redirect" data-oe-id="{2}" data-oe-model="res.partner" target="_blank">@{3}</a>{4}</span>""" 
+
+###### Groups
+###################
+#Product
+###################
+PRO_MANAGER = 'bds.crm_product_manager'
+PRO_RENT_MANAGER = 'bds.crm_product_rental_manager'
+PRO_SALE_MANAGER = 'bds.crm_product_sale_manager'
+
+LI_PRO_MANAGER = [PRO_MANAGER,PRO_RENT_MANAGER,PRO_SALE_MANAGER]
+
+###################
+#Product
+###################
+REQ_MANAGER = 'bds.crm_request_manager'
+REQ_RENT_MANAGER = 'bds.crm_request_rental_manager'
+REQ_SALE_MANAGER = 'bds.crm_request_sale_manager'
+
+LI_REQ_MANAGER = [REQ_MANAGER,REQ_RENT_MANAGER,REQ_SALE_MANAGER]

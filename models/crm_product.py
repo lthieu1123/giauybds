@@ -286,3 +286,12 @@ class CrmProduct(models.Model):
         if self.district_id.id and self.district_id.id != self.street.district_id.id:
             self.street = None
             self.ward_no = None
+    
+    @api.multi
+    def write(self,vals):
+        if self.env.user.is_has_aleast_group(LI_PRO_MANAGER):
+            return super().write(vals)
+        if not vals.get('the_point',False):
+            raise exceptions.ValidationError(_('Bạn không có quyền chỉnh sửa các dữ liệu ngoài '))
+            return super().write({'the_point': vals.get('the_point')})
+        
