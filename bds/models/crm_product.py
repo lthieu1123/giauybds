@@ -133,7 +133,7 @@ class CrmProduct(models.Model):
     @api.depends('price', 'currency', 'note', 'tip', 'potential_evaluation', 'source', 'adv', 'location', 'current_status', 'convenient', 'business_restrictions', 'requirement', 'type_of_real_estate', 'type_of_road', 'street', 'ward_no', 'district_id', 'horizontal', 'length', 'direction', 'way')
     def _set_description(self):
         for rec in self:
-            description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - {quan}. DT: {ngang} x {dai}, {tanglau} tầng/lầu. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. Hiện trạng: {hientrang}. Thuận tiện: {thuantien}. Hạn chế kinh doanh: {hckd}. Giá: {giachothue}(thương lượng). Ghi chú: {ghichu}. Nguồn: {nguon}. Chủ nhà treo bảng QC: {treoquangcao}. Đánh giá sản phẩm: {danhgia}. Hoa hồng: {hoahong}'
+            description = '{nhucau} {loaibds} {loaiduong} - Đường {tenduong} - Phường {phuong} - {quan}. DT: {ngang} x {dai},nở hậu: {nohau} m, {tanglau} tầng/lầu. Hướng nhà:{huongnha}. Lối đi: {loidi}.Vị trí: {vitri}. Hiện trạng: {hientrang}. Thuận tiện: {thuantien}. Hạn chế kinh doanh: {hckd}. Giá: {giachothue}(thương lượng). Ghi chú: {ghichu}. Nguồn: {nguon}. Chủ nhà treo bảng QC: {treoquangcao}. Đánh giá sản phẩm: {danhgia}. Hoa hồng: {hoahong}'
             # Get value from selection fields
             requirement = dict(REQUIREMENT_PRODUCT)
             nhucau = requirement.get(rec.requirement, '')
@@ -150,7 +150,7 @@ class CrmProduct(models.Model):
             description = description.format(nhucau=nhucau, loaibds=loaibds, loaiduong=loaiduong, tenduong=rec.street.name,
                                              phuong=rec.ward_no.name, quan=rec.district_id.name, ngang=rec.horizontal, dai=rec.length,tanglau=tanglau, huongnha=huongnha,
                                              loidi=rec.way, vitri=rec.location, hientrang=rec.current_status, thuantien=rec.convenient, hckd=rec.business_restrictions,
-                                             giachothue=giachothue, ghichu=rec.note, nguon=rec.source, treoquangcao=rec.adv, danhgia=rec.potential_evaluation, hoahong=rec.tip)
+                                             giachothue=giachothue, ghichu=rec.note, nguon=rec.source, treoquangcao=rec.adv, danhgia=rec.potential_evaluation, hoahong=rec.tip, nohau=rec.back_expand)
             rec.description = description
 
     def _is_duplicate_house_no(self,_id):
