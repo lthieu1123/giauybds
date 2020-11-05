@@ -15,6 +15,7 @@ class CrmAbstractModel(models.AbstractModel):
     _name = 'crm.abstract.model'
     _description = 'Crm Abstract Model'
     _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = 'write_date desc'
 
     @api.model
     def _default_stage(self):
@@ -80,6 +81,7 @@ class CrmAbstractModel(models.AbstractModel):
     is_duplicate_phone_1 = fields.Boolean('Trùng số 1', default=False)
     is_duplicate_phone_2 = fields.Boolean('Trùng số 2', default=False)
     is_duplicate_phone_3 = fields.Boolean('Trùng số 3', default=False)
+    is_admin = fields.Boolean('isAdmin', compute='_is_admin')   
 
     @api.depends('name')
     def _is_readonly_requirement(self):
@@ -247,8 +249,12 @@ class CrmAbstractModel(models.AbstractModel):
 
     def _get_url(self):
         return self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-
-
+    
+    def _is_user_can_edit_record(self,res_model=False,res_user=False):
+        if not(res_model and res_user):
+            raise exceptions.ValidationError(_('Function lỗi vì không truyền data vào'))
+        # if res_model == 'crm.product':
+            
 class CrmRequestRuleAbstractModel(models.AbstractModel):
     _name = 'crm.request.rule.abstract.model'
     _description = 'CRM Request Rule Abstract Model'
@@ -290,3 +296,26 @@ class CrmRequestRuleAbstractModel(models.AbstractModel):
         for rec in self:
             if rec.state == 'closed':
                 rec.rejected_data = fields.Datetime.now()
+
+class ResUsers(models.Model):
+    _inherit = 'res.users'
+
+    @api.model
+    def has_groups(self,group_ext_id):
+        if isinstance(group_ext_id,str):
+            return self.has_group(group_ext_id)
+        if isinstance(group_ext_id,list):
+            for group in group_ext_id:
+                if not self.has_group(group):
+                    return False
+        return True
+    
+    @api.model
+    def is_has_aleast_group(self, group_ext_id):
+        if isinstance(group_ext_id,str):
+            return self.has_group(group_ext_id)
+        if isinstance(group_ext_id,list):
+            for group in group_ext_id:
+                if self.has_group(group):
+                    return True
+        return False

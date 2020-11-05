@@ -55,7 +55,7 @@
             <field name="name">CRM Product</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">crm.product</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,geoengine</field>
             <field name="view_type">form</field>
              <field name="search_view_id" ref="crm_product_view_search"/>
             <field name="context">{'search_default_state_open': 1}</field>
@@ -77,7 +77,7 @@
                     <header>
                         <button name="btn_request_rule" type="object" string="Xin phân quyền" class="btn btn-primary"/>
                         <field name="is_manager" invisible="1"/>
-                        <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" attrs="{'invisible': [('is_manager','=',False)]}"/>
+                        <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" attrs="{'readonly': [('is_manager','=',False)]}" force_save="1"/>
                         <field name="is_brokerage_specialist" invisible="1"/>
                         <field name="is_show_attachment" invisible="1"/>
                         <field name="is_show_house_no" invisible="1"/>
@@ -165,6 +165,7 @@
                                             <field name="back_expand" class="oe_inline"/><![CDATA[&nbsp;]]><span>m</span>
                                         </div>
                                         <field name="number_of_floors" class="oe_inline"/>
+                                        <field name="number_of_room" class="oe_inline"/>
                                         <field name="direction" class="oe_inline"/>
                                         <label for="price" string="Giá"/>
                                         <div>
@@ -256,6 +257,7 @@
                                     <group>
                                         <field name="is_show_map_to_user"/>
                                     </group>
+                                    <field name="the_point" widget="geo_edit_map"/>
                                 </group>
                             </page>
                         </notebook>
@@ -296,6 +298,7 @@
                     <field name="length"/>
                     <field name="back_expand"/>
                     <field name="number_of_floors"/>
+                    <field name="number_of_room"/>
                     <field name="price"/>
                     <field name="currency"/>
                     <field name="direction"/>
@@ -311,6 +314,62 @@
                     <field name="host_number_3" class="bds_show_phone_no"/> -->
                 </tree>
             </field>
+        </record>
+
+        <!-- GeoEngine views -->
+        <record id="crm_product_geoengine_view" model="ir.ui.view">
+            <field name="name">CRM Product</field>
+            <field name="model">crm.product</field>
+            <field eval="16" name="priority"/>
+            <field name="arch" type="xml">
+                <geoengine>
+                    <field name="name" select="1"/>
+                    <field name="host_name" select="1"/>
+                    <field name="description" select="1"/>
+                    <field name="type_of_real_estate" select="1"/>
+                    <field name="brokerage_specialist"/>
+                    <field name="supporter_ids" widget="many2many_tags"/>
+                    <field name="state" select="1"/>
+                    <field name="the_point"/>
+                </geoengine>
+            </field>
+        </record>
+
+        <record id="crm_product_geoengine_vector_layer_crm_product_basic_point" model="geoengine.vector.layer">
+            <field name="geo_field_id" ref="bds.field_crm_product__the_point"/>
+            <field name="name">CRM PRODUCT BASIC POINT</field>
+            <field eval="6" name="sequence"/>
+            <field name="view_id" ref="crm_product_geoengine_view"/>
+            <field name="geo_repr">basic</field>
+            <field eval="1" name="nb_class"/>
+            <field name="begin_color">#FF680A</field>
+        </record>
+
+        <record id="crm_product_geoengine_vector_layer_crm_product_type_of_real_estate_colored" model="geoengine.vector.layer">
+            <field name="geo_field_id" ref="bds.field_crm_product__the_point"/>
+            <field name="name">CRM PRODUCT BASIC COLORED</field>
+            <field name="classification">unique</field>
+            <field eval="6" name="sequence"/>
+            <field name="view_id" ref="crm_product_geoengine_view"/>
+            <field name="geo_repr">colored</field>
+            <field eval="1" name="nb_class"/>
+            <field name="attribute_field_id" ref="bds.field_crm_product__type_of_real_estate"/>
+            <field name="begin_color">#FF680A</field>
+        </record>
+
+        <record id="crm_productgeoengine_raster_layer_osm" model="geoengine.raster.layer">
+            <field name="raster_type">osm</field>
+            <field name="name">CRM PRODUCT MAP</field>
+            <field name="view_id" ref="crm_product_geoengine_view"/>
+            <field eval="0" name="overlay"/>
+        </record>
+
+        <record id="crm_product_geoengine_raster_layer_basic0" model="geoengine.raster.layer">
+            <field name="raster_type">d_wms</field>
+            <field name="name">basic</field>
+            <field name="url">vmap0.tiles.osgeo.org/wms/vmap0</field>
+            <field name="view_id" ref="crm_product_geoengine_view"/>
+            <field eval="1" name="overlay"/>
         </record>
     </data>
 </odoo>

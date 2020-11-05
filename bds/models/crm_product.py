@@ -51,12 +51,13 @@ class CrmProduct(models.Model):
                                               domain=[('state', '=', 'approved')], ondelete='cascade')
     supporter_full_ids = fields.One2many(comodel_name='crm.product.request.rule', inverse_name="crm_product_id", string='Phân quyền',
                                          groups='bds.crm_product_manager', ondelete='cascade')
+    the_point = fields.GeoPoint('Coordinate')
 
     is_show_map_to_user = fields.Boolean(
         'Hiển Thị bản đồ cho KH', default=False)
     is_show_map = fields.Boolean('Xem bản đồ', compute="_compute_show_data")
     is_duplicate_house_no = fields.Boolean('Trùng số nhà',)
-
+    number_of_room = fields.Integer('Số Phòng', default=0)
     # Field for description
     location = fields.Char('Vị trí',)
     current_status = fields.Char('Hiện trạng',)
@@ -285,3 +286,12 @@ class CrmProduct(models.Model):
         if self.district_id.id and self.district_id.id != self.street.district_id.id:
             self.street = None
             self.ward_no = None
+    
+    @api.multi
+    def write(self,vals):
+        if not vals or self.env.user.is_has_aleast_group(LI_PRO_MANAGER):
+            return super().write(vals)
+        if vals.get('the_point',False):
+            return super().write({'the_point': vals.get('the_point')})
+        if vals and not vals.get('the_point',False):
+            raise exceptions.ValidationError(_('Bạn không có quyền chỉnh sửa các dữ liệu ngoài '))

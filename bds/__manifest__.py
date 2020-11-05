@@ -13,7 +13,7 @@
     ],
     'category': 'bds',
     'version': '1.0.0',
-    'depends': ['base','web','mail','decimal_precision','document','hr','snailmail'],
+    'depends': ['base','web','mail','decimal_precision','document','hr','snailmail','base_geoengine'],
     'data': [
         'data/crm_product_function.xml',
         # 'data/res.country.state.csv',
@@ -42,6 +42,11 @@
     'qweb': [
         # 'static/src/xml/inherit_button_action.xml',
     ],
+    'external_dependencies': {
+        'python': [
+            'geojson',
+        ],
+    },
     'installable': True,
     'auto_install': False,
     'application': True,
