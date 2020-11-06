@@ -3,7 +3,7 @@
 import json
 import logging
 
-from odoo import _, api, fields, models, registry
+from odoo import _, api, fields, models, registry, exceptions
 from odoo.exceptions import UserError
 from odoo.tools.translate import _
 from odoo.addons import decimal_precision as dp
@@ -216,3 +216,10 @@ class CrmRequest(models.Model):
     @api.model
     def _set_supporters(self):
         self.env['crm.request'].search([])._get_suppoter_ids()
+    
+    @api.multi
+    def write(self,vals):
+        if not vals or self.env.user.is_has_aleast_group(LI_PRO_MANAGER):
+            return super().write(vals)
+        if vals:
+            raise exceptions.ValidationError(_('Bạn không có quyền chỉnh sửa các dữ liệu ngoài '))
