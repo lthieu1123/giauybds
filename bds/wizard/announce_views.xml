@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- model.name form view -->
+        <record id="announcement" model="ir.ui.view">
+            <field name="name">Thông báo</field>
+            <field name="model">announce</field>
+            <field name="arch" type="xml">
+                <form string="Thành công">
+                    <main>
+                        <field name="name" readonly="1"/>
+                    </main>
+                    <footer>
+                        <field name="active_model" invisible="1"/>
+                        <field name="active_id" invisible="1"/>
+                        <button string="Open" class="btn btn-primary" name="btn_open" type="object" attrs="{'invisible': ['|', ('active_model', '=', False), ('active_id', '=', False)]}"/>
+                        <button string="OK" class="btn btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="announcement_change_state" model="ir.ui.view">
+            <field name="name">Thông báo</field>
+            <field name="model">announce</field>
+            <field name="arch" type="xml">
+                <form string="Thành công">
+                    <main>
+                        <field name="name" readonly="1"/>
+                    </main>
+                    <footer>
+                        <field name="active_model" invisible="1"/>
+                        <field name="active_id" invisible="1"/>
+                        <button string="OK" class="btn btn-primary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

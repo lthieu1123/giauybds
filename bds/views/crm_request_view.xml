@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="0">
+        <!-- Add you code here -->
+
+        <record id="crm_request_view_search" model="ir.ui.view">
+            <field name="name">Tìm kiếm nc</field>
+            <field name="model">crm.request</field>
+            <field name="arch" type="xml">
+                <search string="Search Description">
+                    <field name="name"/>
+                    <field name="business_demand"/>
+                    <field name="host_name"/>
+                    <field name="customer_uid"/>
+                    <field name="brokerage_specialist"/>
+                    <field name="phone_number_search"/>
+                    <field name="supporter_ids"/>
+                    <filter name="state_draft" string="Chờ duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
+                    <filter name="state_open" string="Mở bán" domain="[('state','=',%(bds.crm_state_open)d)]"/>
+                    <filter name="state_stop" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_stop)d)]"/>
+                    <filter name="state_pending" string="Tạm ngưng" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
+                    <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
+                    <filter name="state_ontrade" string="Đang giao dịch" domain="[('state','=',%(bds.crm_state_ongoing)d)]"/>
+                    <separator/>
+                    <filter name="my_own_request" string="Bài của tôi" domain="[('brokerage_specialist.user_id.id','=',uid)]"/>
+                    <group string="Nhóm..." expand="0">
+                        <filter name="brokerage_specialist" string="CV môi giới" domain="[]" context="{'group_by': 'brokerage_specialist'}"/>
+                        <filter name="type_of_real_estate" string="Loại BĐS" domain="[]" context="{'group_by': 'type_of_real_estate'}"/>
+                    </group>
+                    <!-- <separator/>
+                    <filter name="state_draft" string="Chờ duyệt" domain="[('state','=',%(bds.crm_state_draft)d)]"/>
+                    <separator/>
+                    <filter name="state_open" string="Mở bán" domain="[('state','=',%(bds.crm_state_open)d)]"/>
+                    <separator/>
+                    <filter name="state_stop" string="Ngưng bán" domain="[('state','=',%(bds.crm_state_stop)d)]"/>
+                    <separator/>
+                    <filter name="state_pending" string="Tạm ngưng" domain="[('state','=',%(bds.crm_state_pending)d)]"/>
+                    <separator/>
+                    <filter name="state_done" string="Đã giao dịch" domain="[('state','=',%(bds.crm_state_done)d)]"/>
+                    <separator/>
+                    <filter name="state_ontrade" string="Đang giao dịch" domain="[('state','=',%(bds.crm_state_ongoing)d)]"/>
+                    <separator/>    
+                    <filter name="my_own_request" string="Bài của tôi" domain="[('brokerage_specialist.user_id','=',uid)]"/>
+                    <separator/>                 -->
+                </search>
+            </field>
+        </record>
+
+        <!-- model.name action window -->
+        <record id="crm_request_action" model="ir.actions.act_window">
+            <field name="name">CRM Customer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="crm_request_view_search"/>
+            <field name="context">{'search_default_state_open': 1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Hồ sơ nhu cầu tạo tại đây
+                </p><p>
+                    <!-- More details about what a user can do with this object will be OK --> 
+                </p>
+            </field>
+        </record>
+
+        <!-- model.name form view -->
+        <record id="crm_request_view_form" model="ir.ui.view">
+            <field name="name">CRM Customer</field>
+            <field name="model">crm.request</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="btn_request_rule" type="object" string="Xin phân quyền" class="btn btn-primary"/>
+                        <field name="is_manager" invisible="1"/>
+                        <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}"  attrs="{'readonly': [('is_manager','=',False)]}" force_save="1"/>
+                        <field name="is_brokerage_specialist" invisible="1"/>
+                        <field name="is_show_attachment" invisible="1"/>
+                        <field name="is_show_house_no" invisible="1"/>
+                        <field name="is_show_email" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <span class="o_form_label">CRM Customer</span>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <field name="sequence" invisible="1"/>
+                        </div>
+                                
+                                
+                        <group col="3">
+                            <group string="Thông tin chung">
+                            <!-- Add your fields here -->
+                                <field name="readonly_requirement" invisible="1"/>
+                                <field name="requirement" attrs="{'readonly': [('readonly_requirement','=',True)]}" force_save="1"/>
+                                <field name="type_of_real_estate"/>
+                            </group>
+                            <group string="Thông tin hồ sơ">
+                                <field name="brokerage_specialist" required="1"/>
+                                <field name="supporter_ids" widget="many2many_tags"/>
+                                <field name="create_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày đăng ký"/>
+                                <field name="write_date" attrs="{'invisible': [('write_date','=',False)]}" string="Ngày tương tác"/>
+                            </group>
+                            <group string="Thông tin khách hàng">
+                                <field name="customer_uid" attrs="{'invisible': [('write_date','=',False)]}"/>
+                                <field name="host_name" string="Tên khách hàng"/>
+                                <label for="financial_capability"/>
+                                <div>
+                                    <field name="financial_capability" class="oe_inline o_address_city" placeholder='Nhập số tiền....'/>
+                                    <![CDATA[&nbsp;]]>
+                                    <field name="currency" class="oe_inline o_address_city" placeholder="$/Triệu/Tỷ..."/>
+                                </div>
+                                <field name="business_demand"/>
+                                <field name="type_of_road"/>
+                                <field name="zone"/>
+                                <field name="email" class="bds_show_email"/>
+                                <field name="is_duplicate_phone_1" invisible="1"/>
+                                <field name="is_duplicate_phone_2" invisible="1"/>
+                                <field name="is_duplicate_phone_3" invisible="1"/>
+                                <field name="phone_number_search" invisible="1"/>
+                                <label for="host_number_1" string="Số điện thoại"/>
+                                <div class="bds_show_phone_no">
+                                    <div>
+                                        <field name="host_number_1" widget="phone" class="o_address_city" placeholder="Số ĐT chính..." decoration-danger="is_duplicate_phone_1"/>    
+                                    </div>
+                                    <div>
+                                        <field name="host_number_2" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..." decoration-danger="is_duplicate_phone_2"/>    
+                                    </div>
+                                    <div>
+                                        <field name="host_number_3" widget="phone" class="o_address_city" placeholder="Số ĐT phụ..." decoration-danger="is_duplicate_phone_3"/>    
+                                    </div>
+                                </div>
+                                
+                            </group>
+                        </group>
+                        <div>
+                            <field name="description" placeholder="Diễn giải..."/>
+                        </div>
+                        <notebook>
+                            <page string='Diễn Giải'>
+                                <group>
+                                    <group>
+                                        <field name="way"/>
+                                        <field name="dientich"/>
+                                        <field name="min_horizontal"/>
+                                        <field name="parking_lot"/>
+                                    </group>
+                                    <group>
+                                        <field name="partner_kd"/>
+                                        <field name="note"/>
+                                        <field name="source"/>
+                                        <field name="potential_evaluation"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Quyền CV chăm sóc">
+                                <field name="supporter_with_rule_ids" context="{'state_default': 'approved','default_requirement':requirement,'default_product': id}">
+                                    <tree edit="false" editable="bottom" delete="false">
+                                        <field name="state" invisible="1"/>
+                                        <field name="requirement" invisible="1"/>
+                                        <field name="crm_product_id" invisible="1"/>
+                                        <field name="employee_id" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="is_show_attachment" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="is_show_house_no" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="is_show_email" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="approver" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <field name="write_date" invisible="1"/>
+                                        <field name="approved_date" string="Ngày phân quyền" attrs="{'readonly':[('write_date','!=',False)]}"/>
+                                        <button name="btn_remove_rule" string="Bỏ quyền" class="btn-sm btn-primary" type="object" groups="bds.crm_request_sale_manager,bds.crm_request_rental_manager,bds.crm_request_manager,bds.crm_request_sale_user_view_all,bds.crm_request_rental_user_view_all"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="crm_product_id" invisible="1"/>
+                                            <field name="employee_id"/>
+                                            <field name="is_show_attachment"/>
+                                            <field name="is_show_house_no"/>
+                                            <field name="is_show_email"/>
+                                            <field name="approver"/>
+                                            <field name="approved_date" string="Ngày phân quyền"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Nhật ký phân quyền" groups="bds.crm_request_manager">
+                                <field name="supporter_full_ids">
+                                    <tree create="false" delete="false" edit="false" default_order="create_date desc" decoration-success="state == 'approved'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancel,closed'">
+                                        <field name="crm_product_id" invisible="1"/>
+                                        <field name="employee_id" readonly="1"/>
+                                        <field name="is_show_attachment"/>
+                                        <field name="is_show_house_no"/>
+                                        <field name="is_show_email"/>
+                                        <field name="create_date" string="Ngày đăng ký"/>
+                                        <field name="approved_date"/>
+                                        <field name="rejected_data"/>
+                                        <field name="approver"/>
+                                        <field name="state" readonly="1"/>
+                                        <!-- <button name="btn_delete_rule" string="Hủy" type="object" class="btn btn-primary"/> -->
+                                    </tree>
+                                    <form create="false" delete="false" edit="false">
+                                        <group>
+                                            <field name="crm_product_id" invisible="1"/>
+                                            <field name="employee_id" readonly="1"/>
+                                            <field name="is_show_attachment"/>
+                                            <field name="is_show_house_no"/>
+                                            <field name="is_show_email"/>
+                                            <field name="create_date" string="Ngày đăng ký"/>
+                                            <field name="approved_date"/>
+                                            <field name="rejected_data"/>
+                                            <field name="approver"/>
+                                            <field name="state" readonly="1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- model.name tree view -->
+        <record id="crm_request_view_tree" model="ir.ui.view">
+            <field name="name">crm.request.view.tree</field>
+            <field name="model">crm.request</field>
+            <field name="arch" type="xml">
+                <tree default_order="write_date desc">
+                    <!-- Add your fields here -->
+                    <field name="is_brokerage_specialist" invisible="1"/>
+                    <field name="is_show_attachment" invisible="1"/>
+                    <field name="is_show_house_no" invisible="1"/>
+                    <field name="is_show_email" invisible="1"/>
+                    <field name="description" invisible="1"/>
+                    <field name="sequence" string="STT" invisible="1"/>
+                    <field name="name" string="SĐK"/>
+                    <field name="business_demand" string="NC KD"/>
+                    <field name="requirement" string="NC BĐS"/>
+                    <field name="type_of_real_estate"/>
+                    <field name="host_name" string="Tên KH"/>
+                    <field name="zone"/>
+                    <field name="note"/>
+                    <field name="financial_capability" string="Tài chính"/>
+                    <field name="currency" string="Tiền tệ"/>
+                    <field name="host_number_1"/>
+                    <field name="host_number_2"/>
+                    <field name="host_number_3"/>
+                    <field name="brokerage_specialist"/>
+                    <field name="supporter_ids" widget="many2many_tags"/>
+                    <field name="create_date"/>
+                    <field name="write_date"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
