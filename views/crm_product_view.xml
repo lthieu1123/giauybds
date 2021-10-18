@@ -77,7 +77,7 @@
                     <header>
                         <button name="btn_request_rule" type="object" string="Xin phân quyền" class="btn btn-primary"/>
                         <field name="is_manager" invisible="1"/>
-                        <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" attrs="{'invisible': [('is_manager','=',False)]}"/>
+                        <field name="state" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" attrs="{'readonly': [('is_manager','=',False)]}" force_save="1"/>
                         <field name="is_brokerage_specialist" invisible="1"/>
                         <field name="is_show_attachment" invisible="1"/>
                         <field name="is_show_house_no" invisible="1"/>
@@ -165,6 +165,7 @@
                                             <field name="back_expand" class="oe_inline"/><![CDATA[&nbsp;]]><span>m</span>
                                         </div>
                                         <field name="number_of_floors" class="oe_inline"/>
+                                        <field name="number_of_room" class="oe_inline"/>
                                         <field name="direction" class="oe_inline"/>
                                         <label for="price" string="Giá"/>
                                         <div>
@@ -297,6 +298,7 @@
                     <field name="length"/>
                     <field name="back_expand"/>
                     <field name="number_of_floors"/>
+                    <field name="number_of_room"/>
                     <field name="price"/>
                     <field name="currency"/>
                     <field name="direction"/>
