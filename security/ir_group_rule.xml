@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- CRM PRODUCT -->
+        <record id="crm_product_group" model="ir.module.category">
+            <field name="name">CRM Product</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <record id="crm_product_rental_user" model="res.groups">
+            <field name="name">User: Rental</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <record id="crm_product_sale_user" model="res.groups">
+            <field name="name">User: Sale</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <record id="crm_product_rental_user_view_all" model="res.groups">
+            <field name="name">User(View all): Rental</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_product_rental_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <record id="crm_product_sale_user_view_all" model="res.groups">
+            <field name="name">User(View all): Sale</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_product_sale_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <record id="crm_product_sale_manager" model="res.groups">
+            <field name="name">Manager: Sale</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <record id="crm_product_rental_manager" model="res.groups">
+            <field name="name">Manager: Rental</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_product_group"/>
+        </record>
+
+        <record id="crm_product_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="crm_product_group"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="show_crm_product_rental" model="ir.rule">
+            <field name="name">CRM Product: Show rental</field>
+            <field name="model_id" ref="bds.model_crm_product"/>
+            <field name="groups" eval="[(4, ref('crm_product_rental_user')),(4,ref('crm_product_rental_user_view_all'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">[('requirement','=','rental')]</field>
+        </record>
+
+        <record id="show_crm_product_rental_manager" model="ir.rule">
+            <field name="name">CRM Product: Manager Rental</field>
+            <field name="model_id" ref="bds.model_crm_product"/>
+            <field name="groups" eval="[(4, ref('crm_product_rental_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','rental')]</field>
+        </record>
+
+        <record id="show_crm_product_sale" model="ir.rule">
+            <field name="name">CRM Product: Show sale</field>
+            <field name="model_id" ref="bds.model_crm_product"/>
+            <field name="groups" eval="[(4, ref('crm_product_sale_user')),(4,ref('crm_product_sale_user_view_all'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">[('requirement','=','sale')]</field>
+        </record>
+
+        <record id="show_crm_product_sale_manager" model="ir.rule">
+            <field name="name">CRM Product: Manager Sale</field>
+            <field name="model_id" ref="bds.model_crm_product"/>
+            <field name="groups" eval="[(4, ref('crm_product_sale_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','sale')]</field>
+        </record>
+
+        <record id="show_crm_product_manager" model="ir.rule">
+            <field name="name">CRM Product: Manager</field>
+            <field name="model_id" ref="bds.model_crm_product"/>
+            <field name="groups" eval="[(4, ref('crm_product_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <record id="show_crm_product_request_rule_all_sale_record" model="ir.rule">
+            <field name="name">CRM Product Request Rule: Show all sale records</field>
+            <field name="model_id" ref="bds.model_crm_product_request_rule"/>
+            <field name="groups" eval="[(4, ref('crm_product_sale_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','sale')]</field>
+        </record>
+
+        <record id="show_crm_product_request_rule_all_rental_record" model="ir.rule">
+            <field name="name">CRM Product Request Rule: Show all rental records</field>
+            <field name="model_id" ref="bds.model_crm_product_request_rule"/>
+            <field name="groups" eval="[(4, ref('crm_product_rental_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','rental')]</field>
+        </record>
+
+        <record id="show_crm_product_request_rule_all_record" model="ir.rule">
+            <field name="name">CRM Product Request Rule: Show all records</field>
+            <field name="model_id" ref="bds.model_crm_product_request_rule"/>
+            <field name="groups" eval="[(4, ref('crm_product_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <record id="show_crm_product_request_rule_sheet_own_record_only" model="ir.rule">
+            <field name="name">CRM Product Request Rule Sheet: Show own record only</field>
+            <field name="model_id" ref="bds.model_crm_product_request_rule_sheet"/>
+            <field name="groups" eval="[(4, ref('crm_product_rental_user')),(4, ref('crm_product_sale_user'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        </record>
+
+        <record id="show_crm_product_request_rule_sheet_all_sale_record" model="ir.rule">
+            <field name="name">CRM Product Request Rule Sheet: Show all sale records</field>
+            <field name="model_id" ref="bds.model_crm_product_request_rule_sheet"/>
+            <field name="groups" eval="[(4, ref('crm_product_sale_manager')),(4, ref('crm_product_sale_user_view_all'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','sale')]</field>
+        </record>
+
+        <record id="show_crm_product_request_rule_sheet_all_rental_record" model="ir.rule">
+            <field name="name">CRM Product Request Rule Sheet: Show all rental records</field>
+            <field name="model_id" ref="bds.model_crm_product_request_rule_sheet"/>
+            <field name="groups" eval="[(4, ref('crm_product_rental_manager')),(4, ref('crm_product_rental_user_view_all'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','rental')]</field>
+        </record>
+
+        <record id="show_crm_product_request_rule_sheet_all_record" model="ir.rule">
+            <field name="name">CRM Product Request Rule Sheet: Show all records</field>
+            <field name="model_id" ref="bds.model_crm_product_request_rule_sheet"/>
+            <field name="groups" eval="[(4, ref('crm_product_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <!-- crm customer -->
+        <record id="crm_request_group" model="ir.module.category">
+            <field name="name">crm customer</field>
+            <field name="sequence">50</field>
+        </record>
+
+        <record id="crm_request_rental_user" model="res.groups">
+            <field name="name">User: Rental</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_request_group"/>
+        </record>
+
+        <record id="crm_request_sale_user" model="res.groups">
+            <field name="name">User: Sale</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_request_group"/>
+        </record>
+
+        <record id="crm_request_rental_user_view_all" model="res.groups">
+            <field name="name">User(View all): Rental</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_request_rental_user'))]"/>
+            <field name="category_id" ref="crm_request_group"/>
+        </record>
+
+        <record id="crm_request_sale_user_view_all" model="res.groups">
+            <field name="name">User(View all): Sale</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4,ref('crm_request_sale_user'))]"/>
+            <field name="category_id" ref="crm_request_group"/>
+        </record>
+
+        <record id="crm_request_sale_manager" model="res.groups">
+            <field name="name">Manager: Sale</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_request_group"/>
+        </record>
+
+        <record id="crm_request_rental_manager" model="res.groups">
+            <field name="name">Manager: Rental</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="crm_request_group"/>
+        </record>
+
+        <record id="crm_request_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="crm_request_group"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record id="show_crm_request_rental" model="ir.rule">
+            <field name="name">CRM Customer: Show rental</field>
+            <field name="model_id" ref="bds.model_crm_request"/>
+            <field name="groups" eval="[(4, ref('crm_request_rental_user')),(4,ref('crm_request_rental_user_view_all'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">[('requirement','=','rental')]</field>
+        </record>
+
+        <record id="show_crm_request_rental_manager" model="ir.rule">
+            <field name="name">CRM Customer: Manager Rental</field>
+            <field name="model_id" ref="bds.model_crm_request"/>
+            <field name="groups" eval="[(4, ref('crm_request_rental_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','rental')]</field>
+        </record>
+
+        <record id="show_crm_request_sale" model="ir.rule">
+            <field name="name">CRM Customer: Show sale</field>
+            <field name="model_id" ref="bds.model_crm_request"/>
+            <field name="groups" eval="[(4, ref('crm_request_sale_user')),(4,ref('crm_request_sale_user_view_all'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">[('requirement','=','sale')]</field>
+        </record>
+
+        <record id="show_crm_request_sale_manager" model="ir.rule">
+            <field name="name">CRM Customer: Manager Sale</field>
+            <field name="model_id" ref="bds.model_crm_request"/>
+            <field name="groups" eval="[(4, ref('crm_request_sale_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','sale')]</field>
+        </record>
+
+        <record id="show_crm_request_manager" model="ir.rule">
+            <field name="name">CRM Customer: Manager</field>
+            <field name="model_id" ref="bds.model_crm_request"/>
+            <field name="groups" eval="[(4, ref('crm_request_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <record id="show_crm_request_request_rule_all_sale_record" model="ir.rule">
+            <field name="name">CRM Customer Request Rule: Show all sale records</field>
+            <field name="model_id" ref="bds.model_crm_request_request_rule"/>
+            <field name="groups" eval="[(4, ref('crm_request_sale_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','sale')]</field>
+        </record>
+
+        <record id="show_crm_request_request_rule_all_rental_record" model="ir.rule">
+            <field name="name">CRM Customer Request Rule: Show all rental records</field>
+            <field name="model_id" ref="bds.model_crm_request_request_rule"/>
+            <field name="groups" eval="[(4, ref('crm_request_rental_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','rental')]</field>
+        </record>
+
+        <record id="show_crm_request_request_rule_all_record" model="ir.rule">
+            <field name="name">CRM Customer Request Rule: Show all records</field>
+            <field name="model_id" ref="bds.model_crm_request_request_rule"/>
+            <field name="groups" eval="[(4, ref('crm_request_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <record id="show_crm_request_request_rule_sheet_own_record_only" model="ir.rule">
+            <field name="name">CRM Customer Request Rule Sheet: Show own record only</field>
+            <field name="model_id" ref="bds.model_crm_request_request_rule_sheet"/>
+            <field name="groups" eval="[(4, ref('crm_request_rental_user')),(4, ref('crm_request_sale_user'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        </record>
+
+        <record id="show_crm_request_request_rule_sheet_all_sale_record" model="ir.rule">
+            <field name="name">CRM Customer Request Rule Sheet: Show all sale records</field>
+            <field name="model_id" ref="bds.model_crm_request_request_rule_sheet"/>
+            <field name="groups" eval="[(4, ref('crm_request_sale_manager')),(4, ref('crm_request_sale_user_view_all'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','sale')]</field>
+        </record>
+
+        <record id="show_crm_request_request_rule_sheet_all_rental_record" model="ir.rule">
+            <field name="name">CRM Customer Request Rule Sheet: Show all rental records</field>
+            <field name="model_id" ref="bds.model_crm_request_request_rule_sheet"/>
+            <field name="groups" eval="[(4, ref('crm_request_rental_manager')),(4, ref('crm_request_rental_user_view_all'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[('requirement','=','rental')]</field>
+        </record>
+
+        <record id="show_crm_request_request_rule_sheet_all_record" model="ir.rule">
+            <field name="name">CRM Customer Request Rule Sheet: Show all records</field>
+            <field name="model_id" ref="bds.model_crm_request_request_rule_sheet"/>
+            <field name="groups" eval="[(4, ref('crm_request_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+    </data>
+</odoo>
