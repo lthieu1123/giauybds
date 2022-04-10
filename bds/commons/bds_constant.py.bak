@@ -17,7 +17,6 @@ CURRENCY = [('usd','$'),('mil','Triệu'),('bil','Tỷ')]
 # Type OF REAL ESTATE
 ######################################
 
-MANSION = 'mansion'
 TRANSFER = 'transfer'
 LAND = 'land'
 BUILDING = 'building'
@@ -31,7 +30,6 @@ HOMESTAY = 'homestay'
 OTHER = 'other'
 
 TYPE_OF_REAL_ESTATE = [
-    (MANSION,'Biệt thự'),
     (TRANSFER,'Sang nhượng'),
     (LAND, 'Đất'),
     (BUILDING, 'Toà nhà'),
